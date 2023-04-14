@@ -9,6 +9,7 @@ const Brands = () => {
 
     const[brand,setBrands] = useState([]);
     const[loading,setLoading] = useState(true);
+    const[search,setSearch] = useState('');
     const [display,setDisplay] = useState(false);
     const navigate = useNavigate();
 
@@ -60,8 +61,17 @@ const Brands = () => {
     </div>
       <div className='mt-4 px-5 pt-3'>
             <div className='card'>
-              <div className='card-header'>  
-                <h3>Brands</h3>
+              <div className='card-header'>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <h3>Brands</h3>
+                  </div>
+                  <div className='col-md-6'>
+                    <form>
+                        <input type='text' onChange={e=>{setSearch(e.target.value)}} className='form-control w-100' placeholder='Search Brand...'/>
+                    </form>
+                  </div>
+                </div>  
               </div>
               <div className='card-body'>
                 <table className='table table-striped'>
@@ -75,7 +85,9 @@ const Brands = () => {
                     </tr>
                   </thead>
                   <tbody>
-                  {brand.map((values,index)=>{
+                  {brand.filter((values)=>{
+                    return search.toLowerCase()===''? values:values.name.toLowerCase().includes(search)
+                  }).map((values,index)=>{
                     return(
                     <tr key={index}>
                       <td>{index+1}</td>

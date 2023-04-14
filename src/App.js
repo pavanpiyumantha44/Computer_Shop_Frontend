@@ -5,7 +5,6 @@ import '../node_modules/bootstrap-icons/font/bootstrap-icons.css'
 import {BrowserRouter,Routes,Route,} from 'react-router-dom';
 import Login from './Component/Login';
 import Dashboard from './Component/Dashboard/Dashboard';
-// import Welcome from './Component/Pages/Welcome';
 import Employee from './Component/Dashboard/Employee';
 import Order from './Component/Dashboard/Order';
 import Home from './Component/Dashboard/Home';
@@ -16,6 +15,7 @@ import EditCustomer from './Component/Dashboard/Customers/EditCustomer';
 import CreateBrand from './Component/Dashboard/Brands/CreateBrand';
 import LandingPage from './Component/Pages/Landing/LandingPage';
 import EditBrand from './Component/Dashboard/Brands/EditBrand';
+//import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
     
