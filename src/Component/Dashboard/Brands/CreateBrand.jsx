@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Form } from 'react-bootstrap';
+import BreadCrumb from '../BreadCrumb';
 
 const CreateBrand = () => {
     const navigate = useNavigate();
@@ -38,17 +39,12 @@ const CreateBrand = () => {
     <div>
       <ToastContainer position="top-center" draggable={false} autoClose={1000} />
       <div>
-        <nav aria-label="breadcrumb">
-        <ol className="breadcrumb mt-5 px-5">
-            <li className="breadcrumb-item">
-            <Link to="/dashboard/brands" className='text-decoration-none'>Brands</Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-            Create
-            </li>
-        </ol>
-        </nav>
-
+        <BreadCrumb
+          path={"/dashboard/brands"}
+          backTo={"Brands"}
+          current={"New Brand"}
+        />
+        
         <div className="p-3 mt-5 w-100 d-flex justify-content-center">
         <div className='w-50 bg-white rounded p-3 border'>
             <h3>Add New Brand</h3>

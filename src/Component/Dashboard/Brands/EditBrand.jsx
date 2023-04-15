@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './style.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BreadCrumb from '../BreadCrumb';
 const EditBrand = () => {
   
     const[loading,setLoading] = useState(true);
@@ -58,17 +59,11 @@ const EditBrand = () => {
       </div>
         :
       <div>
-        <nav aria-label="breadcrumb">
-        <ol className="breadcrumb mt-5 px-5">
-            <li className="breadcrumb-item">
-            <Link to="/dashboard/brands" className='text-decoration-none'>Brands</Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-            Update
-            </li>
-        </ol>
-        </nav>
-
+        <BreadCrumb
+          path={"/dashboard/brands"}
+          backTo={"Brands"}
+          current={"Update Brand"}
+        />
         <div className="p-3 mt-5 w-100 d-flex justify-content-center">
         <div className='w-50 bg-white rounded p-3 border'>
             <h3>Update Brand</h3>

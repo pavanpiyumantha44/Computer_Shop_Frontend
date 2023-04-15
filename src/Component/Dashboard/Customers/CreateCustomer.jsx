@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
+import {Button, Form } from 'react-bootstrap';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast,ToastContainer } from 'react-toastify';
+import BreadCrumb from '../BreadCrumb';
+
 const CreateCustomer = () => {
     const [customer,setCustomer] = useState({
         name:'',
@@ -11,45 +16,66 @@ const CreateCustomer = () => {
     const navigate = useNavigate();
     const handleSubmit = (e)=>{
         e.preventDefault();
-        axios.post('http://localhost:5000/dashboard/customer/add',customer)
-        .then(res=>{
-            if(res.data.Status === "Success")
-            {
-                navigate('/dashboard/customer');
-            }
-        })
-        .catch(err=>{
-            console.log(err);
-        })
+        if(customer.name===''||customer.nic===''||customer.mobile===''||customer.address==='')
+        {
+            toast.error("Please Fill All Fields!!");
+        }
+        else{
+            axios.post('http://localhost:5000/dashboard/customer/add',customer)
+            .then(res=>{
+                if(res.data.Status === "Success")
+                {
+                    toast.success("Customer Added!!");
+                    setTimeout(()=>{
+                        navigate('/dashboard/customer');
+                    },1500)
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
     }
   return (
+    <>
+    <ToastContainer
+        position='top-center'
+        draggable={false}
+        autoClose={1000}
+      />
+        <BreadCrumb
+            path={"/dashboard/customer"}
+            backTo={"Customer"}
+            current={"New Customer"}
+        />
     <div className='d-flex mt-5 justify-content-center align-items-center'>
-        <div className='w-50 bg-white rounded p-3 border'>
-            <h1>Add New Customer</h1>
-        <form onSubmit={handleSubmit}>
+        <div className='w-50 bg-white rounded p-4 border'>
+            <h2>Add New Customer</h2>
+        <Form onSubmit={handleSubmit}>
             <div>
-            <div className="mb-3">
-                <label htmlFor="name" className="form-label">Name</label>
-                <input type="text" className="form-control" id="name" onChange={e=>setCustomer({...customer,name:e.target.value})}/>
-                {/* <div id="emailHelp" className="form-text"></div> */}
+                <Form.Group className="mb-3">
+                    <Form.Label htmlFor="name">Name</Form.Label>
+                    <Form.Control type="text"  id="name" onChange={e=>setCustomer({...customer,name:e.target.value})}/>
+                    {/* <div id="emailHelp" className="form-text"></div> */}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label htmlFor="nic" >NIC</Form.Label>
+                    <Form.Control type="text" id="nic"  onChange={e=>setCustomer({...customer,nic:e.target.value})}/>
+                </Form.Group>
+                <Form className="mb-3">
+                    <Form.Label htmlFor="mobile">Contact Number</Form.Label>
+                    <Form.Control type="text" id="mobile"  onChange={e=>setCustomer({...customer,mobile:e.target.value})}/>
+                </Form>
+                <Form.Group className="mb-3">
+                    <Form.Label className="form-label" htmlFor="mobile">Address</Form.Label>
+                    <Form.Control type="text" className="form-control" id="address"  onChange={e=>setCustomer({...customer,address:e.target.value})}/>
+                </Form.Group>
             </div>
-            <div className="mb-3">
-                <label htmlFor="nic" className="form-label">NIC</label>
-                <input type="text" className="form-control" id="nic"  onChange={e=>setCustomer({...customer,nic:e.target.value})}/>
-            </div>
-            <div className="mb-3">
-                <label className="form-label" htmlFor="mobile">Contact Number</label>
-                <input type="text" className="form-control" id="mobile"  onChange={e=>setCustomer({...customer,mobile:e.target.value})}/>
-            </div>
-            <div className="mb-3">
-                <label className="form-label" htmlFor="mobile">Address</label>
-                <input type="text" className="form-control" id="address"  onChange={e=>setCustomer({...customer,address:e.target.value})}/>
-            </div>
-            </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-        </form>
+            <Button type="submit" variant='primary'>Add</Button>
+        </Form>
         </div>
     </div>
+    </>
   )
 }
 

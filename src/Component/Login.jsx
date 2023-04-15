@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Pages/Landing/NavBar";
 import {ToastContainer, toast} from 'react-toastify';
+import Footer from "./Pages/Landing/Footer";
 const Login = () => {   
     const [values,setValues] = useState({
         email:'',
@@ -51,6 +52,7 @@ const Login = () => {
             </form>
         </div>
     </div>
+    <Footer/>
     </>
   )
 }

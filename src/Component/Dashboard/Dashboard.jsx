@@ -5,6 +5,7 @@ import './style.css';
 import Clock from './Clock/Clock';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
+import DashboardFooter from './Footer/DashboardFooter';
 const Dashboard = () => {
     
     const [auth,setAuth] = useState(false);
@@ -62,7 +63,8 @@ const Dashboard = () => {
                     <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Home</span>
                     </Link>
                 </li> */}
-                <li>
+
+                {/* <li>
                     <Link to="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi-speedometer2"/> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
                     <ul className="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
@@ -73,7 +75,7 @@ const Dashboard = () => {
                         <Link to="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item</span> 2 </Link>
                     </li>
                     </ul>
-                </li>
+                </li> */}
                 <li>
                     <Link to="#submenu3" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Products</span> </Link>
@@ -88,6 +90,10 @@ const Dashboard = () => {
                         <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Items</span></Link>
                     </li>
                     </ul>
+                </li>
+                <li>
+                    <Link to="/dashboard/employee" className="nav-link px-0 align-middle text-light">
+                    <i className="fs-4 bi-people" /> <span className="ms-1 d-none d-sm-inline">Employee</span> </Link>
                 </li>
                 <li>
                     <Link to="/dashboard/customer" className="nav-link px-0 align-middle text-light">
@@ -138,6 +144,7 @@ const Dashboard = () => {
                     <Outlet/>
                 </div>
             </div>
+            <DashboardFooter/>
         </div>
         :
         <div className='d-flex justify-content-center mt-5'>

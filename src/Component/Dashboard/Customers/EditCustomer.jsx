@@ -1,7 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import BreadCrumb from '../BreadCrumb';
+import {toast,ToastContainer} from 'react-toastify';
+import PulseLoader from "react-spinners/PulseLoader";
+
 const EditCustomer = () => {
+  const[loading,setLoading] = useState(true);
   const [customer,setCustomer] = useState({
     name:'',
     nic:'',
@@ -13,6 +18,7 @@ const EditCustomer = () => {
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/customer/read/'+id)
     .then(res=>{
+        setLoading(false);
         console.log(res.data);
         setCustomer({
             ...customer,
@@ -31,13 +37,34 @@ const EditCustomer = () => {
     e.preventDefault();
     axios.put('http://localhost:5000/dashboard/customer/update/'+id,customer)
     .then(res=>{
-        navigate('/dashboard/customer');
+        if(res.data.Status === "Success")
+        {
+            toast.success("Updated Successfully!!");
+            setTimeout(()=>{
+                navigate('/dashboard/customer');
+            },1500)
+        }
+        else{
+            toast.error("Something went wrong!!");
+        }  
     })
     .catch(err=>{
         console.log(err);
     })
   }
   return (
+    <>
+    <ToastContainer position='top-center' draggable='false' autoClose={1000}/>
+    <BreadCrumb
+        path={"/dashboard/customer"}
+        backTo={"Customer"}
+        current={"Update Customer"}
+    />
+    {loading ? 
+     <div className='alignment'>
+      <PulseLoader color={'#1444e0'} loading={loading} size={15}/>
+      </div>
+        :
     <div className='d-flex mt-5 justify-content-center align-items-center'>
         <div className='w-50 bg-white rounded p-3 border'>
             <h1>Edit Customer Details</h1>
@@ -65,6 +92,8 @@ const EditCustomer = () => {
         </form>
         </div>
     </div>
+    }
+    </>
   )
 }
 

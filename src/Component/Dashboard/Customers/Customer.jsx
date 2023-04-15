@@ -42,7 +42,7 @@ const Customer = () => {
   return (
     <div>
       <ToastContainer
-        position='top-right'
+        position='top-center'
         draggable={false}
         autoClose={1000}
       />
@@ -81,7 +81,8 @@ const Customer = () => {
                     <th>Name</th>
                     <th>NIC</th>
                     <th>Mobile</th>
-                    <th>Address Date</th>
+                    <th>Address</th>
+                    <th>Added Date</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -96,6 +97,7 @@ const Customer = () => {
                       <td>{value.nic}</td>
                       <td>{value.mobile}</td>
                       <td>{value.address}</td>
+                      <td>{value.created_date}</td>
                       <td>
                         <Link to={`/dashboard/customer/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
                         <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>
