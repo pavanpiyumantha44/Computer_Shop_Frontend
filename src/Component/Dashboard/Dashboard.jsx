@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { useState } from 'react'
 import axios from 'axios'
 import './style.css';
 import Clock from './Clock/Clock';
