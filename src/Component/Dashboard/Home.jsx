@@ -1,23 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import LineChart from '../Dashboard/Charts/LineChart';
 import PieChart from '../Dashboard/Charts/PieChart';
-import { Link } from 'react-router-dom';
-import Customer from './Customers/Customer';
+import PulseLoader from "react-spinners/PulseLoader";
+import axios from 'axios';
+
 const Home = () => {
 
+  const [cusCount,setCusCount] = useState(0);
+  const [brandCount,setBrandCount] = useState(0);
+  const[loading,setLoading] = useState(true);
+
+  useEffect(()=>{
+    axios.get('http://localhost:5000/dashboard/home/getCusCount')
+    .then(res=>{
+      console.log(res);
+      setLoading(false);
+      if(res.data.Status === "Success")
+      {
+        setCusCount(res.data.Result[0].count);
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    axios.get('http://localhost:5000/dashboard/home/getBrandCount')
+    .then(res=>{
+      console.log(res);
+      if(res.data.Status === "Success")
+      {
+        setBrandCount(res.data.Result[0].brand);
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  },[])
+
   return (
+    <>
+    {loading?
+      <div className='alignment'>
+      <PulseLoader color={'#1444e0'} loading={loading} size={15}/>
+      </div>  
+      :
     <div>
         <div className='p-3 d-flex justify-content-around mt-3'>    
           <div className='px-3 pt-2 border shoadow-sm w-25'>
-            <h4 className='text-center pb-1 text-primary'>Admin</h4>
+            <h4 className='text-center pb-1 text-primary'>Customer</h4>
             <hr/>
-            <p>Total: {}</p>
+            <h2 className='text-center'>{cusCount}</h2>
           </div>
           <div className='px-3 pt-2 border shoadow-sm w-25'>
-          <h4 className='text-center pb-1 text-success'>Sales</h4>
+          <h4 className='text-center pb-1 text-success'>Brands</h4>
             <hr/>
-            <p>Earn:<span className='text-center fs-5'>${}</span></p>
+            <h2 className='text-center'>{brandCount}</h2>
           </div>
           <div className='px-3 pt-2 border shoadow-sm w-25'>
             <h4 className='text-center pb-1 text-danger'>Orders</h4>
@@ -110,6 +147,8 @@ const Home = () => {
           </div> */}
         </div>
     </div>
+    }
+    </>
   )
 }
 
