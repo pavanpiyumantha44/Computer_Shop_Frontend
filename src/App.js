@@ -16,6 +16,9 @@ import EditCustomer from './Component/Dashboard/Customers/EditCustomer';
 import CreateBrand from './Component/Dashboard/Brands/CreateBrand';
 import LandingPage from './Component/Pages/Landing/LandingPage';
 import EditBrand from './Component/Dashboard/Brands/EditBrand';
+import Category from './Component/Dashboard/Category/Category';
+import CreateCategory from './Component/Dashboard/Category/CreateCategory';
+import EditCategory from './Component/Dashboard/Category/EditCategory';
 //import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
@@ -30,6 +33,9 @@ const App = ()=>{
           <Route path='/dashboard/brands/create/' element={<CreateBrand/>}></Route>
           <Route path='/dashboard/brands/read/:id' element={<EditBrand/>}></Route>
           <Route path='/dashboard/brands/update/:id' element={<EditBrand/>}></Route>
+          <Route path='/dashboard/category' element={<Category/>}></Route>
+          <Route path='/dashboard/category/add' element={<CreateCategory/>}></Route>
+          <Route path='/dashboard/category/read/:id' element={<EditCategory/>}></Route>
           <Route path='/dashboard/employee' element={<Employee/>}></Route>
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>

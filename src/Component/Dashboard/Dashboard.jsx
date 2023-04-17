@@ -6,6 +6,8 @@ import Clock from './Clock/Clock';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import DashboardFooter from './Footer/DashboardFooter';
+
+
 const Dashboard = () => {
     
     const [auth,setAuth] = useState(false);
@@ -18,7 +20,6 @@ const Dashboard = () => {
             if(res.data.Status === "Success"){
                 setAuth(true);
                 setName(res.data.name);
-                // notify();
                 toast.info("Welcome Admin");
             }
             else{
@@ -30,9 +31,6 @@ const Dashboard = () => {
 
         })
     },[]);
-    const notify = ()=>{
-        toast.success("Welcome Admin!!");
-      }
     const handleLogout = ()=>
     {
         axios.get("http://localhost:5000/logout")
@@ -84,7 +82,7 @@ const Dashboard = () => {
                         <Link to="/dashboard/brands" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Brands</span></Link>
                     </li>
                     <li>
-                        <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item Types</span></Link>
+                        <Link to='/dashboard/category' className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Category</span></Link>
                     </li>
                     <li>
                         <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Items</span></Link>

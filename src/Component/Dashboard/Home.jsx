@@ -4,7 +4,6 @@ import LineChart from '../Dashboard/Charts/LineChart';
 import PieChart from '../Dashboard/Charts/PieChart';
 import PulseLoader from "react-spinners/PulseLoader";
 import axios from 'axios';
-
 const Home = () => {
 
   const [cusCount,setCusCount] = useState(0);
