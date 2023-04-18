@@ -85,7 +85,7 @@ const Dashboard = () => {
                         <Link to='/dashboard/category' className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Category</span></Link>
                     </li>
                     <li>
-                        <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Items</span></Link>
+                        <Link to='/dashboard/items' className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Items</span></Link>
                     </li>
                     </ul>
                 </li>

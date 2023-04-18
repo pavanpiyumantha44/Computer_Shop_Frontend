@@ -8,7 +8,7 @@ import Login from './Component/Login';
 import Dashboard from './Component/Dashboard/Dashboard';
 import Employee from './Component/Dashboard/Employee';
 import Order from './Component/Dashboard/Order';
-import Home from './Component/Dashboard/Home';
+import Home from './Component/Dashboard/Home_Page/Home';
 import Brands from './Component/Dashboard/Brands/Brands';
 import Customer from './Component/Dashboard/Customers/Customer';
 import CreateCustomer from './Component/Dashboard/Customers/CreateCustomer';
@@ -19,6 +19,7 @@ import EditBrand from './Component/Dashboard/Brands/EditBrand';
 import Category from './Component/Dashboard/Category/Category';
 import CreateCategory from './Component/Dashboard/Category/CreateCategory';
 import EditCategory from './Component/Dashboard/Category/EditCategory';
+import Item from './Component/Dashboard/Products/Items/Item';
 //import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
@@ -36,6 +37,7 @@ const App = ()=>{
           <Route path='/dashboard/category' element={<Category/>}></Route>
           <Route path='/dashboard/category/add' element={<CreateCategory/>}></Route>
           <Route path='/dashboard/category/read/:id' element={<EditCategory/>}></Route>
+          <Route path='/dashboard/items' element={<Item/>}></Route>
           <Route path='/dashboard/employee' element={<Employee/>}></Route>
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>

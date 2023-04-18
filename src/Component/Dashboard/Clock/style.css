@@ -1,8 +1,11 @@
-/* .wrapper{
+.wrapper{
     border: 5px solid darkblue;
-    width: 25%;
+    background-color: rgb(229, 238, 241);
+    border-radius: 10px;
+    width: 200px;
     height: 40px;
-} */
+    margin-left: 15px;
+}
 h3{
     color: darkblue;
     font-family: 'Times New Roman', Times, serif;
