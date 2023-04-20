@@ -10,7 +10,7 @@ const Home = () => {
 
   const [cusCount,setCusCount] = useState(0);
   const [brandCount,setBrandCount] = useState(0);
-  const[loading,setLoading] = useState(true);
+  const [loading,setLoading] = useState(true);
 
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/home/getCusCount')
@@ -47,8 +47,8 @@ const Home = () => {
       :
     <div>
         <div className='p-3 d-flex justify-content-around mt-3'>    
-          <StatusCard count={cusCount} type={"Customer"} icon={<i className='bi bi-people fs-1 text-primary'></i>}/>
-          <StatusCard count={brandCount} type={"Products"} icon={<i className='bi bi-cart fs-1 text-success'></i>}/>
+          <StatusCard count={cusCount} type={"Customers"} icon={<i className='bi bi-people fs-1 text-primary'></i>}/>
+          <StatusCard count={brandCount} type={"Products"} icon={<i className='bi bi-cart3 fs-1 text-success'></i>}/>
           <StatusCard count={3} type={"Orders"} icon={<i class="bi bi-card-checklist text-danger fs-1"></i>}/>
         </div>        
         <div className='row mt-4 px-5 pt-3'>

@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import {BrowserRouter,Routes,Route,} from 'react-router-dom';
 import Login from './Component/Login';
 import Dashboard from './Component/Dashboard/Dashboard';
-import Employee from './Component/Dashboard/Employee';
-import Order from './Component/Dashboard/Order';
+import Employee from './Component/Dashboard/Employee/Employee';
+import Order from './Component/Dashboard/Orders/Order';
 import Home from './Component/Dashboard/Home_Page/Home';
 import Brands from './Component/Dashboard/Brands/Brands';
 import Customer from './Component/Dashboard/Customers/Customer';
@@ -20,6 +20,7 @@ import Category from './Component/Dashboard/Category/Category';
 import CreateCategory from './Component/Dashboard/Category/CreateCategory';
 import EditCategory from './Component/Dashboard/Category/EditCategory';
 import Item from './Component/Dashboard/Products/Items/Item';
+import Billing from './Component/Dashboard/Billing/Billing';
 //import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
@@ -44,6 +45,7 @@ const App = ()=>{
           <Route path='/dashboard/customer/read/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/customer/update/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/order' element={<Order/>}></Route>
+          <Route path='/dashboard/billing' element={<Billing/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

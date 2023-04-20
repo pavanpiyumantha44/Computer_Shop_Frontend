@@ -6,6 +6,7 @@ import Clock from './Clock/Clock';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import DashboardFooter from './Footer/DashboardFooter';
+import Notification from './Notification/Notification';
 
 
 const Dashboard = () => {
@@ -103,7 +104,7 @@ const Dashboard = () => {
                 </li>
                 <li>
                     <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
-                    <i className="fs-4 bi-bootstrap" /> <span className="ms-1 d-none d-sm-inline">Bootstrap</span></Link>
+                    <i className="fs-4 bi-card-checklist" /> <span className="ms-1 d-none d-sm-inline">Generate Quotations</span></Link>
                     <ul className="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                     <li className="w-100">
                         <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item</span> 1</Link>
@@ -113,9 +114,9 @@ const Dashboard = () => {
                     </li>
                     </ul>
                 </li>
-                <li onClick={handleLogout}>
-                    <Link to='/#' className="nav-link px-0 align-middle text-light">
-                    <i className="fs-4 bi-people" /><span className="ms-1 d-none d-sm-inline">Logout</span> </Link>
+                <li>
+                    <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
+                    <i class="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>
                 </li>
                 </ul>
                 <hr />
@@ -126,11 +127,11 @@ const Dashboard = () => {
                     <div className='p-2 d-flex ms-auto shadow'>
                         <Clock/>
                         <div className='d-flex ms-auto'>
-                            <i className="bi bi-bell-fill fs-4 mt-2 mx-4"></i>
-                            <i className="bi bi-bell-fill fs-4 mt-2 mx-2 text-primary"><sup className='text-danger'>1</sup></i>
+                            {/* <i className="bi bi-bell-fill fs-4 mt-2 mx-4"></i> */}
+                            <i className="bi bi-bell-fill fs-4 mt-2"/><Notification/>
                             <div class="dropdown-center">
                                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="hugenerd" width={34} height={30} className="rounded-circle" /><span className='mx-2'>Admin</span>
+                                    <img src="../images/admin_icon.png" alt="" width={34} height={30} className="rounded-circle" /><span className='mx-2'>Admin</span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Settings</a></li>

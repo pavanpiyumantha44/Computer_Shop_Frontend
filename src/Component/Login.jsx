@@ -32,7 +32,7 @@ const Login = () => {
     <>
     <Navbar/>
     <div><ToastContainer position={"top-right"} autoClose={2000}/></div>
-    <div className='d-flex justify-content-center align-items-center vh-100'>
+    <div className='d-flex bg-secondary justify-content-center align-items-center vh-100'>
         <div className='bg-white p-3 rounded w-25 border shadow'>
             <h2 className='text-center'>Login</h2>
             <form onSubmit={handleSubmit}>

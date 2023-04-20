@@ -5,3 +5,17 @@
     width: 100%;
     border-radius: 5px;
 } */
+
+.notification{
+    background: tomato;
+    color: #ffffff;
+    margin-top: 12px;
+    font-size: 20px;
+    height: 20px;
+    padding-top: 15px;
+    padding-bottom: 14px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    margin-right: 15px;
+}
