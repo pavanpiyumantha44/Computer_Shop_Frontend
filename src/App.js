@@ -21,6 +21,7 @@ import CreateCategory from './Component/Dashboard/Category/CreateCategory';
 import EditCategory from './Component/Dashboard/Category/EditCategory';
 import Item from './Component/Dashboard/Products/Items/Item';
 import Billing from './Component/Dashboard/Billing/Billing';
+import CreateItem from './Component/Dashboard/Products/Items/CreateItem';
 //import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
@@ -39,6 +40,7 @@ const App = ()=>{
           <Route path='/dashboard/category/add' element={<CreateCategory/>}></Route>
           <Route path='/dashboard/category/read/:id' element={<EditCategory/>}></Route>
           <Route path='/dashboard/items' element={<Item/>}></Route>
+          <Route path='/dashboard/items/create' element={<CreateItem/>}></Route>
           <Route path='/dashboard/employee' element={<Employee/>}></Route>
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>
