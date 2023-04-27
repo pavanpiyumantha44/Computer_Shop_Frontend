@@ -23,7 +23,10 @@ const CreateBrand = () => {
         axios.post('http://localhost:5000/dashboard/brands/create',brand)
         .then(res=>{
            if(res.data.Status==="Success"){
-            navigate('/dashboard/brands');
+            toast.success("Brand Added!!");
+            setTimeout(()=>{
+              navigate('/dashboard/brands');
+            },1500)
            }
            else{
                 toast.error("Something went wrong!!");

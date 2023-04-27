@@ -19,9 +19,12 @@ import EditBrand from './Component/Dashboard/Brands/EditBrand';
 import Category from './Component/Dashboard/Category/Category';
 import CreateCategory from './Component/Dashboard/Category/CreateCategory';
 import EditCategory from './Component/Dashboard/Category/EditCategory';
-import Item from './Component/Dashboard/Products/Items/Item';
+import Item from './Component/Dashboard/Products/Items/Items';
 import Billing from './Component/Dashboard/Billing/Billing';
 import CreateItem from './Component/Dashboard/Products/Items/CreateItem';
+import EditItem from './Component/Dashboard/Products/Items/EditItem';
+import CreateEmployee from './Component/Dashboard/Employee/CreateEmployee';
+import Report from './Component/Dashboard/Repo/Report';
 //import Login from './Component/Login/Login';
 const App = ()=>{
   return (  
@@ -41,12 +44,15 @@ const App = ()=>{
           <Route path='/dashboard/category/read/:id' element={<EditCategory/>}></Route>
           <Route path='/dashboard/items' element={<Item/>}></Route>
           <Route path='/dashboard/items/create' element={<CreateItem/>}></Route>
+          <Route path='/dashboard/items/read/:id' element={<EditItem/>}></Route>
           <Route path='/dashboard/employee' element={<Employee/>}></Route>
+          <Route path='/dashboard/employee/add' element={<CreateEmployee/>}></Route>
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>
           <Route path='/dashboard/customer/read/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/customer/update/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/order' element={<Order/>}></Route>
+          <Route path='/dashboard/report' element={<Report/>}></Route>
           <Route path='/dashboard/billing' element={<Billing/>}></Route>
         </Route>
       </Routes>

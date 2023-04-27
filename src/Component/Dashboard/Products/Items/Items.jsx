@@ -8,17 +8,17 @@ import {Form, Card, Table, Badge } from 'react-bootstrap';
 
 const Item = () => {
 
-    const[brand,setBrands] = useState([]);
+    const[items,setItems] = useState([]);
     const[loading,setLoading] = useState(true);
     const[search,setSearch] = useState('');
     const [display,setDisplay] = useState(false);
     const navigate = useNavigate();
 
     useEffect(()=>{
-      axios.get('http://localhost:5000/dashboard/brands')
+      axios.get('http://localhost:5000/dashboard/items')
       .then(res=>{
         console.log(res);
-        setBrands(res.data.Result);
+        setItems(res.data.Result);
         setLoading(false);
       })
       .catch(err=>{
@@ -27,13 +27,19 @@ const Item = () => {
     },[display])
 
   const hanldeDelete = (id)=>{
-    axios.delete('http://localhost:5000/dashboard/brands/delete/'+id)
+    axios.delete('http://localhost:5000/dashboard/items/delete/'+id)
     .then(res=>{
       console.log(res);
         if(res.data.Status==="Success")
         {
               toast.success("Deleted successfully!!");
-              setDisplay(true);
+              if(!display)
+              {
+                setDisplay(true);
+              }
+              else{
+                setDisplay(false);
+              }
         }
     })
     .catch(err=>{
@@ -81,25 +87,33 @@ const Item = () => {
                           <th>Id</th>
                           <th>Image</th>
                           <th>Name</th>
+                          <th>Description</th>
+                          <th>Quantitiy</th>
+                          <th>Unit Price</th>
                           <th>Status</th>
                           <th>Created Date</th>
-                          <th>Actions</th>
+                          <th colSpan={2} className='text-center'>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                      {brand.filter((values)=>{
+                      {items.filter((values)=>{
                         return search.toLowerCase()===''? values : values.name.toLowerCase().includes(search)
                       }).map((values,index)=>{
                         return(
                         <tr key={index}>
                           <td>{index+1}</td>
+                          <td>{<img src={`http://localhost:5000/images/${values.image}`} style={{width:"50px"}}/>}</td>
                           <td>{values.name}</td>
-                          <td>{values.name}</td>
+                          <td>{values.description}</td>
+                          <td>{values.qty}</td>
+                          <td>{values.unitPrice}</td>
                           <td>{values.status==="Available"?<Badge bg="success">{values.status}</Badge>:<Badge bg="danger">{values.status}</Badge>}</td>
-                          <td>{values.created_date}</td>
+                          <td>{values.added_date}</td>
                           <td>
-                            <Link to={"/dashboard/brands/read/"+values.bID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
-                            <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(values.bID)}><i className='bi bi-trash'></i></button>
+                            <Link to={"/dashboard/items/read/"+values.itemID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
+                          </td>
+                          <td>
+                          <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(values.itemID)}><i className='bi bi-trash'></i></button>
                           </td>
                         </tr>
                         )

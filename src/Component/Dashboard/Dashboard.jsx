@@ -115,6 +115,10 @@ const Dashboard = () => {
                     </ul>
                 </li>
                 <li>
+                    <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
+                    <i class="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
+                </li>
+                <li>
                     <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
                     <i class="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>
                 </li>

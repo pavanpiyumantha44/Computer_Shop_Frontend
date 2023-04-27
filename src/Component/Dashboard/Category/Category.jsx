@@ -31,7 +31,13 @@ const Category = () => {
           if(res.data.Status==="Success")
           {
                 toast.success("Deleted successfully!!");
-                setDisplay(true);
+                if(!display){
+
+                  setDisplay(true);
+                }
+                else{
+                  setDisplay(false);
+                }
           }
       })
       .catch(err=>{

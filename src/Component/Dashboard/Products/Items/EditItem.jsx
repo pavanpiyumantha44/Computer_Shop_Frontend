@@ -1,13 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Form } from 'react-bootstrap';
 import BreadCrumb from '../../BreadCrumb';
 
-const CreateItem = () => {
+const EditItem = () => {
     const navigate = useNavigate();
+    const [bID,setBID] = useState();
+    const [catID,setCatID] = useState();
+    const [brand,setBrand] = useState([]);
+    const [selectedBrand,setSelectedBrand] = useState({
+        name:''
+    });
     const [item,setItem] = useState({
         name:'',
         description:'',
@@ -17,10 +23,42 @@ const CreateItem = () => {
         unitPrice:'',
         image:'',
         status:'',
-    })
-    const [brand,setBrand] = useState([]);
+    });
+    const [items,setItems] = useState([]);
     const [category,setCategory] = useState([]);
+    
+    const {id} = useParams();
     useEffect(()=>{
+        axios.get('http://localhost:5000/dashboard/items/read/'+id)
+        .then(res=>{
+            console.log(res);
+            setItem({
+                ...item,
+                name:res.data.Result[0].name,
+                description:res.data.Result[0].description,
+                catID:res.data.Result[0].catID,
+                bID:res.data.Result[0].bID,
+                quantity:res.data.Result[0].qty,
+                unitPrice:res.data.Result[0].unitPrice,
+                image:res.data.Result[0].image,
+            });
+            setBID(res.data.Result[0].bID);
+            setCatID(res.data.Result[0].catID);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+        axios.get('http://localhost:5000/dashboard/brands/read/'+bID)
+        .then(res=>{
+            console.log(res);
+            setSelectedBrand({
+                ...brand,
+                name:res.data.Result[0].name
+            });
+        })
+        .catch(err=>{
+            console.log(err);
+        })
         axios.get('http://localhost:5000/dashboard/items/create/getBrands')
         .then(res=>{
             console.log(res);
@@ -56,18 +94,15 @@ const CreateItem = () => {
         formData.append("image",item.image);
         formData.append("description",item.description);
         formData.append("status",item.status);
-        axios.post('http://localhost:5000/dashboard/items/create',formData)
+        axios.post('http://localhost:5000/dashboard/items/update/'+id)
         .then(res=>{
             console.log(res);
-           if(res.data.Status==="Success"){
-            toast.success("Item Added!!");
-            setTimeout(()=>{
-                navigate('/dashboard/items');
-            },1500);
-           }
-           else{
-                toast.error("Something went wrong!!");
-           }
+        //    if(res.data.Status==="Success"){
+        //     navigate('/dashboard/items');
+        //    }
+        //    else{
+        //         toast.error("Something went wrong!!");
+        //    }
            
         })
         .catch(err=>{
@@ -82,7 +117,7 @@ const CreateItem = () => {
         <BreadCrumb
           path={"/dashboard/items"}
           backTo={"Items"}
-          current={"New Item"}
+          current={"Update Item"}
         />
         
         <div className="p-3 mt-5 w-100 d-flex justify-content-center">
@@ -97,6 +132,7 @@ const CreateItem = () => {
                         type="text"
                         className="form-control"
                         id="itemName"
+                        value={item.name}
                         onChange={(e) => setItem({ ...item, name: e.target.value })}
                         placeholder="Enter item name"
                     />
@@ -108,11 +144,11 @@ const CreateItem = () => {
                         Brands
                     </Form.Label>
                     <Form.Select className="form-select" onChange={(e) => setItem({ ...item, bID: e.target.value })}>
-                        <option value="" selected disabled>
-                        _Select_
+                        <option value={selectedBrand.name} selected>
+                        {selectedBrand.name}
                         </option>
                         {
-                            brand.map((values,index)=>{
+                            brand.map((values)=>{
                                 return(
                                     <option value={values.bID}>{values.name}</option>
                                 );
@@ -144,7 +180,7 @@ const CreateItem = () => {
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='itemQuantity' className='form-label'>Quantity</Form.Label>
                         <Form.Control
-                        type='number' className='form-control' id='itemQuantity' onChange={(e)=> setItem({...item,quantity:e.target.value})} placeholder='Enter quantity'
+                        type='number' value={item.quantity} className='form-control' id='itemQuantity' onChange={(e)=> setItem({...item,quantity:e.target.value})} placeholder='Enter quantity'
                         >
                         </Form.Control>
                     </Form.Group>
@@ -153,7 +189,7 @@ const CreateItem = () => {
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='itemQuantity' className='form-label'>Unit Price</Form.Label>
                         <Form.Control
-                        type='number' className='form-control' id='itemQuantity' onChange={(e)=> setItem({...item,unitPrice:e.target.value})} placeholder='Enter unit price'
+                        type='number' value={item.unitPrice} className='form-control' id='itemQuantity' onChange={(e)=> setItem({...item,unitPrice:e.target.value})} placeholder='Enter unit price'
                         >
                         </Form.Control>
                     </Form.Group>
@@ -193,4 +229,4 @@ const CreateItem = () => {
   );
 }
 
-export default CreateItem
+export default EditItem
