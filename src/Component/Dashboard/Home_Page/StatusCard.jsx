@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './style.css';
 
 const StatusCard = ({type,count,icon}) => {
   return (
@@ -13,7 +14,7 @@ const StatusCard = ({type,count,icon}) => {
               {icon}
               </div>  
             </div>
-          </div>
+        </div>
     </>
   )
 }

@@ -7,27 +7,34 @@ import { toast,ToastContainer } from 'react-toastify';
 import BreadCrumb from '../BreadCrumb';
 
 const CreateEmployee = () => {
-    const [customer,setCustomer] = useState({
+    const [employee,setEmployee] = useState({
         name:'',
         nic:'',
         mobile:'',
-        address:''
+        address:'',
+        position:'',
+        email:'',
+        password:'',
+        isActive:1,
+
     });
     const navigate = useNavigate();
     const handleSubmit = (e)=>{
         e.preventDefault();
-        if(customer.name===''||customer.nic===''||customer.mobile===''||customer.address==='')
+        if(employee.name===''||employee.nic===''||employee.mobile===''||employee.address==='')
         {
             toast.error("Please Fill All Fields!!");
         }
         else{
-            axios.post('http://localhost:5000/dashboard/customer/add',customer)
+            console.log(employee);
+            axios.post('http://localhost:5000/dashboard/employee/add',employee)
             .then(res=>{
+                console.log(res);
                 if(res.data.Status === "Success")
                 {
-                    toast.success("Customer Added!!");
+                    toast.success("employee Added!!");
                     setTimeout(()=>{
-                        navigate('/dashboard/customer');
+                        navigate('/dashboard/employee');
                     },1500)
                 }
             })
@@ -55,36 +62,36 @@ const CreateEmployee = () => {
             <div>
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="name">Name</Form.Label>
-                    <Form.Control type="text"  id="name" onChange={e=>setCustomer({...customer,name:e.target.value})} placeholder='Enter name'/>
+                    <Form.Control type="text"  id="name" onChange={e=>setEmployee({...employee,name:e.target.value})} placeholder='Enter name'/>
                     {/* <div id="emailHelp" className="form-text"></div> */}
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="nic" >NIC</Form.Label>
-                    <Form.Control type="text" id="nic"  onChange={e=>setCustomer({...customer,nic:e.target.value})} placeholder='Enter NIC'/>
+                    <Form.Control type="text" id="nic"  onChange={e=>setEmployee({...employee,nic:e.target.value})} placeholder='Enter NIC'/>
                 </Form.Group>
                 <Form className="mb-3">
                     <Form.Label htmlFor="mobile">Contact Number</Form.Label>
-                    <Form.Control type="text" id="mobile"  onChange={e=>setCustomer({...customer,mobile:e.target.value})} placeholder='Enter mobile'/>
+                    <Form.Control type="text" id="mobile"  onChange={e=>setEmployee({...employee,mobile:e.target.value})} placeholder='Enter mobile'/>
                 </Form>
                 <Form.Group className="mb-3">
                     <Form.Label className="form-label" htmlFor="mobile">Address</Form.Label>
-                    <Form.Control type="text" className="form-control" id="address"  onChange={e=>setCustomer({...customer,address:e.target.value})} placeholder='Enter address'/>
+                    <Form.Control type="text" className="form-control" id="address"  onChange={e=>setEmployee({...employee,address:e.target.value})} placeholder='Enter address'/>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label className="form-label" htmlFor="mobile">Position</Form.Label>
-                    <Form.Select>
+                    <Form.Label className="form-label" htmlFor="position">Position</Form.Label>
+                    <Form.Select onChange={e=>setEmployee({...employee,position:e.target.value})}>
                         <option disabled selected>_Select_</option>
-                        <option value={"Cashier"}>Cashier</option>
-                        <option value={"Technician"}>Technician</option>
+                        <option value={1}>Cashier</option>
+                        <option value={2}>Technician</option>
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label className="form-label" htmlFor="mobile">username</Form.Label>
-                    <Form.Control type="text" className="form-control" id="username"  onChange={e=>setCustomer({...customer,address:e.target.value})} placeholder='Enter username'/>
+                    <Form.Label className="form-label" htmlFor="mobile">email</Form.Label>
+                    <Form.Control type="email" className="form-control" id="email"  onChange={e=>setEmployee({...employee,email:e.target.value})} placeholder='Enter username'/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label className="form-label" htmlFor="mobile">password</Form.Label>
-                    <Form.Control type="password" className="form-control" id="password"  onChange={e=>setCustomer({...customer,address:e.target.value})} placeholder='Enter password'/>
+                    <Form.Control type="password" className="form-control" id="password"  onChange={e=>setEmployee({...employee,password:e.target.value})} placeholder='Enter password'/>
                 </Form.Group>
             </div>
             <Button type="submit" variant='primary'>Add Employee</Button>

@@ -95,7 +95,7 @@ const Customer = () => {
                 </thead>
                 <tbody>
                   {data.filter((data)=>{
-                    return search.toLowerCase()===''? data : data.name.toLowerCase().includes(search)
+                    return search.toLowerCase()===''? data : data.name.toLowerCase().includes(search) || search.toLowerCase()===''? data : data.nic.toLowerCase().includes(search);
                   }).map((value,index)=>{
                     return(
                     <tr key={index}>

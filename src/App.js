@@ -20,25 +20,28 @@ import Category from './Component/Dashboard/Category/Category';
 import CreateCategory from './Component/Dashboard/Category/CreateCategory';
 import EditCategory from './Component/Dashboard/Category/EditCategory';
 import Item from './Component/Dashboard/Products/Items/Items';
-import Billing from './Component/Dashboard/Billing/Billing';
+import Billing from './Component/Cashier/Billing/Billing';
 import CreateItem from './Component/Dashboard/Products/Items/CreateItem';
 import EditItem from './Component/Dashboard/Products/Items/EditItem';
 import CreateEmployee from './Component/Dashboard/Employee/CreateEmployee';
 import Report from './Component/Dashboard/Repo/Report';
+import EditEmployee from './Component/Dashboard/Employee/EditEmployee';
 //import Login from './Component/Login/Login';
+import Login2 from './Component/Login/Login2';
+import CahierDashboard from './Component/Cashier/CashierDashboard';
+import Products from './Component/Cashier/Products';
 const App = ()=>{
   return (  
     
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<LandingPage/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/login' element={<Login2/>}></Route>
         <Route path='/dashboard/' element={<Dashboard/>}>
           <Route path='/dashboard/home' element={<Home/>}></Route>
           <Route path='/dashboard/brands' element={<Brands/>}></Route>
           <Route path='/dashboard/brands/create/' element={<CreateBrand/>}></Route>
           <Route path='/dashboard/brands/read/:id' element={<EditBrand/>}></Route>
-          <Route path='/dashboard/brands/update/:id' element={<EditBrand/>}></Route>
           <Route path='/dashboard/category' element={<Category/>}></Route>
           <Route path='/dashboard/category/add' element={<CreateCategory/>}></Route>
           <Route path='/dashboard/category/read/:id' element={<EditCategory/>}></Route>
@@ -47,13 +50,17 @@ const App = ()=>{
           <Route path='/dashboard/items/read/:id' element={<EditItem/>}></Route>
           <Route path='/dashboard/employee' element={<Employee/>}></Route>
           <Route path='/dashboard/employee/add' element={<CreateEmployee/>}></Route>
+          <Route path='/dashboard/employee/read/:id' element={<EditEmployee/>}></Route>
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>
           <Route path='/dashboard/customer/read/:id' element={<EditCustomer/>}></Route>
-          <Route path='/dashboard/customer/update/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/order' element={<Order/>}></Route>
           <Route path='/dashboard/report' element={<Report/>}></Route>
           <Route path='/dashboard/billing' element={<Billing/>}></Route>
+        </Route>
+        <Route path='/cashierDashboard/' element={<CahierDashboard/>}>
+          <Route path='/cashierDashboard/billing' element={<Billing/>}></Route>
+          <Route path='/cashierDashboard/products' element={<Products/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -7,7 +7,7 @@ const data = {
     labels:labels,
     datasets:[
         {
-            label:"Monthly income",
+            label:"Monthly Income",
             backgroundColor:"rgb(83, 156, 245)",
             borderColor:"rgb(6, 51, 105)",
             data:[0,10,5,2,20,30,45],

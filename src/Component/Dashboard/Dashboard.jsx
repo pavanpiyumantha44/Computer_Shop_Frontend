@@ -29,7 +29,7 @@ const Dashboard = () => {
             }
         })
         .catch(err =>{
-
+            console.log(err);
         })
     },[]);
     const handleLogout = ()=>
@@ -128,11 +128,18 @@ const Dashboard = () => {
 
             </div>
                 <div className="col p-0 m-0">
-                    <div className='p-2 d-flex ms-auto shadow'>
-                        <Clock/>
+                    <div className='p-2 d-flex shadow'>
+                        {/* <Clock/> */}
                         <div className='d-flex ms-auto'>
                             {/* <i className="bi bi-bell-fill fs-4 mt-2 mx-4"></i> */}
-                            <i className="bi bi-bell-fill fs-4 mt-2"/><Notification/>
+                            {/* <i className="bi bi-bell-fill fs-4 mt-2"/><Notification/> */}
+                            <i className="bi bi-bell-fill fs-4 mt-2 text-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false"/><Notification/>
+                            <div className="dropdown-center">
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li><a className="dropdown-item" href="#">Notification 1</a></li>
+                                    <li><a className="dropdown-item" href="#">Notification 2</a></li>
+                                </ul>
+                            </div>
                             <div class="dropdown-center">
                                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="../images/admin_icon.png" alt="" width={34} height={30} className="rounded-circle" /><span className='mx-2'>Admin</span>

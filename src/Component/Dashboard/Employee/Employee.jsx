@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
-import {Button,Form,Card,Table} from 'react-bootstrap';
+import {Button,Badge,Form,Card,Table} from 'react-bootstrap';
 
 
 const Employee = () => {
@@ -15,7 +15,7 @@ const Employee = () => {
   const [display,setDisplay] = useState(false);
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/dashboard/customer')
+    axios.get('http://localhost:5000/dashboard/employee')
     .then(res=>{
       console.log(res);
       setData(res.data.Result)
@@ -24,19 +24,24 @@ const Employee = () => {
     .catch(err=>{
       console.log(err);
     })
-  },[display])
-  const handleDelete = (id)=>{
-    axios.delete('http://localhost:5000/dashboard/customer/delete/'+id)
+  },[display]);
+  
+  const hanldeDelete = (id)=>{
+    axios.delete('http://localhost:5000/dashboard/employee/delete/'+id)
     .then(res=>{
       console.log(res);
-      if(res.data.Status === "Success")
-      {
-        toast.success("Deleted!!");
-        setDisplay(true);
-      }
+        if(res.data.Status==="Success")
+        {
+              toast.success("Deleted successfully!!");
+              if(!display){
+                setDisplay(true);
+              }else{
+                setDisplay(false);
+              }
+        }
     })
     .catch(err=>{
-      console.log(err);
+        console.log(err);
     })
   }
   return (
@@ -82,13 +87,14 @@ const Employee = () => {
                     <th>NIC</th>
                     <th>Mobile</th>
                     <th>Address</th>
-                    <th>Added Date</th>
+                    <th>Role</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.filter((data)=>{
-                    return search.toLowerCase()===''? data : data.name.toLowerCase().includes(search)
+                    return search.toLowerCase()===''? data : data.name.toLowerCase().includes(search)||data.nic.toLowerCase().includes(search)
                   }).map((value,index)=>{
                     return(
                     <tr key={index}>
@@ -97,10 +103,11 @@ const Employee = () => {
                       <td>{value.nic}</td>
                       <td>{value.mobile}</td>
                       <td>{value.address}</td>
-                      <td>{value.created_date}</td>
+                      <td>{value.role===1? "Cashier":"Technician"}</td>
+                      <td>{value.isActive===1?<Badge bg="success">Active</Badge>:<Badge bg="danger">Not Active</Badge>}</td>
                       <td>
-                        <Link to={`/dashboard/employee/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
-                        <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>
+                        <Link to={`/dashboard/employee/read/${value.id}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
+                        <Button variant='danger' onClick={()=>hanldeDelete(value.id)}><i className='bi bi-trash'></i></Button>
                       </td>
                     </tr>)
                   })}   

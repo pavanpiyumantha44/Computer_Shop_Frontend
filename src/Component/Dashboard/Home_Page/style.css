@@ -1,3 +1,6 @@
 .pop:hover{
     cursor: pointer;
 }
+.card-size{
+    width: 280px;
+}

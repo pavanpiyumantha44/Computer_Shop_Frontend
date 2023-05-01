@@ -51,7 +51,7 @@ const Home = () => {
           <StatusCard count={brandCount} type={"Products"} icon={<i className='bi bi-cart3 fs-1 text-success'></i>}/>
           <StatusCard count={3} type={"Orders"} icon={<i class="bi bi-card-checklist text-danger fs-1"></i>}/>
         </div>        
-        <div className='row mt-4 px-5 pt-3'>
+        <div className='row mt-2 px-5 pt-3'>
           <div className='col-12 col-md-8 p-3'>
             <LineChart/>
           </div>

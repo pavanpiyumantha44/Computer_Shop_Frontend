@@ -26,6 +26,7 @@ const data = {
 const PieChart = () => {
   return (
     <div className='bg-white border border-secondary pb-3'>
+        {/* <p className='text-center text-danger fw-bold mt-1 fs-5'>Monthly Expenses</p> */}
         <Pie
         data={data}>
 
