@@ -30,6 +30,11 @@ import EditEmployee from './Component/Dashboard/Employee/EditEmployee';
 import Login2 from './Component/Login/Login2';
 import CahierDashboard from './Component/Cashier/CashierDashboard';
 import Products from './Component/Cashier/Products';
+import Repair from './Component/Dashboard/Repair/Repair';
+import CreateRepair from './Component/Dashboard/Repair/CreateRepair';
+import CreateOrder from './Component/Dashboard/Orders/CreateOrder';
+import TechnicianDashboard from './Component/Technician_Dashboard/TechnicianDashboard'
+import ShowRepairs from './Component/Technician_Dashboard/ShowRepairs';
 const App = ()=>{
   return (  
     
@@ -54,13 +59,19 @@ const App = ()=>{
           <Route path='/dashboard/customer' element={<Customer/>}></Route>
           <Route path='/dashboard/customer/add' element={<CreateCustomer/>}></Route>
           <Route path='/dashboard/customer/read/:id' element={<EditCustomer/>}></Route>
-          <Route path='/dashboard/order' element={<Order/>}></Route>
+          <Route path='/dashboard/orders' element={<Order/>}></Route>
+          <Route path='/dashboard/orders/add' element={<CreateOrder/>}></Route>
+          <Route path='/dashboard/repairs' element={<Repair/>}></Route>
+          <Route path='/dashboard/repairs/add' element={<CreateRepair/>}></Route>
           <Route path='/dashboard/report' element={<Report/>}></Route>
           <Route path='/dashboard/billing' element={<Billing/>}></Route>
         </Route>
         <Route path='/cashierDashboard/' element={<CahierDashboard/>}>
           <Route path='/cashierDashboard/billing' element={<Billing/>}></Route>
           <Route path='/cashierDashboard/products' element={<Products/>}></Route>
+        </Route>
+        <Route path='/techdashboard/' element={<TechnicianDashboard/>}>
+          <Route path='/techdashboard/showrepairs' element={<ShowRepairs/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

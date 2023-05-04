@@ -3,7 +3,7 @@ import React from 'react'
 import { Navbar,Form,Nav,NavDropdown,Button,Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const CashierNavBar = ({name}) => {
+const TechNavBar = ({name}) => {
     const handleLogout = ()=>
     {
         axios.get("http://localhost:5000/logout")
@@ -23,7 +23,7 @@ const CashierNavBar = ({name}) => {
         <Navbar bg="light" expand="lg" className="shadow">
         <Container fluid>
           <img src='../images/logo.png' alt='logo' style={{width:"50px"}}/>
-          <Link to="/cashierDashboard/billing" className='text-decoration-none text-dark fw-bold fs-3 mt-2 mx-2'>
+          <Link to="/techdashboard/showrepairs" className='text-decoration-none text-dark fw-bold fs-3 mt-2 mx-2'>
           PC Solutions</Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -32,10 +32,8 @@ const CashierNavBar = ({name}) => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Link to='/cashierDashboard/billing' className='text-decoration-none text-dark mt-2 mx-2'>Billing</Link>
-              <Link to='/cashierDashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Products</Link>
-              <Link to='/cashierDashboard/billing' className='text-decoration-none text-dark mt-2 mx-2'>Orders</Link>
-              <Link to='/cashierDashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Repairs</Link>
+              <Link to='/techdashboard/showrepairs' className='text-decoration-none text-dark mt-2 mx-2'>Available Repairs</Link>
+              <Link to='/techdashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Products</Link>
               {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
@@ -75,4 +73,4 @@ const CashierNavBar = ({name}) => {
   )
 }
 
-export default CashierNavBar
+export default TechNavBar;

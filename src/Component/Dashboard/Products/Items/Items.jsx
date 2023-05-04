@@ -91,7 +91,6 @@ const Item = () => {
                           <th>Quantitiy</th>
                           <th>Unit Price</th>
                           <th>Status</th>
-                          <th>Created Date</th>
                           <th colSpan={2} className='text-center'>Actions</th>
                         </tr>
                       </thead>
@@ -108,7 +107,6 @@ const Item = () => {
                           <td>{values.qty}</td>
                           <td>{values.unitPrice}</td>
                           <td>{values.status==="Available"?<Badge bg="success">{values.status}</Badge>:<Badge bg="danger">{values.status}</Badge>}</td>
-                          <td>{values.added_date}</td>
                           <td>
                             <Link to={"/dashboard/items/read/"+values.itemID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
                           </td>

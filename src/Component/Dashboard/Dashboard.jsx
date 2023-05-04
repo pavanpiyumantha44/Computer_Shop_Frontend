@@ -21,7 +21,7 @@ const Dashboard = () => {
             if(res.data.Status === "Success"){
                 setAuth(true);
                 setName(res.data.name);
-                toast.info("Welcome Admin");
+                //toast.info("Welcome Admin");
             }
             else{
                 setAuth(false);
@@ -99,8 +99,16 @@ const Dashboard = () => {
                     <i className="fs-4 bi-people" /> <span className="ms-1 d-none d-sm-inline">Customers</span> </Link>
                 </li>
                 <li>
-                    <Link to="/dashboard/order" className="nav-link px-0 align-middle text-light">
+                    <Link to="/dashboard/orders" className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi-table" /> <span className="ms-1 d-none d-sm-inline">Orders</span></Link>
+                </li>
+                <li>
+                    <Link to='/dashboard/repairs' className="nav-link px-0 align-middle text-light">
+                    <i class="fs-4 bi bi-tools"></i><span className="ms-1 d-none d-sm-inline">Repair</span> </Link>
+                </li>
+                <li>
+                    <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
+                    <i class="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
                 </li>
                 <li>
                     <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
@@ -114,14 +122,10 @@ const Dashboard = () => {
                     </li>
                     </ul>
                 </li>
-                <li>
-                    <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
-                    <i class="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
-                </li>
-                <li>
+                {/* <li>
                     <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
                     <i class="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>
-                </li>
+                </li> */}
                 </ul>
                 <hr />
             </div>

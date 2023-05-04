@@ -25,7 +25,7 @@ const Login2 = () => {
                     navigate("/cashierDashboard/billing");
                 }
                 else if(res.data.Result[0].role==2){
-                    navigate("/");
+                    navigate("/techdashboard/showrepairs");
                 }
                 else{ 
                 navigate("/dashboard/home");
