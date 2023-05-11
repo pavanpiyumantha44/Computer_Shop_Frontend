@@ -138,7 +138,7 @@ const EditItem = () => {
                     />
                     </Form.Group>
                 </div>
-                <div className='col-6'>
+                {/* <div className='col-6'>
                     <Form.Group className="mb-3">
                     <Form.Label htmlFor="itemName" className="form-label">
                         Brands
@@ -156,8 +156,8 @@ const EditItem = () => {
                         }
                     </Form.Select>
                     </Form.Group>
-                </div>
-                <div className='col-6'>
+                </div> */}
+                {/* <div className='col-6'>
                     <Form.Group className="mb-3">
                     <Form.Label htmlFor="itemName" className="form-label">
                         Category
@@ -167,7 +167,7 @@ const EditItem = () => {
                         _Select_
                         </option>
                         {
-                            category.map((values,index)=>{
+                            category.map((values)=>{
                                 return(
                                     <option value={values.cID}>{values.name}</option>
                                 );
@@ -175,7 +175,7 @@ const EditItem = () => {
                         }
                     </Form.Select>
                     </Form.Group>
-                </div>
+                </div> */}
                 <div className='col-6'>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='itemQuantity' className='form-label'>Quantity</Form.Label>
@@ -194,12 +194,12 @@ const EditItem = () => {
                         </Form.Control>
                     </Form.Group>
                 </div>
-                <div className='col-6'>
+                {/* <div className='col-6'>
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Choose an Image</Form.Label>
                         <Form.Control type="file" onChange={e=>setItem({...item,image:e.target.files[0]})}/>
                     </Form.Group>
-                </div>
+                </div> */}
             </div>
             
            

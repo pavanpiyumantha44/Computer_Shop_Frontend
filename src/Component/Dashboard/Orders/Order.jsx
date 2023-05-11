@@ -152,7 +152,7 @@ const Order = () => {
                     <h3>Orders</h3>
                   </div>
                   <div className="col-md-4">
-                    <Form>
+                    {/* <Form>
                       <Form.Control
                         type="text"
                         onChange={(e) => {
@@ -161,7 +161,7 @@ const Order = () => {
                         className="form-control w-100"
                         placeholder="Search Brand..."
                       />
-                    </Form>
+                    </Form> */}
                   </div>
                 </div>
               </Card.Header>
@@ -220,7 +220,7 @@ const Order = () => {
                               <button
                                 className="btn btn-danger"
                                 title="delete"
-                                onClick={() => hanldeDelete(values.itemID)}
+                                onClick={() => hanldeDelete(values.ordID)}
                               >
                                 <BsFillTrashFill/>
                               </button>

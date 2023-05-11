@@ -35,22 +35,31 @@ const EditCustomer = () => {
   },[])
   const handleSubmit = (e)=>{
     e.preventDefault();
-    axios.put('http://localhost:5000/dashboard/customer/update/'+id,customer)
-    .then(res=>{
-        if(res.data.Status === "Success")
-        {
-            toast.success("Updated Successfully!!");
-            setTimeout(()=>{
-                navigate('/dashboard/customer');
-            },1500)
-        }
-        else{
-            toast.error("Something went wrong!!");
-        }  
-    })
-    .catch(err=>{
-        console.log(err);
-    })
+    if(customer.name===''||customer.nic===''||customer.mobile===''||customer.address==='')
+    {
+        toast.error("Please Fill All Fields!!");
+    }
+    else if(customer.nic.length>12||customer.nic.length<10||customer.nic.length==11){
+        toast.error("Invalid NIC");
+    }
+    else{
+        axios.put('http://localhost:5000/dashboard/customer/update/'+id,customer)
+        .then(res=>{
+            if(res.data.Status === "Success")
+            {
+                toast.success("Updated Successfully!!");
+                setTimeout(()=>{
+                    navigate('/dashboard/customer');
+                },1500)
+            }
+            else{
+                toast.error("Something went wrong!!");
+            }  
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
   }
   return (
     <>

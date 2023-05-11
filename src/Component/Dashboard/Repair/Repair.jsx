@@ -26,7 +26,7 @@ const Repair = () => {
     })
   },[display])
   const handleDelete = (id)=>{
-    axios.delete('http://localhost:5000/dashboard/customer/delete/'+id)
+    axios.delete('http://localhost:5000/dashboard/repairs/delete/'+id)
     .then(res=>{
       console.log(res);
       if(res.data.Status === "Success")
@@ -34,7 +34,6 @@ const Repair = () => {
         toast.success("Deleted!!");
         if(!display)
         {
-
           setDisplay(true);
         }
         else{
@@ -74,9 +73,9 @@ const Repair = () => {
                     <h3>Repair List</h3>
                   </div>
                   <div className='col-4'>
-                      <Form>
+                      {/* <Form>
                         <Form.Control type='text' placeholder='Search Customer...' onChange={(e)=>{setSearch(e.target.value)}}></Form.Control>
-                      </Form>
+                      </Form> */}
                   </div>
                 </div>  
               </Card.Header>
@@ -105,11 +104,11 @@ const Repair = () => {
                       <td>CAT-{value.catID}</td>
                       <td>{value.repair_details===null?<Badge bg="warning">Pending</Badge>:value.repair_details}</td>
                       <td>{value.added_items===null?<Badge bg="warning">Pending</Badge>:value.added_items}</td>
-                      <td>{value.receive_date}</td>
+                      <td>{value.receive_date.substr(0,10)}</td>
                       <td>{value.status===0?<Badge bg="warning">Pending</Badge>:<Badge bg='success'>Repaired</Badge>}</td>
                       <td>
-                        <Link to={`/dashboard/customer/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
-                        <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>
+                        <Link to={`/dashboard/repairs/read/${value.repID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
+                        <Button variant='danger' onClick={()=>{handleDelete(value.repID)}}><i className='bi bi-trash'></i></Button>
                       </td>
                     </tr>)
                   })}   

@@ -14,11 +14,17 @@ const CreateCustomer = () => {
         address:''
     });
     const navigate = useNavigate();
+    const nicValidate = (nic)=>{
+        const re = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/g
+    }
     const handleSubmit = (e)=>{
         e.preventDefault();
         if(customer.name===''||customer.nic===''||customer.mobile===''||customer.address==='')
         {
             toast.error("Please Fill All Fields!!");
+        }
+        else if(customer.nic.length>12||customer.nic.length<10||customer.nic.length==11){
+            toast.error("Invalid NIC");
         }
         else{
             axios.post('http://localhost:5000/dashboard/customer/add',customer)

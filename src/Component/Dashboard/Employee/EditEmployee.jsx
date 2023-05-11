@@ -39,18 +39,27 @@ const EditEmployee = () => {
     },[])
     const handleSubmit = (e)=>{
         e.preventDefault();
-        axios.put('http://localhost:5000/dashboard/employee/update/'+id,employee)
-        .then(res=>{
-            if(res.data.Status==="Success"){
-                toast.success("Updated Successfully!!");
-                setTimeout(()=>{
-                    navigate('/dashboard/employee');
-                },1500);
-            }
-        })
-        .catch(err=>{
-            console.log(err);
-        })
+        if(employee.name===''||employee.nic===''||employee.mobile===''||employee.address==='')
+        {
+            toast.error("Please Fill All Fields!!");
+        }
+        else if(employee.nic.length>12||employee.nic.length<10||employee.nic.length==11){
+            toast.error("Invalid NIC");
+        }
+        else{
+            axios.put('http://localhost:5000/dashboard/employee/update/'+id,employee)
+            .then(res=>{
+                if(res.data.Status==="Success"){
+                    toast.success("Updated Successfully!!");
+                    setTimeout(()=>{
+                        navigate('/dashboard/employee');
+                    },1500);
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
     }
   return (
     <>

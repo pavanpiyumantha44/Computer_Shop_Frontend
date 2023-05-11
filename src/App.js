@@ -33,8 +33,11 @@ import Products from './Component/Cashier/Products';
 import Repair from './Component/Dashboard/Repair/Repair';
 import CreateRepair from './Component/Dashboard/Repair/CreateRepair';
 import CreateOrder from './Component/Dashboard/Orders/CreateOrder';
+import EditOrder from './Component/Dashboard/Orders/EditOrder';
 import TechnicianDashboard from './Component/Technician_Dashboard/TechnicianDashboard'
 import ShowRepairs from './Component/Technician_Dashboard/ShowRepairs';
+import AdminProfile from './Component/Dashboard/Admin_Profile/AdminProfile';
+import EditRepair from './Component/Dashboard/Repair/EditRepair';
 const App = ()=>{
   return (  
     
@@ -61,10 +64,13 @@ const App = ()=>{
           <Route path='/dashboard/customer/read/:id' element={<EditCustomer/>}></Route>
           <Route path='/dashboard/orders' element={<Order/>}></Route>
           <Route path='/dashboard/orders/add' element={<CreateOrder/>}></Route>
+          <Route path='/dashboard/orders/read/:id' element={<EditOrder/>}></Route>
           <Route path='/dashboard/repairs' element={<Repair/>}></Route>
           <Route path='/dashboard/repairs/add' element={<CreateRepair/>}></Route>
+          <Route path='/dashboard/repairs/read/:id' element={<EditRepair/>}></Route>
           <Route path='/dashboard/report' element={<Report/>}></Route>
           <Route path='/dashboard/billing' element={<Billing/>}></Route>
+          <Route path='/dashboard/adminprofile' element={<AdminProfile/>}></Route>
         </Route>
         <Route path='/cashierDashboard/' element={<CahierDashboard/>}>
           <Route path='/cashierDashboard/billing' element={<Billing/>}></Route>

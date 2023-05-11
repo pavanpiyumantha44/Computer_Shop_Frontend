@@ -25,6 +25,9 @@ const CreateEmployee = () => {
         {
             toast.error("Please Fill All Fields!!");
         }
+        else if(employee.nic.length>12||employee.nic.length<10||employee.nic.length==11){
+            toast.error("Invalid NIC");
+        }
         else{
             console.log(employee);
             axios.post('http://localhost:5000/dashboard/employee/add',employee)

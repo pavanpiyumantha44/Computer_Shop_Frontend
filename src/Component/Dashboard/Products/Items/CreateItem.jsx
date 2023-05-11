@@ -42,9 +42,18 @@ const CreateItem = () => {
         e.preventDefault();
         //console.log(item);
         //console.log(item);
-        if(item.name=== ""||item.status=== "")
+        if(item.name=== ""||item.status=== ""||item.brand===""||item.catID===""||item.quantity==""||item.unitPrice==""||item.image==""||item.description==="")
         {
             toast.error("Please Fill All Fields!!");
+        }
+        else if(Number(item.quantity)<=0){
+            toast.error("Invalid Quantity!!");
+        }
+        else if(Number(item.quantity)>500){
+            toast.error("Mximum Qty limit 500!!");
+        }
+        else if(Number(item.unitPrice)<=0){
+            toast.error("Invalid Unit Price!!");
         }
         else{
         const formData = new FormData();

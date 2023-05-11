@@ -25,12 +25,23 @@ const Home = () => {
     .catch(err=>{
       console.log(err);
     })
-    axios.get('http://localhost:5000/dashboard/home/getBrandCount')
+    axios.get('http://localhost:5000/dashboard/home/getOrderCount')
     .then(res=>{
       console.log(res);
       if(res.data.Status === "Success")
       {
-        setBrandCount(res.data.Result[0].brand);
+        setBrandCount(res.data.Result[0].ORDcount);
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    axios.get('http://localhost:5000/dashboard/home/repairCount')
+    .then(res=>{
+      console.log(res);
+      if(res.data.Status === "Success")
+      {
+        setBrandCount(res.data.Result[0].repair);
       }
     })
     .catch(err=>{
@@ -48,8 +59,8 @@ const Home = () => {
     <div>
         <div className='p-3 d-flex justify-content-around mt-3'>    
           <StatusCard count={cusCount} type={"Customers"} icon={<i className='bi bi-people fs-1 text-primary'></i>}/>
-          <StatusCard count={brandCount} type={"Products"} icon={<i className='bi bi-cart3 fs-1 text-success'></i>}/>
           <StatusCard count={3} type={"Orders"} icon={<i class="bi bi-card-checklist text-danger fs-1"></i>}/>
+          <StatusCard count={brandCount} type={"Repairs"} icon={<i className='bi bi-tools fs-1 text-success'></i>}/>
         </div>        
         <div className='row mt-2 px-5 pt-3'>
           <div className='col-12 col-md-8 p-3'>

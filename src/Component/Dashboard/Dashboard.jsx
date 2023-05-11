@@ -104,11 +104,11 @@ const Dashboard = () => {
                 </li>
                 <li>
                     <Link to='/dashboard/repairs' className="nav-link px-0 align-middle text-light">
-                    <i class="fs-4 bi bi-tools"></i><span className="ms-1 d-none d-sm-inline">Repair</span> </Link>
+                    <i className="fs-4 bi bi-tools"></i><span className="ms-1 d-none d-sm-inline">Repair</span> </Link>
                 </li>
                 <li>
                     <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
-                    <i class="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
+                    <i className="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
                 </li>
                 <li>
                     <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
@@ -124,7 +124,7 @@ const Dashboard = () => {
                 </li>
                 {/* <li>
                     <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
-                    <i class="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>
+                    <i className="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>
                 </li> */}
                 </ul>
                 <hr />
@@ -144,13 +144,13 @@ const Dashboard = () => {
                                     <li><a className="dropdown-item" href="#">Notification 2</a></li>
                                 </ul>
                             </div>
-                            <div class="dropdown-center">
-                                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div className="dropdown-center">
+                                <button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="../images/admin_icon.png" alt="" width={34} height={30} className="rounded-circle" /><span className='mx-2'>Admin</span>
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li onClick={handleLogout}><Link class="dropdown-item" to="/#">Logout</Link></li>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to='/dashboard/adminprofile'>Settings</Link></li>
+                                    <li onClick={handleLogout}><Link className="dropdown-item" to="/#">Logout</Link></li>
                                 </ul>
                             </div>
                         </div>

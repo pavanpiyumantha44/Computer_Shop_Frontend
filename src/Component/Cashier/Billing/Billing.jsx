@@ -154,7 +154,7 @@ const Billing = () => {
                     </div>
                     <div className='mt-5 d-flex justify-content-center'>
                         <h5 className='text-end mx-5'>Total : {total}</h5>
-                        <h5 className='text-end mx-5'>SUB total : {subtotal}</h5>
+                        <h5 className='text-end mx-5'>Grand total : {subtotal}</h5>
                         <button className='btn btn-success mx-5'>Generate Invoice</button>
                     </div>
                 </div>

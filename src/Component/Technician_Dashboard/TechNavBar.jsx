@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { Navbar,Form,Nav,NavDropdown,Button,Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import Notification from '../Dashboard/Notification/Notification';
 const TechNavBar = ({name}) => {
     const handleLogout = ()=>
     {
@@ -34,20 +34,14 @@ const TechNavBar = ({name}) => {
             >
               <Link to='/techdashboard/showrepairs' className='text-decoration-none text-dark mt-2 mx-2'>Available Repairs</Link>
               <Link to='/techdashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Products</Link>
-              {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
-                  Something else here
-                </NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="#" disabled>
-                Link
-              </Nav.Link> */}
             </Nav>
+            <i className="bi bi-bell-fill ms-5 fs-4 mt-2 text-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false"/><Notification/>
+            <div className="dropdown-center">
+                <ul className="dropdown-menu dropdown-menu-end">
+                    <li><a className="dropdown-item" href="#">Notification 1</a></li>
+                    <li><a className="dropdown-item" href="#">Notification 2</a></li>
+                </ul>
+            </div>
             <div className="dropdown-center ms-auto">
               <Button className="btn dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false" variant=''>
                 <img src="../images/admin_icon.png" alt="" width={34} height={30} className="rounded-circle"/>

@@ -59,7 +59,7 @@ const Customer = () => {
         </div>  
         :
       <div>
-        <h1 className='px-5 mt-4'>Customer</h1>
+        <h1 className='px-5 mt-4'>Customers</h1>
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
             <Link to='/dashboard/customer/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
