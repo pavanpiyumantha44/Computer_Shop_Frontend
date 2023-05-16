@@ -28,6 +28,7 @@ import Report from './Component/Dashboard/Repo/Report';
 import EditEmployee from './Component/Dashboard/Employee/EditEmployee';
 //import Login from './Component/Login/Login';
 import Login2 from './Component/Login/Login2';
+import ContactUs from './Component/Pages/Contact_Us/ContactUs';
 import CahierDashboard from './Component/Cashier/CashierDashboard';
 import Products from './Component/Cashier/Products';
 import Repair from './Component/Dashboard/Repair/Repair';
@@ -45,6 +46,7 @@ const App = ()=>{
       <Routes>
         <Route path='/' element={<LandingPage/>}></Route>
         <Route path='/login' element={<Login2/>}></Route>
+        <Route path='/contact' element={<ContactUs/>}></Route>
         <Route path='/dashboard/' element={<Dashboard/>}>
           <Route path='/dashboard/home' element={<Home/>}></Route>
           <Route path='/dashboard/brands' element={<Brands/>}></Route>

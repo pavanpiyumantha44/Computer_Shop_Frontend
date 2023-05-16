@@ -50,7 +50,7 @@ const AdminProfile = () => {
             path={'/dashboard/home'}
             current={"Profile"}
         />
-    <div className='mt-4 px-5 pt-3'>
+    <div className='mt-1 mb-4 px-5 pt-3'>
         <div className='row'>
             <div className='col-3'>
             </div>

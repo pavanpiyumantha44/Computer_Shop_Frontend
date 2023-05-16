@@ -32,7 +32,7 @@ const Login2 = () => {
                 }
             }else{
                 //alert(res.data.Message);
-                toast.error("Please check username and password");
+                toast.error("invalid username or password");
             }
         })
         .catch(err=>{
