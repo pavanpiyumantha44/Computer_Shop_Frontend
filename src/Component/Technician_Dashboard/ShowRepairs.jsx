@@ -139,12 +139,35 @@ const ShowRepairs = () => {
                     <Form.Control type='text' placeholder='Enter Repair Issue' onChange={(e)=>setRepDetails({...repDetails,issue:e.target.value})}></Form.Control>
 
                   </Form.Group>
-                  <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
+                  {/* <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
                     <Form.Label>
                       Added Items
                     </Form.Label>
                     <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' onChange={(e)=>setRepDetails({...repDetails,added_items:e.target.value})}></Form.Control>
-                  </Form.Group>
+                  </Form.Group> */}
+                  <div className='row'>
+                    <div className='col-4'>
+                      <Form.Group className='mb-3'>
+                        <Form.Label>Select Item</Form.Label>
+                        <Form.Select>
+                          <option>Item 1</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </div>
+                    <div className='col-4'>
+                      <Form.Group className='mb-3'>
+                        <Form.Label>Qty</Form.Label>
+                        <Form.Control
+                          type='number'
+                        ></Form.Control>
+                      </Form.Group>
+                    </div>
+                    <div className='col-2'>
+                      <Form.Group className=' mt-4 mb-3'>
+                          <Button variant='success' className='mt-2'>+</Button>
+                      </Form.Group>
+                    </div>
+                  </div>
                   <Form.Group className='mb-3'>
                     <Form.Label>
                       Service Charge

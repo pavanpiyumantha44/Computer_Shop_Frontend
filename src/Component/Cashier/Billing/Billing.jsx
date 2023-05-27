@@ -12,12 +12,6 @@ const Billing = () => {
   const [items,setItems] = useState([]);
   const [search,setSearch] = useState('');
   const [currentQty,setCurrentQty] = useState(0);
-  const [cart,setCart] = useState({
-    id:'',
-    name:'',
-    qty:'',
-    price:''
-  });
 
   //Modal
   const [showModal,setShowModal] = useState(false)
@@ -31,6 +25,7 @@ const Billing = () => {
   const [selectedItemDesc,setSelectedItemDesc] = useState();
   const [selectedItemPrice,setSelectedItemPrice] = useState();
   const [availableStock,setAvailableStock] = useState();
+  
 
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/items')
@@ -61,6 +56,7 @@ const handleCart = (id,name,desc,price)=>{
     const tot = parseInt(total)+(parseInt(selectedItemPrice)*parseInt(qty));
     var isFound = false
     var existKey = null;
+    let remainQty = 0;
     data.filter((value,index)=>{
         if(value.id===id){
             isFound = true;
@@ -69,6 +65,15 @@ const handleCart = (id,name,desc,price)=>{
     })
      if(!isFound){
         data.push({id,name,desc,qty,price});
+        remainQty = parseInt(availableStock)-qty;
+        console.log(remainQty);
+        axios.put('http://localhost:5000/dashboard/items/updateOne/'+id,remainQty)
+        .then(res=>{
+          console.log(res);
+        })
+        .catch(err=>{
+          console.log(err);
+        });
      }
      else{
          data[existKey].qty += Number(qty);
@@ -76,6 +81,7 @@ const handleCart = (id,name,desc,price)=>{
     setTotal(parseInt(tot));
     const rate = tot*0.1;
     setSubtotal(parseInt(tot-rate));
+    // console.log(data.slice(-1));
     if(!display){
         setDisplay(true);
         setCurrentQty(0);
@@ -111,6 +117,20 @@ const handleCart = (id,name,desc,price)=>{
     }
   }
 
+  const handleInvovice = ()=>{
+    axios.post('http://localhost:5000/billing/add',data)
+    .then(res=>{
+      console.log(res);
+      if(res.data.Status === "Success"){
+        while(data.length>0){
+          data.pop();
+        }
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   return (
     <div className="container">
       <Modal
@@ -153,7 +173,7 @@ const handleCart = (id,name,desc,price)=>{
         </Modal.Body>
       </Modal>
       <ToastContainer
-        position='top-center'
+        position='top-right'
         draggable={false}
         autoClose={1000}
       />
@@ -161,20 +181,6 @@ const handleCart = (id,name,desc,price)=>{
       <div className="row">
         <div className="col-6">
           <h3>Add to cart</h3>
-          {/* <div className='d-flex justify-content-center border p-5 shadow-sm'>
-                    <form onSubmit={handleCart}>
-                        <div className='mb-3'>
-                        <input type='text' className='form-control' placeholder='item' onChange={e =>{setCart({...cart,name:e.target.value})}}/>
-                        </div>
-                        <div className='mb-3'>
-                        <input type='number' className='form-control' placeholder='Quantity' onChange={e=>setCart({...cart,qty:e.target.value})}></input>
-                        </div>
-                        <div className='mb-3'>
-                            <input type='text' className='form-control' placeholder='Price'onChange={e=>setCart({...cart,price:e.target.value})}></input>
-                        </div>
-                        <button className='btn btn-success mx-5'><i className='bi bi-plus text-white'></i>Add Item</button>
-                    </form>
-                    </div> */}
           <Card className="shadow-sm">
             <Card.Header>
               <div className="row">
@@ -196,7 +202,7 @@ const handleCart = (id,name,desc,price)=>{
               </div>
             </Card.Header>
             <Card.Body>
-              <Table striped>
+              <Table striped responsive>
                 <thead>
                   <tr>
                     <th>Id</th>
@@ -265,7 +271,7 @@ const handleCart = (id,name,desc,price)=>{
                   return (
                     <tr key={index}>
                       <td>{value.name}</td>
-                      <td>{value.name}</td>
+                      <td>{value.desc}</td>
                       <td>{value.qty}</td>
                       <td>{value.price}</td>
                       <td>{value.qty * value.price}</td>
@@ -288,7 +294,7 @@ const handleCart = (id,name,desc,price)=>{
           <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
             <h5 className="text-end mx-5">Total : {total}</h5>
             <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
-            <button className="btn btn-success mx-5">Generate Invoice</button>
+            <button className="btn btn-success mx-5" onClick={handleInvovice}>Generate Invoice</button>
           </div>
         </div>
       </div>

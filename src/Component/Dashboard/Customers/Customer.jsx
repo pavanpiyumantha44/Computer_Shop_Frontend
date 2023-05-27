@@ -5,7 +5,7 @@ import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import {Button,Form,Card,Table} from 'react-bootstrap';
-
+import {CSVLink} from 'react-csv';
 
 const Customer = () => {
   const[data,setData] = useState([]);
@@ -25,6 +25,7 @@ const Customer = () => {
       console.log(err);
     })
   },[display])
+  var filename = `customer_list_${new Date().toLocaleDateString()+'_'+new Date().toLocaleTimeString()}`;
   const handleDelete = (id)=>{
     axios.delete('http://localhost:5000/dashboard/customer/delete/'+id)
     .then(res=>{
@@ -62,7 +63,8 @@ const Customer = () => {
         <h1 className='px-5 mt-4'>Customers</h1>
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
-            <Link to='/dashboard/customer/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
+            {/* <Link to='/dashboard/customer/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link> */}
+            <CSVLink data={data} filename={filename} onClick={()=>{}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink> 
             <Link to='/dashboard/customer/add' className='btn btn-primary mx-3'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
           </div>
         </div>
