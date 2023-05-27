@@ -39,6 +39,7 @@ import TechnicianDashboard from './Component/Technician_Dashboard/TechnicianDash
 import ShowRepairs from './Component/Technician_Dashboard/ShowRepairs';
 import AdminProfile from './Component/Dashboard/Admin_Profile/AdminProfile';
 import EditRepair from './Component/Dashboard/Repair/EditRepair';
+import OrderBililng from './Component/Cashier/Order_Billing/OrderBililng';
 const App = ()=>{
   return (  
     
@@ -76,6 +77,7 @@ const App = ()=>{
         </Route>
         <Route path='/cashierDashboard/' element={<CahierDashboard/>}>
           <Route path='/cashierDashboard/billing' element={<Billing/>}></Route>
+          <Route path='/cashierDashboard/orders' element={<OrderBililng/>}></Route>
           <Route path='/cashierDashboard/products' element={<Products/>}></Route>
         </Route>
         <Route path='/techdashboard/' element={<TechnicianDashboard/>}>

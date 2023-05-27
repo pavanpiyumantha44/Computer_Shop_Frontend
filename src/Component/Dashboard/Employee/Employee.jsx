@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
+import {CSVLink} from 'react-csv';
 import {Button,Badge,Form,Card,Table} from 'react-bootstrap';
 
 
@@ -13,7 +14,7 @@ const Employee = () => {
   const navigate = useNavigate();
   const[search,setSearch] = useState('');
   const [display,setDisplay] = useState(false);
-
+  var filename = `Employee_list_${new Date().toLocaleDateString()+'_'+new Date().toLocaleTimeString()}`;
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/employee')
     .then(res=>{
@@ -60,7 +61,7 @@ const Employee = () => {
         <h1 className='px-5 mt-4'>Employee</h1>
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
-            <Link to='/dashboard/employee/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
+          <CSVLink data={data} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
             <Link to='/dashboard/employee/add' className='btn btn-primary mx-3'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
           </div>
         </div>

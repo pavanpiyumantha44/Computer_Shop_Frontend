@@ -64,7 +64,7 @@ const Customer = () => {
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
             {/* <Link to='/dashboard/customer/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link> */}
-            <CSVLink data={data} filename={filename} onClick={()=>{}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink> 
+            <CSVLink data={data} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink> 
             <Link to='/dashboard/customer/add' className='btn btn-primary mx-3'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
           </div>
         </div>
@@ -83,7 +83,7 @@ const Customer = () => {
                 </div>  
               </Card.Header>
               <Card.Body>
-                <Table striped>
+                <Table striped responsive>
                 <thead>
                   <tr>
                     <th>Id</th>
@@ -106,7 +106,7 @@ const Customer = () => {
                       <td>{value.nic}</td>
                       <td>{value.mobile}</td>
                       <td>{value.address}</td>
-                      <td>{value.created_date}</td>
+                      <td>{value.created_date.substr(0,16)}</td>
                       <td>
                         <Link to={`/dashboard/customer/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
                         <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>

@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast,ToastContainer } from 'react-toastify';
 import PulseLoader from "react-spinners/PulseLoader";
 import {Form, Card, Table, Badge } from 'react-bootstrap';
+import {CSVLink} from 'react-csv';
 
 const Item = () => {
 
@@ -13,6 +14,8 @@ const Item = () => {
     const[search,setSearch] = useState('');
     const [display,setDisplay] = useState(false);
     const navigate = useNavigate();
+
+    var filename = `Item_list_${new Date().toLocaleDateString()+'_'+new Date().toLocaleTimeString()}`;
 
     useEffect(()=>{
       axios.get('http://localhost:5000/dashboard/items')
@@ -62,7 +65,7 @@ const Item = () => {
       <div>
         <div className='px-5 mt-5'>
         <div className='d-flex justify-content-end'>
-          <Link to='/dashboard/items/' className='btn btn-success mx-5'><i className="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
+        <CSVLink data={items} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
           <Link to='/dashboard/items/create/' className='btn btn-primary'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
         </div>
         </div>

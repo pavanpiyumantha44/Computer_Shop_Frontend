@@ -51,7 +51,7 @@ const Login2 = () => {
                 </div>
                 <div className="col-md-6 contents">
                 <div className="row justify-content-center">
-                    <div className="col-md-8 login w-75 shadow">
+                    <div className="col-md-8 mt-5 login w-75 shadow">
                         <div className="mb-4">
                             <h3>Log In</h3>
                             {/* <p className="mb-4 text-center text-secondary">Start Your Day !!</p> */}
