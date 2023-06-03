@@ -8,6 +8,8 @@ import BreadCrumb from '../BreadCrumb';
 const EditOrder = () => {
     const navigate = useNavigate();
     const [customer,setCustomer] = useState([]);
+    const [brand,setBrand] = useState([]);
+    const [category,setCategory] = useState([]);
     const [cusID,setCusID] = useState();
     const [order,setOrder] = useState({
         cusID:'',
@@ -34,6 +36,22 @@ const EditOrder = () => {
                 unitPrice:res.data.Result[0].unitPrice,
                 description:res.data.Result[0].description
             })
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+        axios.get('http://localhost:5000/dashboard/brands')
+        .then(res=>{
+            console.log(res);
+            setBrand(res.data.Result);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+        axios.get('http://localhost:5000/dashboard/category')
+        .then(res=>{
+            console.log(res);
+            setCategory(res.data.Result);
         })
         .catch(err=>{
             console.log(err);
@@ -96,27 +114,31 @@ const EditOrder = () => {
                 <div className='col-6'>
                     <Form.Label htmlFor="orderName" className="form-label">Brand</Form.Label>
                     <Form.Group className="mb-3">
-                    <Form.Control
-                        type="text"
-                        className="form-control"
-                        id="orderName"
-                        value={order.brand}
-                        onChange={(e) => setOrder({ ...order, brand: e.target.value })}
-                        placeholder="Enter brand"
-                    />
+                    <Form.Select onChange={(e) => setOrder({ ...order, brand: e.target.value })}>
+                        <option value={order.value} selected disabled>{order.brand}</option>
+                        {
+                            brand.map((value)=>{
+                                return(
+                                    <option value={value.name}>{value.name}</option>
+                                )
+                            })
+                        }
+                    </Form.Select>
                     </Form.Group>
                 </div>
                 <div className='col-6'>
                 <Form.Label htmlFor="orderName" className="form-label">Category</Form.Label>
                     <Form.Group className="mb-3">
-                    <Form.Control
-                        type="text"
-                        className="form-control"
-                        id="category"
-                        value={order.category}
-                        onChange={(e) => setOrder({ ...order, category: e.target.value })}
-                        placeholder="Enter category"
-                    />
+                        <Form.Select onChange={(e) => setOrder({ ...order, category: e.target.value })}>
+                            <option value={order.category} selected disabled>{order.category}</option>
+                            {
+                                category.map((value)=>{
+                                    return(
+                                        <option value={value.name}>{value.name}</option>
+                                    )
+                                })
+                            }
+                        </Form.Select>
                     </Form.Group>
                 </div>
                 <div className='col-6'>

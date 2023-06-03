@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Form,Table,Card,Badge,Modal,Button } from 'react-bootstrap';
 // import './Billing.css';
 import {toast,ToastContainer} from 'react-toastify';
+import BillPDF from './BillPDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const Billing = () => {
   const [data,setData] = useState([]);
@@ -14,7 +16,7 @@ const Billing = () => {
   const [currentQty,setCurrentQty] = useState(0);
 
   //Modal
-  const [showModal,setShowModal] = useState(false)
+  const [showModal,setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
@@ -25,7 +27,9 @@ const Billing = () => {
   const [selectedItemDesc,setSelectedItemDesc] = useState();
   const [selectedItemPrice,setSelectedItemPrice] = useState();
   const [availableStock,setAvailableStock] = useState();
-  
+  const [updateQty,setUpdateQty] = useState({qty:'2'});
+  const [lastID,setLastID] = useState(1);
+  const [invoiceID,setInvoiceID] = useState(1);
 
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/items')
@@ -38,11 +42,9 @@ const Billing = () => {
       })
   },[display])
 
-  //Add To Cart list
-
 const handleCart = (id,name,desc,price)=>{
     //e.preventDefault();
-    handleClose();
+    // handleClose();
     var qty = parseInt(currentQty);
     if(qty<=0){
         toast.error("Invalid Quantity!!");
@@ -56,32 +58,25 @@ const handleCart = (id,name,desc,price)=>{
     const tot = parseInt(total)+(parseInt(selectedItemPrice)*parseInt(qty));
     var isFound = false
     var existKey = null;
-    let remainQty = 0;
+    const date = new Date();
     data.filter((value,index)=>{
         if(value.id===id){
             isFound = true;
             existKey = index;
         }
     })
-     if(!isFound){
-        data.push({id,name,desc,qty,price});
-        remainQty = parseInt(availableStock)-qty;
-        console.log(remainQty);
-        axios.put('http://localhost:5000/dashboard/items/updateOne/'+id,remainQty)
-        .then(res=>{
-          console.log(res);
-        })
-        .catch(err=>{
-          console.log(err);
-        });
-     }
-     else{
+    if(!isFound){
+        data.push({invoiceID,id,name,desc,qty,price,tot,date});
+        // updateQtyFunc(id,qty);        
+    }
+    else{
          data[existKey].qty += Number(qty);
-     }
+    }
     setTotal(parseInt(tot));
-    const rate = tot*0.1;
-    setSubtotal(parseInt(tot-rate));
+    // const rate = tot*0.1;
+    setSubtotal(parseInt(tot));
     // console.log(data.slice(-1));
+    
     if(!display){
         setDisplay(true);
         setCurrentQty(0);
@@ -118,18 +113,55 @@ const handleCart = (id,name,desc,price)=>{
   }
 
   const handleInvovice = ()=>{
-    axios.post('http://localhost:5000/billing/add',data)
-    .then(res=>{
-      console.log(res);
-      if(res.data.Status === "Success"){
-        while(data.length>0){
-          data.pop();
+    // let getDetails = false;
+    // axios.get('http://localhost:5000/billing/lastID')
+    // .then(res=>{
+    //   console.log(res);
+    //   if(res.data.Result.length!=0){
+    //     setLastID(res.data.Result[0].id);
+    //     setInvoiceID(res.data.Result[0].invoiceID);
+        
+    //     for(var i=0; i<data.length; i++){
+          
+    //       data[i].lastID = prevID;
+    //       data[i].invoiceID = prevInvoiceID;
+    //       prevID++;
+          
+    //     }
+    //     getDetails = true;
+    //   }
+    //   else{
+    //     for(var i=0; i<data.length; i++){
+    //       //var currLastID = lastID+1;
+    //       data[i].lastID = i+1;
+    //       data[i].invoiceID = invoiceID;
+    //     }
+    //     getDetails = true;
+    //   }
+    // })
+    // .catch(err=>{
+    //   console.log(err);
+    // })
+      axios.post('http://localhost:5000/billing/add',data)
+      .then(res=>{
+        console.log(res);
+        if(res.data.Status === "Success"){
+          while(data.length>0){
+            data.pop();
+          }
+          setTotal(0);
+          setSubtotal(0);
+          if(!display){
+            setDisplay(true);
+          }
+          else{
+              setDisplay(false);
+          }
         }
-      }
-    })
-    .catch(err=>{
-      console.log(err);
-    })
+      })
+      .catch(err=>{
+        console.log(err);
+      })
   }
   return (
     <div className="container">
@@ -256,7 +288,7 @@ const handleCart = (id,name,desc,price)=>{
         <div className="col-6">
           <h3>Invoice</h3>
           <div className="d-flex justify-content-center border p-5 shadow-sm">
-            <table className="table  table-fixed">
+            <Table responsive>
               <thead>
                 <tr>
                   <th>Item</th>
@@ -289,17 +321,37 @@ const handleCart = (id,name,desc,price)=>{
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
           </div>
           <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
             <h5 className="text-end mx-5">Total : {total}</h5>
             <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
             <button className="btn btn-success mx-5" onClick={handleInvovice}>Generate Invoice</button>
+            {/* <PDFDownloadLink document={<BillPDF data={data}/>}filename='bill.pdf'>Download</PDFDownloadLink> */}
+            {/* <PDFDownloadLink document={<BillPDF data={data} />} fileName="Bill.pdf">
+            {({ blob, url, loading, error }) =>
+      loading ? 'Loading document...' : 'Download now!'
+    }
+            </PDFDownloadLink> */}
+            <PDFDownloadButton data={data}/>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+const PDFDownloadButton = ({ data }) => {
+  const documentData = <BillPDF data={data} />;
+  const fileName = 'bill.pdf';
+  console.log(data);
+  return (
+    <PDFDownloadLink document={documentData} fileName={fileName}>
+      {({ blob, url, loading, error }) =>
+        loading ? 'Loading document...' : 'Download now!'
+      }
+    </PDFDownloadLink>
+  );
+};
 
 export default Billing

@@ -40,6 +40,8 @@ import ShowRepairs from './Component/Technician_Dashboard/ShowRepairs';
 import AdminProfile from './Component/Dashboard/Admin_Profile/AdminProfile';
 import EditRepair from './Component/Dashboard/Repair/EditRepair';
 import OrderBililng from './Component/Cashier/Order_Billing/OrderBililng';
+import DropdownTextarea from './Component/Technician_Dashboard/DropdownTextarea';
+import BillPDF from './Component/Cashier/Billing/BillPDF';
 const App = ()=>{
   return (  
     
@@ -82,7 +84,9 @@ const App = ()=>{
         </Route>
         <Route path='/techdashboard/' element={<TechnicianDashboard/>}>
           <Route path='/techdashboard/showrepairs' element={<ShowRepairs/>}></Route>
+          <Route path='/techdashboard/drp' element={<DropdownTextarea/>}></Route>
         </Route>
+        <Route path='/show/bill' element={<BillPDF/>}></Route>
       </Routes>
     </BrowserRouter>
   );

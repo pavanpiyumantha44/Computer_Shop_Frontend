@@ -13,6 +13,11 @@ const ShowRepairs = () => {
   const [display,setDisplay] = useState(false);
   const [items,setItems] = useState([]);
   const [repID,setRepID] = useState();
+
+  const [selectedValue, setSelectedValue] = useState('');
+  const [textboxValue, setTextboxValue] = useState('');
+  const [textareaValue, setTextareaValue] = useState('');
+
   const [repDetails,setRepDetails] = useState({
     issue:'',
     added_items:'',
@@ -137,14 +142,7 @@ const ShowRepairs = () => {
                       Repair Issue
                     </Form.Label>
                     <Form.Control type='text' placeholder='Enter Repair Issue' onChange={(e)=>setRepDetails({...repDetails,issue:e.target.value})}></Form.Control>
-
                   </Form.Group>
-                  {/* <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>
-                      Added Items
-                    </Form.Label>
-                    <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' onChange={(e)=>setRepDetails({...repDetails,added_items:e.target.value})}></Form.Control>
-                  </Form.Group> */}
                   <div className='row'>
                     <div className='col-4'>
                       <Form.Group className='mb-3'>
@@ -168,6 +166,12 @@ const ShowRepairs = () => {
                       </Form.Group>
                     </div>
                   </div>
+                  <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>
+                      Added Items
+                    </Form.Label>
+                    <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' onChange={(e)=>setRepDetails({...repDetails,added_items:e.target.value})}></Form.Control>
+                  </Form.Group>
                   <Form.Group className='mb-3'>
                     <Form.Label>
                       Service Charge
