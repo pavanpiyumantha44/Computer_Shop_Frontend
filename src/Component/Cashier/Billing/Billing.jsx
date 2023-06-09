@@ -27,9 +27,10 @@ const Billing = () => {
   const [selectedItemDesc,setSelectedItemDesc] = useState();
   const [selectedItemPrice,setSelectedItemPrice] = useState();
   const [availableStock,setAvailableStock] = useState();
-  const [updateQty,setUpdateQty] = useState({qty:'2'});
   const [lastID,setLastID] = useState(1);
   const [invoiceID,setInvoiceID] = useState(1);
+  const [stockQty,setStockQty] = useState({qty:''});
+  const [updateQty,setUpdateQty] = useState([]);
 
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/items')
@@ -40,13 +41,23 @@ const Billing = () => {
       .catch(err=>{
         console.log(err);
       })
+    axios.get('http://localhost:5000/billing/lastID')
+    .then(res=>{
+      console.log(res);
+      if(res.data.Result.length!==0){
+        setInvoiceID((res.data.Result[0].invoiceID)+1);
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
   },[display])
 
 const handleCart = (id,name,desc,price)=>{
     //e.preventDefault();
     // handleClose();
     var qty = parseInt(currentQty);
-    if(qty<=0){
+    if(qty<=0 || isNaN(qty)){
         toast.error("Invalid Quantity!!");
         setCurrentQty(0);
     }
@@ -67,10 +78,12 @@ const handleCart = (id,name,desc,price)=>{
     })
     if(!isFound){
         data.push({invoiceID,id,name,desc,qty,price,tot,date});
-        // updateQtyFunc(id,qty);        
+        // updateQtyFunc(id,qty);
+        updateStockQty(id);
     }
     else{
          data[existKey].qty += Number(qty);
+        //  updateQty[existKey].qty +=Number(qty);
     }
     setTotal(parseInt(tot));
     // const rate = tot*0.1;
@@ -96,6 +109,10 @@ const handleCart = (id,name,desc,price)=>{
     handleShow();
     }
   };
+  const updateStockQty = (id)=>{
+    var remain = stockQty.qty;
+    updateQty.push({id,remain});
+  }
 
   //Delete From Cart List
   const handleDelete = (id,tot)=>{
@@ -113,44 +130,18 @@ const handleCart = (id,name,desc,price)=>{
   }
 
   const handleInvovice = ()=>{
-    // let getDetails = false;
-    // axios.get('http://localhost:5000/billing/lastID')
-    // .then(res=>{
-    //   console.log(res);
-    //   if(res.data.Result.length!=0){
-    //     setLastID(res.data.Result[0].id);
-    //     setInvoiceID(res.data.Result[0].invoiceID);
-        
-    //     for(var i=0; i<data.length; i++){
-          
-    //       data[i].lastID = prevID;
-    //       data[i].invoiceID = prevInvoiceID;
-    //       prevID++;
-          
-    //     }
-    //     getDetails = true;
-    //   }
-    //   else{
-    //     for(var i=0; i<data.length; i++){
-    //       //var currLastID = lastID+1;
-    //       data[i].lastID = i+1;
-    //       data[i].invoiceID = invoiceID;
-    //     }
-    //     getDetails = true;
-    //   }
-    // })
-    // .catch(err=>{
-    //   console.log(err);
-    // })
+    if(data.length!==0){
       axios.post('http://localhost:5000/billing/add',data)
       .then(res=>{
         console.log(res);
         if(res.data.Status === "Success"){
           while(data.length>0){
             data.pop();
+            updateQty.pop();
           }
           setTotal(0);
           setSubtotal(0);
+          toast.success("Invoice Generated !!")
           if(!display){
             setDisplay(true);
           }
@@ -162,8 +153,20 @@ const handleCart = (id,name,desc,price)=>{
       .catch(err=>{
         console.log(err);
       })
+      axios.put('http://localhost:5000/billing/updateQty/',updateQty)
+        .then(res=>{
+            
+        })        
+        .catch(err=>{
+          console.log(err);
+      })
+      }
+      else{
+      toast.error("Cart is Empty!!");
+      }
   }
   return (
+    <>
     <div className="container">
       <Modal
         show={showModal}
@@ -193,7 +196,7 @@ const handleCart = (id,name,desc,price)=>{
                     type="number"
                     size="20"
                     value={currentQty}
-                    onChange={(e) => setCurrentQty(e.target.value)}
+                    onChange={(e) => {setCurrentQty(e.target.value),setStockQty({...stockQty,qty:(availableStock-e.target.value)})}}
                   ></Form.Control>
                 </Form.Group>
               </Form>
@@ -233,7 +236,7 @@ const handleCart = (id,name,desc,price)=>{
                 </div>
               </div>
             </Card.Header>
-            <Card.Body>
+            <Card.Body style={{ maxHeight: '450px', overflowY: 'scroll' }}>
               <Table striped responsive>
                 <thead>
                   <tr>
@@ -287,7 +290,12 @@ const handleCart = (id,name,desc,price)=>{
         </div>
         <div className="col-6">
           <h3>Invoice</h3>
-          <div className="d-flex justify-content-center border p-5 shadow-sm">
+          <Card>
+          <Card.Header>
+            <h5 className='text-dark fw-bold'>Invoice ID: {invoiceID}</h5>
+          </Card.Header>
+          <Card.Body style={{ maxHeight: '450px', overflowY: 'scroll' }} className='border p-5 shadow-sm'>    
+          <div className="d-flex justify-content-center ">
             <Table responsive>
               <thead>
                 <tr>
@@ -323,35 +331,28 @@ const handleCart = (id,name,desc,price)=>{
               </tbody>
             </Table>
           </div>
+          </Card.Body>
+          </Card>
           <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
             <h5 className="text-end mx-5">Total : {total}</h5>
             <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
             <button className="btn btn-success mx-5" onClick={handleInvovice}>Generate Invoice</button>
-            {/* <PDFDownloadLink document={<BillPDF data={data}/>}filename='bill.pdf'>Download</PDFDownloadLink> */}
-            {/* <PDFDownloadLink document={<BillPDF data={data} />} fileName="Bill.pdf">
-            {({ blob, url, loading, error }) =>
-      loading ? 'Loading document...' : 'Download now!'
-    }
-            </PDFDownloadLink> */}
-            <PDFDownloadButton data={data}/>
           </div>
         </div>
       </div>
     </div>
+    {/* Footer */}
+    <div className='container-fluid px-0 shadow-sm w-100 mt-4'>
+      <div className='row flex-nowrap'>
+        <div className='d-flex px-0'>
+            <div className="card card-body text-center text-light bg-dark">
+              <h6 className="card-title"><span>&#169;</span> All Rights Reserved</h6>
+            </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
-
-const PDFDownloadButton = ({ data }) => {
-  const documentData = <BillPDF data={data} />;
-  const fileName = 'bill.pdf';
-  console.log(data);
-  return (
-    <PDFDownloadLink document={documentData} fileName={fileName}>
-      {({ blob, url, loading, error }) =>
-        loading ? 'Loading document...' : 'Download now!'
-      }
-    </PDFDownloadLink>
-  );
-};
 
 export default Billing

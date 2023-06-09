@@ -14,8 +14,8 @@ const ShowRepairs = () => {
   const [items,setItems] = useState([]);
   const [repID,setRepID] = useState();
 
-  const [selectedValue, setSelectedValue] = useState('');
-  const [textboxValue, setTextboxValue] = useState('');
+  const [dropdownValue, setDropdownValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
 
   const [repDetails,setRepDetails] = useState({
@@ -23,6 +23,23 @@ const ShowRepairs = () => {
     added_items:'',
     service_charge:'',
   })
+
+  // const handleDropdownChange = (event) => {
+  //   setDropdownValue(event.target.value);
+  // };
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleInsertClick = () => {
+    setTextareaValue((prevTextareaValue) =>
+      prevTextareaValue + dropdownValue + ' - ' + inputValue + ' | '
+    );
+    setRepDetails({...repDetails,added_items:textareaValue})
+    setDropdownValue('');
+    setInputValue('');
+  };
 
   //Modal states
   const [lgShow, setLgShow] = useState(false);
@@ -69,21 +86,22 @@ const ShowRepairs = () => {
       toast.error("Invalid Service Charge!!");
     }
     else{
-      axios.put('http://localhost:5000/dashboard/repairs/update/'+repID,repDetails)
-      .then(res=>{
-        console.log(res);
-        handleDisplay();
-        if(res.data.Status === "Success"){
-          toast.success("Repair Completed!!");
-          setLgShow(false);
-        }
-        else{
-          toast.error("Something Went Wrong!!");
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-      })
+      // axios.put('http://localhost:5000/dashboard/repairs/update/'+repID,repDetails)
+      // .then(res=>{
+      //   console.log(res);
+      //   handleDisplay();
+      //   if(res.data.Status === "Success"){
+      //     toast.success("Repair Completed!!");
+      //     setLgShow(false);
+      //   }
+      //   else{
+      //     toast.error("Something Went Wrong!!");
+      //   }
+      // })
+      // .catch(err=>{
+      //   console.log(err);
+      // })
+      console.log(repDetails);
     }
   }
   return (
@@ -147,8 +165,14 @@ const ShowRepairs = () => {
                     <div className='col-4'>
                       <Form.Group className='mb-3'>
                         <Form.Label>Select Item</Form.Label>
-                        <Form.Select>
-                          <option>Item 1</option>
+                        <Form.Select value={dropdownValue} onChange={(e)=> setDropdownValue(e.target.value)}>
+                          {
+                            items.map((value)=>{
+                              return(
+                                <option value={value.name}>{value.name}</option>
+                              )
+                            })
+                          }
                         </Form.Select>
                       </Form.Group>
                     </div>
@@ -157,12 +181,14 @@ const ShowRepairs = () => {
                         <Form.Label>Qty</Form.Label>
                         <Form.Control
                           type='number'
+                          value={inputValue}
+                          onChange={handleInputChange}
                         ></Form.Control>
                       </Form.Group>
                     </div>
                     <div className='col-2'>
                       <Form.Group className=' mt-4 mb-3'>
-                          <Button variant='success' className='mt-2'>+</Button>
+                          <Button variant='success' className='mt-2' onClick={handleInsertClick}>+</Button>
                       </Form.Group>
                     </div>
                   </div>
@@ -170,7 +196,7 @@ const ShowRepairs = () => {
                     <Form.Label>
                       Added Items
                     </Form.Label>
-                    <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' onChange={(e)=>setRepDetails({...repDetails,added_items:e.target.value})}></Form.Control>
+                    <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' value={textareaValue}></Form.Control>
                   </Form.Group>
                   <Form.Group className='mb-3'>
                     <Form.Label>
