@@ -4,7 +4,7 @@ import {Link, useNavigate, useParams } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast,ToastContainer } from 'react-toastify';
 import PulseLoader from "react-spinners/PulseLoader";
-import {Form, Card, Table, Badge } from 'react-bootstrap';
+import {Form, Card, Table, Badge, Pagination } from 'react-bootstrap';
 
 const Brands = () => {
 
@@ -13,6 +13,38 @@ const Brands = () => {
     const[search,setSearch] = useState('');
     const [display,setDisplay] = useState(false);
     const navigate = useNavigate();
+
+  //Manage Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const itemsPerPage = 5; // Number of items to display per page
+
+  const filteredData = brand.filter((value) =>
+  value.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+const pageNumbers = [];
+
+for (let i = 1; i <= totalPages; i++) {
+  pageNumbers.push(i);
+}
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentBrands = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+// Change page
+const handlePageChange = (pageNumber) => {
+  setCurrentPage(pageNumber);
+};
+
+// Handle search input change
+const handleSearchChange = (e) => {
+  setSearchTerm(e.target.value);
+  setCurrentPage(1); // Reset to first page when search term changes
+};
+
+
 
     useEffect(()=>{
       axios.get('http://localhost:5000/dashboard/brands')
@@ -72,9 +104,14 @@ const Brands = () => {
                         <h3>Brands</h3>
                       </div>
                       <div className='col-md-4'>
-                        <Form>
-                            <Form.Control type='text' onChange={e=>{setSearch(e.target.value)}} className='form-control w-100' placeholder='Search Brand...'/>
-                        </Form>
+                      <Form>
+                      <Form.Control
+                        type="text"
+                        onChange={handleSearchChange}
+                        className="form-control w-100"
+                        placeholder="Search Brand..."
+                      />
+                    </Form>
                       </div>
                     </div>  
                   </Card.Header>
@@ -90,24 +127,43 @@ const Brands = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {brand.filter((values)=>{
-                        return search.toLowerCase()===''? values : values.name.toLowerCase().includes(search)
-                      }).map((values,index)=>{
+                      {currentBrands.map((value, index) => {
                         return(
                         <tr key={index}>
                           <td>{index+1}</td>
-                          <td>{values.name}</td>
-                          <td>{values.status==="Available"?<Badge bg="success">{values.status}</Badge>:<Badge bg="danger">{values.status}</Badge>}</td>
-                          <td>{values.created_date}</td>
+                          <td>{value.name}</td>
+                          <td>{value.status==="Available"?<Badge bg="success">{value.status}</Badge>:<Badge bg="danger">{value.status}</Badge>}</td>
+                          <td>{value.created_date}</td>
                           <td>
-                            <Link to={"/dashboard/brands/read/"+values.bID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
-                            <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(values.bID)}><i className='bi bi-trash'></i></button>
+                            <Link to={"/dashboard/brands/read/"+value.bID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
+                            <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(value.bID)}><i className='bi bi-trash'></i></button>
                           </td>
                         </tr>
                         )
                         })}
                         </tbody>
                     </Table>
+                    <Pagination>
+                <Pagination.First onClick={() => handlePageChange(1)} />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {pageNumbers.map((pageNumber) => (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={pageNumber === currentPage}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+                    </Pagination>
                   </Card.Body>
                 </Card>
           </div>

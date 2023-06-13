@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
-import {Button,Form,Card,Table, Badge} from 'react-bootstrap';
+import {Button,Form,Card,Table, Badge, Pagination} from 'react-bootstrap';
 
 
 const Repair = () => {
@@ -13,6 +13,39 @@ const Repair = () => {
   const navigate = useNavigate();
   const[search,setSearch] = useState('');
   const [display,setDisplay] = useState(false);
+
+    //Manage Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
+    const itemsPerPage = 5; // Number of items to display per page
+
+  //   const filteredData = data.filter((value) =>
+  //   value.cusID.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  const filteredData = 1;
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const pageNumbers = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentRepairs = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when search term changes
+  };
+
+
 
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/repairs')
@@ -73,9 +106,14 @@ const Repair = () => {
                     <h3>Repair List</h3>
                   </div>
                   <div className='col-4'>
-                      {/* <Form>
-                        <Form.Control type='text' placeholder='Search Customer...' onChange={(e)=>{setSearch(e.target.value)}}></Form.Control>
-                      </Form> */}
+                    {/* <Form>
+                        <Form.Control
+                          type="text"
+                          onChange={handleSearchChange}
+                          className="form-control w-100"
+                          placeholder="Search Brand..."
+                        />
+                    </Form> */}
                   </div>
                 </div>  
               </Card.Header>
@@ -94,9 +132,7 @@ const Repair = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.filter((data)=>{
-                    return search.toLowerCase()===''? data : data.name.toLowerCase().includes(search) || search.toLowerCase()===''? data : data.nic.toLowerCase().includes(search);
-                  }).map((value,index)=>{
+                  {currentRepairs.map((value,index)=>{
                     return(
                     <tr key={index}>
                       <td>{index+1}</td>
@@ -114,6 +150,27 @@ const Repair = () => {
                   })}   
                   </tbody>
                 </Table>
+                <Pagination>
+                <Pagination.First onClick={() => handlePageChange(1)} />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {pageNumbers.map((pageNumber) => (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={pageNumber === currentPage}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+                </Pagination>
               </Card.Body>
             </Card>
         </div>

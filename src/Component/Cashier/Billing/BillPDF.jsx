@@ -1,153 +1,80 @@
 import React from 'react';
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import Html from 'react-pdf-html';
+import ReactToPrint from 'react-to-print';
 
-// const styles = StyleSheet.create({
-//   page: {
-//     fontFamily: 'Helvetica',
-//     padding: 30,
-//   },
-//   title: {
-//     fontSize: 24,
-//     marginBottom: 20,
-//   },
-//   content: {
-//     fontSize: 12,
-//     marginBottom: 10,
-//   },
-// });
-// const styles = StyleSheet.create({
-//     table: { 
-//       display: "table", 
-//       width: "auto", 
-//       borderStyle: "solid", 
-//       borderWidth: 1, 
-//       borderRightWidth: 0, 
-//       borderBottomWidth: 0 
-//     },
-//     title:{
-//         textAlign:center,
-//         fontSize:"50px"
-//     }, 
-//     tableRow: { 
-//       margin: "auto", 
-//       flexDirection: "row" 
-//     }, 
-//     tableCol: { 
-//       width: "25%", 
-//       borderStyle: "solid", 
-//       borderWidth: 1, 
-//       borderLeftWidth: 0, 
-//       borderTopWidth: 0 
-//     }, 
-//     tableCell: { 
-//       margin: "auto", 
-//       marginTop: 5, 
-//       fontSize: 10 
-//     }
-//   });
-const BillPDF = ()=>{
+class BillContent extends React.Component {
+  render() {
 
-//     const Html = ` <div className='row'>
-//     <div className='col-1'></div>
-//     <div className='col-10 border shadow p-5'>
-//         <h1 className='text-center mt-4'><span className='text-primary fw-bold'>PC</span><span className='fw-bold text-danger'>S</span>olution</h1>
-//         <div className='text-center'>
-//             <small className='text-center'>Computer Store</small><br/>
-//             <small className='text-center'>No 44, Matale Road, Wattegama.</small><br/>
-//             <small className='text-center'>pcsolutions@gmail.com</small>
-//             <small className='text-center mx-5'>+94 7133 34 44</small>
-//             <small className='text-center'>081 533 444</small>
-//         <hr/>
-//         </div>
-//         <div className='text-center'>
-//             <h3 className='text-decoration-underline'>WARRANTY-INVOICE</h3>
-//             <p className='text-secondary'>Invoice No : {701}<span className='mx-5'>Date : {new Date().toLocaleDateString()}</span><span>Print Time: {new Date().toLocaleTimeString()}</span></p>
-//         </div>
-// <table className='table table-striped'>
-//                     <thead>
-//                         <tr>
-//                             <th>Description</th>
-//                             <th>Brand</th>
-//                             <th>Qty</th>
-//                             <th>Unit Price</th>
-//                             <th>Amount</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-// {billData.map((value,key)=>{
-//     return(
-//     <tr key={key}>
-//             <td>{value.desc}</td>
-//             <td>{value.name}</td>
-//             <td>{value.qty}</td>
-//             <td>{value.unitPrice}</td>
-//             <td>{value.total}</td>
-//     </tr>
-//     );
-// })}
-// </tbody>
-// </table>
-// <div className='row'>
-//         <div className='col-6'>
-//             <p className='text-dark fw-bold'>No of Items : {billData.length}</p>
-//         </div>
-//         <div className='col-3'>
-//             <p className='text-dark fw-bold'>Discount</p>
-//             <p className='text-dark fw-bold'>Net Amount</p>
-//         </div>
-//         <div className='col-3'>
-//             <p className='text-dark fw-bold ms-5'>{0.00}</p>
-//             <p className='text-dark fw-bold mx-5'>{2000}</p>
-//         </div>
-// </div>
-// <div className='text-center mt-5'>
-//         <p className='text-dark'>~ Thank You Come Again ~</p>
-//         <hr/>
-//     </div>
-// </div>
-//     <div className='col-1'></div>
-//     </div>`;
-    // const billData = [
-    //     {
-    //         Desc: 'SanDisk 24Gb',
-    //         Brand: 'SanDisk',
-    //         qty: 2,
-    //         unitPrice:2000,
-    //         totalAmount:4000
-    //     // Add additional bill data
-    //     },
-    //     {
-    //         Desc: 'SanDisk 24Gb',
-    //         Brand: 'SanDisk',
-    //         qty: 2,
-    //         unitPrice:2000,
-    //         totalAmount:4000
-    //     // Add additional bill data
-    //     },
-    //     {
-    //         Desc: 'SanDisk 24Gb',
-    //         Brand: 'SanDisk',
-    //         qty: 2,
-    //         unitPrice:2000,
-    //         totalAmount:4000
-    //     // Add additional bill data
-    //     },
-    //     {
-    //         Desc: 'SanDisk 24Gb',
-    //         Brand: 'SanDisk',
-    //         qty: 2,
-    //         unitPrice:2000,
-    //         totalAmount:4000
-    //     // Add additional bill data
-    //     },
-    // ];
-return(
-    <Document>
-        <Page size={'A4'}>
-            {/* <Html>{html}</Html> */}
-        </Page>
-    </Document>
-    );  
+    const {billData} = this.props;
+    return (
+      
+      <>
+      <div className='row'>
+        <div className='col-5'></div>
+        <div className='col-5'></div>
+        <div className='col-2'>
+            <ReactToPrint
+            trigger={() => {return <button className='btn btn-primary mt-5'>Print Bill</button>}}
+            content={() => this.componentRef}
+            pageStyle= "print"/>
+        </div>
+      </div>
+      <div className='row'>
+        <div className='col-2'></div>
+        <div className='col-8'>
+          <div className='mt-5 p-2' ref={el=>(this.componentRef=el)}>
+            <h1 className='text-center fw-bold'><span className='text-primary'>PC</span> <span className='text-danger'>S</span>olution</h1>
+            <p className='text-center'>Computer Store</p>
+            <p className='text-center'>No 44,Matale Road, Wattegama.</p>
+            <p className='text-center'><span className='mx-3'>Pcsolutions@gmail.com</span><span>+94 7133 34 44</span><span className='mx-3'>081 533 444</span></p>
+            <hr className='text-dark'/>
+          <div className='mt-2'>
+            <h1 className='text-center fw-bold'><u>WARRANTY-INVOICE</u></h1>
+            <p className='text-center'><span className='mx-3'>Invoice No : {billData.invoiceID}</span><span>Date : {new Date().toLocaleDateString()}</span><span className='mx-3'>Print Time: {new Date().toLocaleTimeString()}</span></p>
+            <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Description</th>
+          <th scope="col">Brand</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+       {
+         billData.map((value,key)=>{
+            return(
+                <tr key={key}>
+                    <td>{value.desc}</td>
+                    <td>{value.brand}</td>
+                    <td>{value.qty}</td>
+                    <td>{value.price}</td>
+                    <td>{value.tot}</td>
+                </tr>
+            );
+            })
+       }
+        
+      </tbody>
+            </table>
+            <div className='row fw-bold'>
+              <div className='col-4'>No of Items : {billData.length}</div>
+              <div className='col-4 text-right'>Discount</div>
+              <div className='col-4'>0</div>
+            </div>
+            <div className='row fw-bold'>
+              <div className='col-4'></div>
+              <div className='col-4 text-right'>Net Amount</div>
+              <div className='col-4'>2000</div>
+            </div>
+            <p className='text-center fs-3 mt-5'>~ Thank You Come Again ~</p>
+          </div>
+          </div>
+        </div>
+        <div className='col-2'></div>
+      </div>
+      </>
+    );
+  }
 }
-export default BillPDF;
+export default BillContent

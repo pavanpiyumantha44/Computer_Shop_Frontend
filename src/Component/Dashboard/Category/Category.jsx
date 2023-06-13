@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Card,Form,Table,Badge, Button } from 'react-bootstrap';
+import { Card,Form,Table,Badge, Button, Pagination } from 'react-bootstrap';
 import { toast,ToastContainer } from 'react-toastify';
 import PulseLoader from "react-spinners/PulseLoader";
 import axios from 'axios';
@@ -11,6 +11,36 @@ const Category = () => {
     const[loading,setLoading] = useState(true);
     const[search,setSearch] = useState('');
     const [display,setDisplay] = useState(false);
+
+    //Manage Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
+    const itemsPerPage = 5; // Number of items to display per page
+
+    const filteredData = category.filter((value) =>
+    value.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const pageNumbers = [];
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCategory = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when search term changes
+  };
 
     useEffect(()=>{
         axios.get('http://localhost:5000/dashboard/category')
@@ -72,9 +102,14 @@ const Category = () => {
                         <h3>Category List</h3>
                       </div>
                       <div className='col-md-4'>
-                        <Form>
-                            <Form.Control type='text' onChange={e=>{setSearch(e.target.value)}} className='form-control w-100' placeholder='Search Category...'/>
-                        </Form>
+                      <Form>
+                      <Form.Control
+                        type="text"
+                        onChange={handleSearchChange}
+                        className="form-control w-100"
+                        placeholder="Search Brand..."
+                      />
+                    </Form>
                       </div>
                     </div>  
                   </Card.Header>
@@ -90,9 +125,7 @@ const Category = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {category.filter((values)=>{
-                        return search.toLowerCase()===''? values : values.name.toLowerCase().includes(search)
-                      }).map((values,index)=>{
+                      {currentCategory.map((values,index)=>{
                         return(
                         <tr key={index}>
                           <td>{index+1}</td>
@@ -108,6 +141,27 @@ const Category = () => {
                         })}
                         </tbody>
                     </Table>
+                    <Pagination>
+                <Pagination.First onClick={() => handlePageChange(1)} />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {pageNumbers.map((pageNumber) => (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={pageNumber === currentPage}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+                    </Pagination>
                   </Card.Body>
                 </Card>
           </div>

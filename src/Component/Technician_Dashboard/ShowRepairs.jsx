@@ -112,7 +112,7 @@ const ShowRepairs = () => {
         autoClose={1000}
       />
       {loading ?
-        <div className='alignment'>
+        <div className='alignment' style={{marginLeft:"50%"}}>
         <PulseLoader color={'#1444e0'} loading={loading} size={15}/>
         </div>  
         :
@@ -208,9 +208,35 @@ const ShowRepairs = () => {
                </Form>
               </Modal.Body>
             </Modal>
-        <h1 className='px-5 mt-4'>Available Repairs</h1>
+        {/* <h1 className='px-5 mt-4'>Available Repairs</h1> */}
         <div className='mt-4 px-5 pt-3'>
-            <Card className='shadow-sm'>
+          <div className='row mb-5 ms-5'>
+            <div className='col-4'>
+              <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(50, 223, 91, 0.8)"}}>
+                <div>
+                  <p className='fs-5 fw-bold text-light text-center'>Completed Reparis</p>
+                  <h1 className='text-center text-light'>{0}</h1>
+                </div>
+              </div>
+            </div>
+            <div className='col-4'>
+              <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(55, 90, 229, 0.8)"}}>
+                <div>
+                  <p className='fs-5 fw-bold text-light text-center'>Available Reparis</p>
+                  <h1 className='text-center text-light'>{0}</h1>
+                </div>
+              </div>
+            </div>
+            <div className='col-4'>
+              <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(229, 69, 69, 0.8)"}}>
+                <div>
+                  <p className='fs-5 fw-bold text-light text-center'>Available Reparis</p>
+                  <h1 className='text-center text-light'>{0}</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+            <Card className='shadow-sm mb-5'>
               <Card.Header>
                 <div className='row'>
                   <div className='col-8'>
@@ -252,6 +278,15 @@ const ShowRepairs = () => {
                 </Table>
               </Card.Body>
             </Card>
+        </div><br/><br/><br/>
+        <div className='container-fluid px-0 shadow-sm w-100'>
+        <div className='row flex-nowrap'>
+          <div className='d-flex px-0'>
+              <div className="card card-body text-center text-light bg-dark p-4">
+                <h6 className="card-title"><span>&#169;</span> All Rights Reserved</h6>
+              </div>
+          </div>
+        </div>
         </div>
       </div>
       }

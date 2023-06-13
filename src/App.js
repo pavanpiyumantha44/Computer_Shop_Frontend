@@ -43,6 +43,7 @@ import OrderBililng from './Component/Cashier/Order_Billing/OrderBililng';
 import DropdownTextarea from './Component/Technician_Dashboard/DropdownTextarea';
 import BillPDF from './Component/Cashier/Billing/BillPDF';
 import NotFound from './Component/Pages/NotFound/NotFound';
+import Billing2 from './Component/Cashier/Billing/Billing2';
 const App = ()=>{
   return (  
     
@@ -75,11 +76,11 @@ const App = ()=>{
           <Route path='/dashboard/repairs/add' element={<CreateRepair/>}></Route>
           <Route path='/dashboard/repairs/read/:id' element={<EditRepair/>}></Route>
           <Route path='/dashboard/report' element={<Report/>}></Route>
-          <Route path='/dashboard/billing' element={<Billing/>}></Route>
+          {/* <Route path='/dashboard/billing' element={<Billing/>}></Route> */}
           <Route path='/dashboard/adminprofile' element={<AdminProfile/>}></Route>
         </Route>
         <Route path='/cashierDashboard/' element={<CahierDashboard/>}>
-          <Route path='/cashierDashboard/billing' element={<Billing/>}></Route>
+          <Route path='/cashierDashboard/billing' element={<Billing2/>}></Route>
           <Route path='/cashierDashboard/orders' element={<OrderBililng/>}></Route>
           <Route path='/cashierDashboard/products' element={<Products/>}></Route>
         </Route>

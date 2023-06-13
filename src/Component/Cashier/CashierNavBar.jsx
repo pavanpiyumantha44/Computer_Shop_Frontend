@@ -24,7 +24,7 @@ const CashierNavBar = ({name}) => {
         <Container fluid>
           <img src='../images/logo.png' alt='logo' style={{width:"50px"}}/>
           <Link to="/cashierDashboard/billing" className='text-decoration-none text-dark fw-bold fs-3 mt-2 mx-2'>
-          PC Solutions</Link>
+          <span className='text-primary fw-bold'>PC</span> <span className='text-danger fw-bold'>S</span>olutions</Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
