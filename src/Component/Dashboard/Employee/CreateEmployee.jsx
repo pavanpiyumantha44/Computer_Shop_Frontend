@@ -16,17 +16,20 @@ const CreateEmployee = () => {
         email:'',
         password:'',
         isActive:1,
-
     });
     const navigate = useNavigate();
+    const nicValidate = (nic)=>{
+        const pattern = /^([0-9]{9}[xXvV]|[0-9]{12})$/;
+        return pattern.test(nic);
+    }    
     const handleSubmit = (e)=>{
         e.preventDefault();
         if(employee.name===''||employee.nic===''||employee.mobile===''||employee.address==='')
         {
             toast.error("Please Fill All Fields!!");
         }
-        else if(employee.nic.length>12||employee.nic.length<10||employee.nic.length==11){
-            toast.error("Invalid NIC");
+        else if(!nicValidate(employee.nic)){
+            toast.error("Invalid NIC !!");
         }
         else{
             console.log(employee);

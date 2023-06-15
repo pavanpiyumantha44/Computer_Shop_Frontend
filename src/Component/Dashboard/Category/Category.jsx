@@ -131,7 +131,7 @@ const Category = () => {
                           <td>{index+1}</td>
                           <td>{values.name}</td>
                           <td>{values.status==="Available"?<Badge bg="success">{values.status}</Badge>:<Badge bg="danger">{values.status}</Badge>}</td>
-                          <td>{values.created_date}</td>
+                          <td>{values.created_date.replace('T',' - ').substr(0,21)}</td>
                           <td>
                             <Link to={"/dashboard/category/read/"+values.cID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
                             <Button variant='danger' title='delete' onClick={()=>hanldeDelete(values.cID)}><i className='bi bi-trash'></i></Button>

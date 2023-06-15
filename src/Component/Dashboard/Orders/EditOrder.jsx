@@ -7,10 +7,10 @@ import { Button, Form } from 'react-bootstrap';
 import BreadCrumb from '../BreadCrumb';
 const EditOrder = () => {
     const navigate = useNavigate();
-    const [customer,setCustomer] = useState([]);
     const [brand,setBrand] = useState([]);
     const [category,setCategory] = useState([]);
-    const [cusID,setCusID] = useState();
+    const [selectedCategory,setSelectedCategory] = useState();
+    const [selectedBrand,setSelectedBrand] = useState();
     const [order,setOrder] = useState({
         cusID:'',
         brand:'',
@@ -29,13 +29,15 @@ const EditOrder = () => {
             setOrder({
                 ...order,
                 cusID:res.data.Result[0].cusID,
-                brand:res.data.Result[0].brand,
-                category:res.data.Result[0].category,
-                quantity:res.data.Result[0].qty,
+                brand:res.data.Result[0].brandID,
+                category:res.data.Result[0].catID,
+                quantity:res.data.Result[0].ordQty,
                 advance:res.data.Result[0].advance,
                 unitPrice:res.data.Result[0].unitPrice,
                 description:res.data.Result[0].description
             })
+            setSelectedBrand(res.data.Result[0].brandName);
+            setSelectedCategory(res.data.Result[0].categoryName);
         })
         .catch(err=>{
             console.log(err);
@@ -115,11 +117,11 @@ const EditOrder = () => {
                     <Form.Label htmlFor="orderName" className="form-label">Brand</Form.Label>
                     <Form.Group className="mb-3">
                     <Form.Select onChange={(e) => setOrder({ ...order, brand: e.target.value })}>
-                        <option value={order.value} selected disabled>{order.brand}</option>
+                        <option value={order.brandID} selected disabled>{selectedBrand}</option>
                         {
                             brand.map((value)=>{
                                 return(
-                                    <option value={value.name}>{value.name}</option>
+                                    <option value={value.bID}>{value.name}</option>
                                 )
                             })
                         }
@@ -130,11 +132,11 @@ const EditOrder = () => {
                 <Form.Label htmlFor="orderName" className="form-label">Category</Form.Label>
                     <Form.Group className="mb-3">
                         <Form.Select onChange={(e) => setOrder({ ...order, category: e.target.value })}>
-                            <option value={order.category} selected disabled>{order.category}</option>
+                            <option value={order.catID} selected disabled>{selectedCategory}</option>
                             {
                                 category.map((value)=>{
                                     return(
-                                        <option value={value.name}>{value.name}</option>
+                                        <option value={value.cID}>{value.name}</option>
                                     )
                                 })
                             }

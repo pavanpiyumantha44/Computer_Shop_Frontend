@@ -14,7 +14,7 @@ class BillContent extends React.Component {
         <div className='col-5'></div>
         <div className='col-2'>
             <ReactToPrint
-            trigger={() => {return <button className='btn btn-primary mt-5'>Print Bill</button>}}
+            trigger={() => {return <button className='btn btn-primary mt-5'>Print Report</button>}}
             content={() => this.componentRef}
             pageStyle= "print"/>
         </div>

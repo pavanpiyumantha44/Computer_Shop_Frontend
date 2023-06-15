@@ -133,7 +133,7 @@ const handleSearchChange = (e) => {
                           <td>{index+1}</td>
                           <td>{value.name}</td>
                           <td>{value.status==="Available"?<Badge bg="success">{value.status}</Badge>:<Badge bg="danger">{value.status}</Badge>}</td>
-                          <td>{value.created_date}</td>
+                          <td>{value.created_date.replace('T',' - ').substr(0,21)}</td>
                           <td>
                             <Link to={"/dashboard/brands/read/"+value.bID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
                             <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(value.bID)}><i className='bi bi-trash'></i></button>

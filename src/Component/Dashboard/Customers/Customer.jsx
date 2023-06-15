@@ -125,6 +125,7 @@ const Customer = () => {
                     <th>Id</th>
                     <th>Name</th>
                     <th>NIC</th>
+                    <th>Email</th>
                     <th>Mobile</th>
                     <th>Address</th>
                     <th>Added Date</th>
@@ -138,9 +139,10 @@ const Customer = () => {
                       <td>{index+1}</td>
                       <td>{value.name}</td>
                       <td>{value.nic}</td>
+                      <td>{value.email}</td>
                       <td>{value.mobile}</td>
                       <td>{value.address}</td>
-                      <td>{value.created_date.substr(0,16)}</td>
+                      <td>{value.created_date.replace('T',' - ').substr(0,21)}</td>
                       <td>
                         <Link to={`/dashboard/customer/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
                         <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>

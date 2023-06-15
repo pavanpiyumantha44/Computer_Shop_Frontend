@@ -140,7 +140,7 @@ const Repair = () => {
                       <td>CAT-{value.catID}</td>
                       <td>{value.repair_details===null?<Badge bg="warning">Pending</Badge>:value.repair_details}</td>
                       <td>{value.added_items===null?<Badge bg="warning">Pending</Badge>:value.added_items}</td>
-                      <td>{value.receive_date.substr(0,10)}</td>
+                      <td>{value.receive_date.replace('T',' - ').substr(0,21)}</td>
                       <td>{value.status===0?<Badge bg="warning">Pending</Badge>:<Badge bg='success'>Repaired</Badge>}</td>
                       <td>
                         <Link to={`/dashboard/repairs/read/${value.repID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>

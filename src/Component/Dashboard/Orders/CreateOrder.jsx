@@ -117,19 +117,12 @@ const CreateOrder = () => {
                 <div className='col-6'>
                     <Form.Label htmlFor="orderName" className="form-label">Brand</Form.Label>
                     <Form.Group className="mb-3">
-                    {/* <Form.Control
-                        type="text"
-                        className="form-control"
-                        id="orderName"
-                        onChange={(e) => setOrder({ ...order, brand: e.target.value })}
-                        placeholder="Enter brand"
-                    /> */}
                     <Form.Select className='form-select' onChange={(e) => setOrder({ ...order, brand: e.target.value })}>
                         <option selected disabled>_Select_</option>
                         {
                             brand.map((value)=>{
                                 return(
-                                    <option value={value.name}>{value.name}</option>
+                                    <option value={value.bID}>{value.name}</option>
                                 )
                             })
                         }
@@ -139,19 +132,12 @@ const CreateOrder = () => {
                 <div className='col-6'>
                 <Form.Label htmlFor="orderName" className="form-label">Category</Form.Label>
                     <Form.Group className="mb-3">
-                    {/* <Form.Control
-                        type="text"
-                        className="form-control"
-                        id="category"
-                        onChange={(e) => setOrder({ ...order, category: e.target.value })}
-                        placeholder="Enter category"
-                    /> */}
                     <Form.Select className='form-select' onChange={(e) => setOrder({ ...order, category: e.target.value })}>
                         <option selected disabled>_Select_</option>
                         {
                             category.map((value)=>{
                                 return(
-                                    <option value={value.name}>{value.name}</option>
+                                    <option value={value.cID}>{value.name}</option>
                                 )
                             })
                         }
@@ -185,29 +171,6 @@ const CreateOrder = () => {
                         </Form.Control>
                     </Form.Group>
                 </div>
-                {/* <div className='col-6'>
-                    <Form.Label htmlFor="orderName" className="form-label">Placed Date</Form.Label>
-                    <Form.Group className="mb-3">
-                    <Form.Control
-                        type="date"
-                        className="form-control"
-                        id="orderName"
-                        onChange={(e) => setOrder({ ...order, name: e.target.value })}
-                        placeholder="Enter brand"
-                    />
-                    </Form.Group>
-                </div> */}
-                {/* <div className='col-6'>
-                     <Form.Group className="mb-3">
-                        <Form.Label htmlFor="orderName" className="form-label">
-                            Status
-                        </Form.Label>
-                        <Form.Select className="form-select" onChange={(e) => setOrder({ ...order,status:e.target.value})}>
-                            <option value={"Available"}>Available</option>
-                            <option value={"Not Available"} selected>Not Available</option>
-                        </Form.Select>
-                        </Form.Group>
-                </div> */}
             </div>
             
            
