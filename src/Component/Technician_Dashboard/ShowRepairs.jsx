@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import {Button,Form,Card,Table, Badge, Modal} from 'react-bootstrap';
 import { AiFillEye } from 'react-icons/ai';
-
+import {BsFillTrash3Fill} from 'react-icons/bs'
 const ShowRepairs = () => {
   const[data,setData] = useState([]);
   const[loading,setLoading] = useState(true);
@@ -14,32 +14,66 @@ const ShowRepairs = () => {
   const [items,setItems] = useState([]);
   const [repID,setRepID] = useState();
 
-  const [dropdownValue, setDropdownValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
-  const [textareaValue, setTextareaValue] = useState('');
 
   const [repDetails,setRepDetails] = useState({
     issue:'',
-    added_items:'',
     service_charge:'',
   })
 
+  const [addedItems,setAddedItems] = useState({
+    itemID:'',
+    qty:''
+  });
+
+  const [itemList,setItemList] = useState([]);
   // const handleDropdownChange = (event) => {
   //   setDropdownValue(event.target.value);
   // };
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
 
-  const handleInsertClick = () => {
-    setTextareaValue((prevTextareaValue) =>
-      prevTextareaValue + dropdownValue + ' - ' + inputValue + ' | '
-    );
-    setRepDetails({...repDetails,added_items:textareaValue})
-    setDropdownValue('');
-    setInputValue('');
+  //Handle Items List Functions
+
+  const handleItemList = () => {
+    if(addedItems.itemID===''|| addedItems.qty===''){
+      toast.error("Select item and qty !!");
+    }
+    else if(addedItems.qty<=0||isNaN(addedItems.qty)){
+      toast.error("Invalid Qty");
+    }
+    else{
+    var isFound = false;
+    var existKey = null;
+    var qty = Number(addedItems.qty);
+    itemList.filter((value,index)=>{
+        if(value.itemID===addedItems.itemID){
+            isFound = true;
+            existKey = index;
+        }
+    })
+    if(!isFound){  
+        itemList.push({repairID:repID,itemID:addedItems.itemID,qty:qty})
+    }
+    else{
+      itemList[existKey].qty += qty;
+    }
+  }
+  if(!display){
+    setDisplay(true);
+  }
+  else{
+    setDisplay(false);
+  }
   };
+  const removeItems = (id)=>{
+    if(!display){
+      itemList.pop(id)
+      setDisplay(true)
+    }
+    else{
+      itemList.pop(id)
+      setDisplay(false)
+    }
+  }
 
   //Modal states
   const [lgShow, setLgShow] = useState(false);
@@ -82,26 +116,34 @@ const ShowRepairs = () => {
     if(repDetails.issue===""||repDetails.added_items===""||repDetails.service_charge===""){
       toast.error("Please Fill All The Fields!!")
     }
-    else if(isNaN(repDetails.service_charge)){
+    else if(isNaN(repDetails.service_charge)||repDetails.service_charge<=0){
       toast.error("Invalid Service Charge!!");
     }
     else{
-      // axios.put('http://localhost:5000/dashboard/repairs/update/'+repID,repDetails)
-      // .then(res=>{
-      //   console.log(res);
-      //   handleDisplay();
-      //   if(res.data.Status === "Success"){
-      //     toast.success("Repair Completed!!");
-      //     setLgShow(false);
-      //   }
-      //   else{
-      //     toast.error("Something Went Wrong!!");
-      //   }
-      // })
-      // .catch(err=>{
-      //   console.log(err);
-      // })
+      axios.put('http://localhost:5000/dashboard/repairs/update/'+repID,repDetails)
+      .then(res=>{
+        console.log(res);
+        handleDisplay();
+        if(res.data.Status === "Success"){
+          toast.success("Repair Completed!!");
+          setLgShow(false);
+        }
+        else{
+          toast.error("Something Went Wrong!!");
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+      axios.post('http://localhost:5000/dashboard/repairs/addedItems',itemList)
+      .then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err);
+      })
       console.log(repDetails);
+      console.log(itemList);
     }
   }
   return (
@@ -165,11 +207,12 @@ const ShowRepairs = () => {
                     <div className='col-4'>
                       <Form.Group className='mb-3'>
                         <Form.Label>Select Item</Form.Label>
-                        <Form.Select value={dropdownValue} onChange={(e)=> setDropdownValue(e.target.value)}>
+                        <Form.Select onChange={(e)=>setAddedItems({...addedItems,itemID:e.target.value})}>
+                          <option selected disabled>_Select_</option>
                           {
                             items.map((value)=>{
                               return(
-                                <option value={value.name}>{value.name}</option>
+                                <option value={value.itemID}>{value.name}</option>
                               )
                             })
                           }
@@ -181,28 +224,51 @@ const ShowRepairs = () => {
                         <Form.Label>Qty</Form.Label>
                         <Form.Control
                           type='number'
-                          value={inputValue}
-                          onChange={handleInputChange}
+                          onChange={(e)=>setAddedItems({...addedItems,qty:e.target.value})}
                         ></Form.Control>
                       </Form.Group>
                     </div>
                     <div className='col-2'>
                       <Form.Group className=' mt-4 mb-3'>
-                          <Button variant='success' className='mt-2' onClick={handleInsertClick}>+</Button>
+                          <Button variant='success' className='mt-2' onClick={handleItemList}>+</Button>
                       </Form.Group>
                     </div>
                   </div>
-                  <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
+                  {/* <Form.Group className='mb-3' controlId="exampleForm.ControlTextarea1">
                     <Form.Label>
                       Added Items
                     </Form.Label>
                     <Form.Control as="textarea" rows={3} placeholder='Enter Added Items' value={textareaValue}></Form.Control>
+                  </Form.Group> */}
+                  <Form.Group className='mb-3 shadow-sm'>
+                    <Table className='table text-center'>
+                      <thead>
+                        <tr>
+                          <th>Item ID</th>
+                          <th>Qty</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {
+                        itemList.map((value,index)=>{
+                          return(
+                            <tr key={index}>
+                              <td>{value.itemID}</td>
+                              <td>{value.qty}</td>
+                              <td><Button variant='danger' onClick={()=>{removeItems(index)}}><BsFillTrash3Fill/></Button></td>
+                            </tr>
+                          )
+                        })
+                      }
+                      </tbody>
+                    </Table>
                   </Form.Group>
                   <Form.Group className='mb-3'>
                     <Form.Label>
                       Service Charge
                     </Form.Label>
-                    <Form.Control type='text' placeholder='Enter Service Charge' onChange={(e)=>setRepDetails({...repDetails,service_charge:e.target.value})}></Form.Control>
+                    <Form.Control type='number' placeholder='Enter Service Charge' onChange={(e)=>setRepDetails({...repDetails,service_charge:e.target.value})}></Form.Control>
                   </Form.Group>
                   <Button type='submit' variant='success'>Complete Repair</Button>
                </Form>
@@ -249,9 +315,9 @@ const ShowRepairs = () => {
                 <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Category ID</th>
+                    <th>Customer</th>
+                    <th>Received Item</th>
                     <th>Repair Details</th>
-                    <th>Addedd Items</th>
                     <th>Received Date</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -262,9 +328,9 @@ const ShowRepairs = () => {
                     return(
                     <tr key={index}>
                       <td>{index+1}</td>
-                      <td>CAT-{value.catID}</td>
+                      <td>{value.cusName}</td>
+                      <td>{value.categoryName}</td>
                       <td>{value.repair_details===null?<Badge bg="warning">Pending</Badge>:value.repair_details}</td>
-                      <td>{value.added_items===null?<Badge bg="warning">Pending</Badge>:value.added_items}</td>
                       <td>{value.receive_date.substr(0,10)}</td>
                       <td>{value.status===0?<Badge bg="warning">Pending</Badge>:<Badge bg='success'>Repaired</Badge>}</td>
                       <td>

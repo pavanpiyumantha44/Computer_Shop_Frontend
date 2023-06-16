@@ -21,7 +21,6 @@ const Dashboard = () => {
             if(res.data.Status === "Success"){
                 setAuth(true);
                 setName(res.data.name);
-                //toast.info("Welcome Admin");
             }
             else{
                 setAuth(false);

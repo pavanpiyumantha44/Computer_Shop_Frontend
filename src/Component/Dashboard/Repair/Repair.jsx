@@ -4,9 +4,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
-import {Button,Form,Card,Table, Badge, Pagination} from 'react-bootstrap';
-
-
+import {Button,Form,Card,Table, Badge, Pagination, Modal} from 'react-bootstrap';
+import {AiFillEye} from "react-icons/ai"
+import {AiOutlineSend} from 'react-icons/ai';
 const Repair = () => {
   const[data,setData] = useState([]);
   const[loading,setLoading] = useState(true);
@@ -14,37 +14,57 @@ const Repair = () => {
   const[search,setSearch] = useState('');
   const [display,setDisplay] = useState(false);
 
-    //Manage Pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const [searchTerm, setSearchTerm] = useState('');
-    const itemsPerPage = 5; // Number of items to display per page
+ //Manage Pagination
+ const [currentPage, setCurrentPage] = useState(1);
+ const [searchTerm, setSearchTerm] = useState('');
+ const itemsPerPage = 5; // Number of items to display per page
 
-  //   const filteredData = data.filter((value) =>
-  //   value.cusID.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-  const filteredData = 1;
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const pageNumbers = [];
+ const filteredData = data.filter((value) =>
+ value.cusName.toLowerCase().includes(searchTerm.toLowerCase())||value.cusNIC.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+const pageNumbers = [];
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+for (let i = 1; i <= totalPages; i++) {
+ pageNumbers.push(i);
+}
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentRepairs = data.slice(indexOfFirstItem, indexOfLastItem);
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentRepairs = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Change page
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+// Change page
+const handlePageChange = (pageNumber) => {
+ setCurrentPage(pageNumber);
+};
 
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1); // Reset to first page when search term changes
-  };
+// Handle search input change
+const handleSearchChange = (e) => {
+ setSearchTerm(e.target.value);
+ setCurrentPage(1); // Reset to first page when search term changes
+};
 
+//Check Completed Repairs
+const [completedRepairs,setCompletedRepairs] = useState([]);
+const handleCompletedRepairs = (id)=>{
+  setLgShow(true);
+  axios.get('http://localhost:5000/dashboard/repairs/completedRepairs/'+id)
+  .then(res=>{
+    console.log(res);
+    setCompletedRepairs(res.data.Result);
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+  console.log(completedRepairs);
+}
+
+//Handle Modal
+
+const [lgShow, setLgShow] = useState(false);
+    const handleClose = ()=>{
+        setLgShow(false);
+    }
 
 
   useEffect(()=>{
@@ -91,11 +111,137 @@ const Repair = () => {
         </div>  
         :
       <div>
+
+        {/* Modal */}
+        { completedRepairs.length!==0?
+          <Modal
+                size="lg"
+                show={lgShow}
+                onHide={() => setLgShow(false)}
+                aria-labelledby="example-modal-sizes-title-lg"
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title id="example-modal-sizes-title-lg">
+                  Repair ID : {1}
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className='row'>
+                    <h3 className='text-center mb-3'>Repair Details</h3>
+                    <div className='col-3'></div>
+                    <div className='col-3'>
+                      <h5>Name :</h5>
+                      <h5>NIC :</h5>
+                      <h5>Email :</h5>
+                      <h5>Received Item : </h5>
+                      <h5>Received Date : </h5>
+                      <h5>Service Charge : </h5> 
+                      <h5>Repair Details : </h5> 
+                    </div>
+                    <div className='col-4'>
+                      <h5>{completedRepairs[0].cusName}</h5>
+                      <h5>{completedRepairs[0].cusNIC}</h5>
+                      <h5>{completedRepairs[0].cusEmail}</h5>
+                      <h5>{completedRepairs[0].categoryName}</h5>
+                      <h5>{completedRepairs[0].receive_date.substr(0,10)}</h5>
+                      <h5 className='text-success fw-bold'>{completedRepairs[0].service_charge} //=</h5>
+                      <h5 className='text-danger fw-bold'>{completedRepairs[0].repair_details}</h5>
+
+                    </div>
+                    <div className='col-2'></div>
+                  </div>
+                  <div className='row my-4'>
+                    <div className='col-2'></div>
+                    <div className='col-8'>
+                      <h5 className='text-center fw-bold'>Added Items</h5>
+                      <Table className='table shadow-sm mb-5'>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {
+                          completedRepairs.map((value,index)=>{
+                            return(
+                              <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{value.itemdesc}</td>
+                                <td>{value.item_qty}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                        </tbody>
+                      </Table>
+                    </div>
+                    <div className='col-2'></div>
+                    <div className='row'>
+                      <div className='col-3'></div>
+                      <div className='col-6 ms-5'>
+                      <Button variant='primary' className=''>Send Confirmation Email <AiOutlineSend/></Button>
+                      </div>
+                      <div className='col-3'></div>
+                    </div>
+                  </div>
+                  {/* <div className="row text-center shadow">
+                    <div className="col-12">
+                      <div className="row">
+                        <div className="col-6 border p-1">
+                          <h4 className="text-center fw-bold">Customer</h4>
+                          <h5>Customer ID : {currOrder.cusID}</h5>
+                          <h5>Name : {customer.name}</h5>
+                          <h5>Email : {customer.email}</h5>
+                          <h5>Address : {customer.address}</h5>
+                          <h5>Contact : {customer.mobile}</h5>
+                        </div>
+                        <div className="col-6 border p-1">
+                          <h4 className="text-center fw-bold">Item</h4>
+                          <h5>Brand : {currOrder.brandName}</h5>
+                          <h5>Category : {currOrder.categoryName}</h5>
+                          <h5>Description : {currOrder.description}</h5>
+                          <h5>Quantity : {currOrder.ordQty}</h5>
+                          <h5>Advance : {currOrder.advance}</h5>
+                          <h5>Unit Price : {currOrder.unitPrice}</h5>
+                          <h5>
+                            Status:{" "}
+                            {currOrder.status == 1 ? (
+                              <Badge bg="warning">Pending</Badge>
+                            ) : (
+                              <Badge bg="success">Approved</Badge>
+                            )}
+                          </h5>
+                        </div>
+                      </div>
+                      <Button
+                        variant="secondary"
+                        className="mx-3 m-3"
+                        onClick={handleClose}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        variant="primary"
+                        className="mx-3"
+                        onClick={handleEmail}
+                      >
+                      Send Confirmation Email <AiOutlineSend/>
+                      </Button>
+                    </div>
+                  </div> */}
+                </Modal.Body>
+          </Modal>
+        :
+          ""
+        }
+
         <h1 className='px-5 mt-4'>Repair</h1>
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
-            <Link to='/dashboard/repairs/' className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
-            <Link to='/dashboard/repairs/add' className='btn btn-primary mx-3'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
+            <Link to='/dashboard/repairs/' className='btn btn-success mx-3'><i className="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
+            <Link to='/dashboard/repairs/add' className='btn btn-primary mx-3'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
           </div>
         </div>
         <div className='mt-4 px-5 pt-3'>
@@ -106,14 +252,14 @@ const Repair = () => {
                     <h3>Repair List</h3>
                   </div>
                   <div className='col-4'>
-                    {/* <Form>
-                        <Form.Control
-                          type="text"
-                          onChange={handleSearchChange}
-                          className="form-control w-100"
-                          placeholder="Search Brand..."
-                        />
-                    </Form> */}
+                  <Form>
+                      <Form.Control
+                        type="text"
+                        onChange={handleSearchChange}
+                        className="form-control w-100"
+                        placeholder="Search Repair..."
+                      />
+                    </Form>
                   </div>
                 </div>  
               </Card.Header>
@@ -125,7 +271,6 @@ const Repair = () => {
                     <th>Customer ID</th>
                     <th>Category ID</th>
                     <th>Repair Details</th>
-                    <th>Addedd Items</th>
                     <th>Received Date</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -136,13 +281,13 @@ const Repair = () => {
                     return(
                     <tr key={index}>
                       <td>{index+1}</td>
-                      <td>CUS-{value.cusID}</td>
-                      <td>CAT-{value.catID}</td>
+                      <td>{value.cusName}</td>
+                      <td>{value.categoryName}</td>
                       <td>{value.repair_details===null?<Badge bg="warning">Pending</Badge>:value.repair_details}</td>
-                      <td>{value.added_items===null?<Badge bg="warning">Pending</Badge>:value.added_items}</td>
                       <td>{value.receive_date.replace('T',' - ').substr(0,21)}</td>
                       <td>{value.status===0?<Badge bg="warning">Pending</Badge>:<Badge bg='success'>Repaired</Badge>}</td>
                       <td>
+                        <Button variant='success' title='View Repair' onClick={()=>handleCompletedRepairs(value.repID)}><AiFillEye/></Button>
                         <Link to={`/dashboard/repairs/read/${value.repID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
                         <Button variant='danger' onClick={()=>{handleDelete(value.repID)}}><i className='bi bi-trash'></i></Button>
                       </td>
