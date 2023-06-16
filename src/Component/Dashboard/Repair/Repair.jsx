@@ -7,6 +7,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import {Button,Form,Card,Table, Badge, Pagination, Modal} from 'react-bootstrap';
 import {AiFillEye} from "react-icons/ai"
 import {AiOutlineSend} from 'react-icons/ai';
+import Swal from 'sweetalert2';
 const Repair = () => {
   const[data,setData] = useState([]);
   const[loading,setLoading] = useState(true);
@@ -47,11 +48,20 @@ const handleSearchChange = (e) => {
 //Check Completed Repairs
 const [completedRepairs,setCompletedRepairs] = useState([]);
 const handleCompletedRepairs = (id)=>{
-  setLgShow(true);
   axios.get('http://localhost:5000/dashboard/repairs/completedRepairs/'+id)
   .then(res=>{
     console.log(res);
-    setCompletedRepairs(res.data.Result);
+    if(res.data.Result.length!==0){
+      setLgShow(true);
+      setCompletedRepairs(res.data.Result);
+    }
+    else{
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Wait until technician complete the repair!',
+      })
+    }
   })
   .catch(err=>{
     console.log(err);
@@ -126,6 +136,7 @@ const [lgShow, setLgShow] = useState(false);
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                  <div className='shadow py-4'>
                   <div className='row'>
                     <h3 className='text-center mb-3'>Repair Details</h3>
                     <div className='col-3'></div>
@@ -144,7 +155,7 @@ const [lgShow, setLgShow] = useState(false);
                       <h5>{completedRepairs[0].cusEmail}</h5>
                       <h5>{completedRepairs[0].categoryName}</h5>
                       <h5>{completedRepairs[0].receive_date.substr(0,10)}</h5>
-                      <h5 className='text-success fw-bold'>{completedRepairs[0].service_charge} //=</h5>
+                      <h5 className='text-success fw-bold'>{completedRepairs[0].service_charge} /=</h5>
                       <h5 className='text-danger fw-bold'>{completedRepairs[0].repair_details}</h5>
 
                     </div>
@@ -154,12 +165,14 @@ const [lgShow, setLgShow] = useState(false);
                     <div className='col-2'></div>
                     <div className='col-8'>
                       <h5 className='text-center fw-bold'>Added Items</h5>
-                      <Table className='table shadow-sm mb-5'>
+                      <Table className='table shadow-sm mb-5' striped>
                         <thead>
                           <tr>
                             <th>#</th>
                             <th>Item</th>
+                            <th>Unit Price</th>
                             <th>Qty</th>
+                            <th>Total</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -169,22 +182,26 @@ const [lgShow, setLgShow] = useState(false);
                               <tr key={index}>
                                 <td>{index+1}</td>
                                 <td>{value.itemdesc}</td>
+                                <td>{value.itemPrice}</td>
                                 <td>{value.item_qty}</td>
+                                <td>{value.item_qty*value.itemPrice}</td>
                               </tr>
                             )
                           })
                         }
                         </tbody>
                       </Table>
+                      <h5 className='text-success fw-bold text-center my-4 text-decoration-underline'>Total Amount : {completedRepairs[0].service_charge+((completedRepairs[0].itemPrice*completedRepairs[0].item_qty)+(completedRepairs[1].itemPrice*completedRepairs[1].item_qty))} /=</h5>
                     </div>
                     <div className='col-2'></div>
                     <div className='row'>
-                      <div className='col-3'></div>
+                      <div className='col-3 mx-2'></div>
                       <div className='col-6 ms-5'>
                       <Button variant='primary' className=''>Send Confirmation Email <AiOutlineSend/></Button>
                       </div>
                       <div className='col-3'></div>
                     </div>
+                  </div>
                   </div>
                   {/* <div className="row text-center shadow">
                     <div className="col-12">
@@ -234,7 +251,7 @@ const [lgShow, setLgShow] = useState(false);
                 </Modal.Body>
           </Modal>
         :
-          ""
+        ""
         }
 
         <h1 className='px-5 mt-4'>Repair</h1>
@@ -268,7 +285,7 @@ const [lgShow, setLgShow] = useState(false);
                 <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Customer ID</th>
+                    <th>Customer</th>
                     <th>Category ID</th>
                     <th>Repair Details</th>
                     <th>Received Date</th>
