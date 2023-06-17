@@ -107,7 +107,7 @@ const Category = () => {
                         type="text"
                         onChange={handleSearchChange}
                         className="form-control w-100"
-                        placeholder="Search Brand..."
+                        placeholder="Search Category..."
                       />
                     </Form>
                       </div>

@@ -47,6 +47,9 @@ const handleSearchChange = (e) => {
 
 //Check Completed Repairs
 const [completedRepairs,setCompletedRepairs] = useState([]);
+const [totalAmount,setTotalAmount] = useState(0);
+
+
 const handleCompletedRepairs = (id)=>{
   axios.get('http://localhost:5000/dashboard/repairs/completedRepairs/'+id)
   .then(res=>{
@@ -54,6 +57,12 @@ const handleCompletedRepairs = (id)=>{
     if(res.data.Result.length!==0){
       setLgShow(true);
       setCompletedRepairs(res.data.Result);
+      
+      var itemPrice=null;
+      for(let i=0; i<res.data.Result.length; i++){
+        itemPrice+=(res.data.Result[i].item_qty*res.data.Result[i].itemPrice);
+      }
+      setTotalAmount(itemPrice+res.data.Result[0].service_charge)
     }
     else{
       Swal.fire({
@@ -66,7 +75,6 @@ const handleCompletedRepairs = (id)=>{
   .catch(err=>{
     console.log(err);
   })
-  console.log(completedRepairs);
 }
 
 //Handle Modal
@@ -191,7 +199,8 @@ const [lgShow, setLgShow] = useState(false);
                         }
                         </tbody>
                       </Table>
-                      <h5 className='text-success fw-bold text-center my-4 text-decoration-underline'>Total Amount : {completedRepairs[0].service_charge+((completedRepairs[0].itemPrice*completedRepairs[0].item_qty)+(completedRepairs[1].itemPrice*completedRepairs[1].item_qty))} /=</h5>
+                      {/* <h5 className='text-success fw-bold text-center my-4 text-decoration-underline'>Total Amount : {completedRepairs[0].service_charge+((completedRepairs[0].itemPrice*completedRepairs[0].item_qty)+(completedRepairs[1].itemPrice*completedRepairs[1].item_qty))} /=</h5> */}
+                      <h5 className='text-success fw-bold text-center my-4 text-decoration-underline'>Total Amount : {totalAmount}/=</h5>
                     </div>
                     <div className='col-2'></div>
                     <div className='row'>
@@ -203,51 +212,7 @@ const [lgShow, setLgShow] = useState(false);
                     </div>
                   </div>
                   </div>
-                  {/* <div className="row text-center shadow">
-                    <div className="col-12">
-                      <div className="row">
-                        <div className="col-6 border p-1">
-                          <h4 className="text-center fw-bold">Customer</h4>
-                          <h5>Customer ID : {currOrder.cusID}</h5>
-                          <h5>Name : {customer.name}</h5>
-                          <h5>Email : {customer.email}</h5>
-                          <h5>Address : {customer.address}</h5>
-                          <h5>Contact : {customer.mobile}</h5>
-                        </div>
-                        <div className="col-6 border p-1">
-                          <h4 className="text-center fw-bold">Item</h4>
-                          <h5>Brand : {currOrder.brandName}</h5>
-                          <h5>Category : {currOrder.categoryName}</h5>
-                          <h5>Description : {currOrder.description}</h5>
-                          <h5>Quantity : {currOrder.ordQty}</h5>
-                          <h5>Advance : {currOrder.advance}</h5>
-                          <h5>Unit Price : {currOrder.unitPrice}</h5>
-                          <h5>
-                            Status:{" "}
-                            {currOrder.status == 1 ? (
-                              <Badge bg="warning">Pending</Badge>
-                            ) : (
-                              <Badge bg="success">Approved</Badge>
-                            )}
-                          </h5>
-                        </div>
-                      </div>
-                      <Button
-                        variant="secondary"
-                        className="mx-3 m-3"
-                        onClick={handleClose}
-                      >
-                        Close
-                      </Button>
-                      <Button
-                        variant="primary"
-                        className="mx-3"
-                        onClick={handleEmail}
-                      >
-                      Send Confirmation Email <AiOutlineSend/>
-                      </Button>
-                    </div>
-                  </div> */}
+                 
                 </Modal.Body>
           </Modal>
         :

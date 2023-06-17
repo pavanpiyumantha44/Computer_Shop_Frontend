@@ -280,7 +280,7 @@ const Order = () => {
                         type="text"
                         onChange={handleSearchChange}
                         className="form-control w-100"
-                        placeholder="Search Brand..."
+                        placeholder="Search Order..."
                       />
                     </Form>
                   </div>

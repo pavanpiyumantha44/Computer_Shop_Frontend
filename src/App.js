@@ -44,6 +44,7 @@ import DropdownTextarea from './Component/Technician_Dashboard/DropdownTextarea'
 import BillPDF from './Component/Cashier/Billing/BillPDF';
 import NotFound from './Component/Pages/NotFound/NotFound';
 import Billing2 from './Component/Cashier/Billing/Billing2';
+import ShowProducts from './Component/Technician_Dashboard/ShowProducts';
 const App = ()=>{
   return (  
     
@@ -86,6 +87,7 @@ const App = ()=>{
         </Route>
         <Route path='/techdashboard/' element={<TechnicianDashboard/>}>
           <Route path='/techdashboard/showrepairs' element={<ShowRepairs/>}></Route>
+          <Route path='/techdashboard/products' element={<ShowProducts/>}></Route>
           <Route path='/techdashboard/drp' element={<DropdownTextarea/>}></Route>
         </Route>
         {/* <Route path='/show/bill' element={<BillPDF/>}></Route> */}

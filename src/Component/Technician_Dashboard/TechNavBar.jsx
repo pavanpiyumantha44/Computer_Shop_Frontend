@@ -3,6 +3,8 @@ import React from 'react'
 import { Navbar,Form,Nav,NavDropdown,Button,Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Notification from '../Dashboard/Notification/Notification';
+import {BsTools} from 'react-icons/bs'
+import {RiComputerFill} from 'react-icons/ri'
 const TechNavBar = ({name}) => {
     const handleLogout = ()=>
     {
@@ -32,16 +34,16 @@ const TechNavBar = ({name}) => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Link to='/techdashboard/showrepairs' className='text-decoration-none text-dark mt-2 mx-2'>Available Repairs</Link>
-              <Link to='/techdashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Products</Link>
+              <Link to='/techdashboard/showrepairs' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><BsTools/> Available Repairs</Link>
+              <Link to='/techdashboard/products' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><RiComputerFill/> Products</Link>
             </Nav>
-            <i className="bi bi-bell-fill ms-5 fs-4 mt-2 text-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false"/><Notification/>
+            {/* <i className="bi bi-bell-fill ms-5 fs-4 mt-2 text-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false"/><Notification/>
             <div className="dropdown-center">
                 <ul className="dropdown-menu dropdown-menu-end">
                     <li><a className="dropdown-item" href="#">Notification 1</a></li>
                     <li><a className="dropdown-item" href="#">Notification 2</a></li>
                 </ul>
-            </div>
+            </div> */}
             <div className="dropdown-center ms-auto">
               <Button className="btn dropdown-toggle mx-2" data-bs-toggle="dropdown" aria-expanded="false" variant=''>
                 <img src="../images/admin_icon.png" alt="" width={34} height={30} className="rounded-circle"/>

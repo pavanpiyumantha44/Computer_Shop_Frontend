@@ -6,7 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
 import {Button,Form,Card,Table, Badge, Modal} from 'react-bootstrap';
 import { AiFillEye } from 'react-icons/ai';
-import {BsFillTrash3Fill} from 'react-icons/bs'
+import {BsFillTrash3Fill} from 'react-icons/bs';
+import PieChart from '../Dashboard/Charts/PieChart';
+import DoughnutChart from '../Dashboard/Charts/DoughnutChart'
+
 const ShowRepairs = () => {
   const[data,setData] = useState([]);
   const[loading,setLoading] = useState(true);
@@ -14,6 +17,11 @@ const ShowRepairs = () => {
   const [items,setItems] = useState([]);
   const [repID,setRepID] = useState();
 
+  //Manage Stat Cards
+
+  const [availableRepairCount,setAvailableRepairCount] = useState(0);
+  const [completedRepairCount,setCompletedRepairCount] = useState(0);
+ 
 
   const [repDetails,setRepDetails] = useState({
     issue:'',
@@ -26,10 +34,6 @@ const ShowRepairs = () => {
   });
 
   const [itemList,setItemList] = useState([]);
-  // const handleDropdownChange = (event) => {
-  //   setDropdownValue(event.target.value);
-  // };
-
 
   //Handle Items List Functions
 
@@ -80,6 +84,7 @@ const ShowRepairs = () => {
   const handleClose = ()=>{
         setLgShow(false);
   }
+
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/repairs/active')
     .then(res=>{
@@ -96,6 +101,22 @@ const ShowRepairs = () => {
     .then(res=>{
         setItems(res.data.Result);
         console.log(res);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    axios.get('http://localhost:5000/dashboard/repairs/availableRepairCount')
+    .then(res=>{
+      console.log(res);
+      setAvailableRepairCount(res.data.Result[0].available);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    axios.get('http://localhost:5000/dashboard/repairs/completedRepairCount')
+    .then(res=>{
+      console.log(res);
+      setCompletedRepairCount(res.data.Result[0].completed);
     })
     .catch(err=>{
       console.log(err);
@@ -208,11 +229,11 @@ const ShowRepairs = () => {
                       <Form.Group className='mb-3'>
                         <Form.Label>Select Item</Form.Label>
                         <Form.Select onChange={(e)=>setAddedItems({...addedItems,itemID:e.target.value})}>
-                          <option selected disabled>_Select_</option>
+                          <option defaultValue={""} selected disabled>_Select_</option>
                           {
-                            items.map((value)=>{
+                            items.map((value,index)=>{
                               return(
-                                <option value={value.itemID}>{value.name}</option>
+                                <option value={value.itemID} key={index}>{value.name}</option>
                               )
                             })
                           }
@@ -273,23 +294,15 @@ const ShowRepairs = () => {
                   <Button type='submit' variant='success'>Complete Repair</Button>
                </Form>
               </Modal.Body>
-            </Modal>
-        {/* <h1 className='px-5 mt-4'>Available Repairs</h1> */}
+        </Modal>
+        
         <div className='mt-4 px-5 pt-3'>
-          <div className='row mb-5 ms-5'>
+          <div className='row mb-3 ms-5'>
             <div className='col-4'>
               <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(50, 223, 91, 0.8)"}}>
                 <div>
                   <p className='fs-5 fw-bold text-light text-center'>Completed Reparis</p>
-                  <h1 className='text-center text-light'>{0}</h1>
-                </div>
-              </div>
-            </div>
-            <div className='col-4'>
-              <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(55, 90, 229, 0.8)"}}>
-                <div>
-                  <p className='fs-5 fw-bold text-light text-center'>Available Reparis</p>
-                  <h1 className='text-center text-light'>{0}</h1>
+                  <h1 className='text-center text-light'>{completedRepairCount}</h1>
                 </div>
               </div>
             </div>
@@ -297,12 +310,25 @@ const ShowRepairs = () => {
               <div className='px-4 py-3 rounded w-75 shadow' style={{background:"rgba(229, 69, 69, 0.8)"}}>
                 <div>
                   <p className='fs-5 fw-bold text-light text-center'>Available Reparis</p>
+                  <h1 className='text-center text-light'>{availableRepairCount}</h1>
+                </div>
+              </div>
+            </div>
+            <div className='col-4'>
+              <div className='px-4 py-3 rounded w-75 shadow'  style={{background:"rgba(55, 90, 229, 0.8)"}}>
+                <div>
+                  <p className='fs-5 fw-bold text-light text-center'>Total Earnings</p>
                   <h1 className='text-center text-light'>{0}</h1>
                 </div>
               </div>
             </div>
           </div>
-            <Card className='shadow-sm mb-5'>
+          <div className='row px-5 pt-3'>
+            <div className='col-12 col-md-4 mt-3'>
+              <DoughnutChart/>
+            </div>
+            <div className='col-12 col-md-8 p-3'>
+              <Card className='shadow-sm mb-5 pb-5'>
               <Card.Header>
                 <div className='row'>
                   <div className='col-8'>
@@ -311,7 +337,7 @@ const ShowRepairs = () => {
                 </div>  
               </Card.Header>
               <Card.Body>
-                <Table striped>
+                <Table striped responsive>
                 <thead>
                   <tr>
                     <th>Id</th>
@@ -343,7 +369,9 @@ const ShowRepairs = () => {
                   </tbody>
                 </Table>
               </Card.Body>
-            </Card>
+              </Card>
+            </div>
+          </div>
         </div><br/><br/><br/>
         <div className='container-fluid px-0 shadow-sm w-100'>
         <div className='row flex-nowrap'>

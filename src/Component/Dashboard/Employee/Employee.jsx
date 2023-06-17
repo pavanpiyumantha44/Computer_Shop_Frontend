@@ -76,7 +76,7 @@ const Employee = () => {
                   </div>
                   <div className='col-4'>
                       <Form>
-                        <Form.Control type='text' placeholder='Search Customer...' onChange={(e)=>{setSearch(e.target.value)}}></Form.Control>
+                        <Form.Control type='text' placeholder='Search Employee...' onChange={(e)=>{setSearch(e.target.value)}}></Form.Control>
                       </Form>
                   </div>
                 </div>  

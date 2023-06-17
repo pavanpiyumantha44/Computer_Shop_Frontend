@@ -7,7 +7,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import {Form, Card, Table, Badge, Pagination } from 'react-bootstrap';
 import {CSVLink} from 'react-csv';
 
-const Item = () => {
+const ShowProducts = () => {
 
     const[items,setItems] = useState([]);
     const[loading,setLoading] = useState(true);
@@ -89,18 +89,17 @@ setCurrentPage(1); // Reset to first page when search term changes
         autoClose={1000}
       />
     {loading?
-      <div className='alignment'>
-      <PulseLoader color={'#1444e0'} loading={loading} size={15}/>
-      </div>  
+     <div className='alignment' style={{marginLeft:"46%"}}>
+     <PulseLoader color={'#1444e0'} loading={loading} size={15}/>
+     </div>  
       :
       <div>
-        <div className='px-5 mt-5'>
-        <div className='d-flex justify-content-end'>
-        <CSVLink data={items} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
-          <Link to='/dashboard/items/create/' className='btn btn-primary'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
+        <div className='px-5 mt-4'>
+        <div className='d-flex justify-content-start'>
+        <h3>Available Products</h3>
         </div>
         </div>
-          <div className='mt-4 px-5 pt-3'>
+          <div className='mt-4 px-5 pt-1'>
                 <Card className='shadow-sm'>
                   <Card.Header>
                     <div className='row'>
@@ -130,7 +129,6 @@ setCurrentPage(1); // Reset to first page when search term changes
                           <th>Quantitiy</th>
                           <th>Unit Price</th>
                           <th>Status</th>
-                          <th colSpan={2} className='text-center'>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -144,12 +142,6 @@ setCurrentPage(1); // Reset to first page when search term changes
                           <td>{values.qty}</td>
                           <td>{values.unitPrice}</td>
                           <td>{values.status==="Available"?<Badge bg="success">{values.status}</Badge>:<Badge bg="danger">{values.status}</Badge>}</td>
-                          <td>
-                            <Link to={"/dashboard/items/read/"+values.itemID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
-                          </td>
-                          <td>
-                          <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(values.itemID)}><i className='bi bi-trash'></i></button>
-                          </td>
                         </tr>
                         )
                         })}
@@ -177,12 +169,21 @@ setCurrentPage(1); // Reset to first page when search term changes
                 <Pagination.Last onClick={() => handlePageChange(totalPages)} />
                     </Pagination>
                   </Card.Body>
-                </Card>
+                </Card><br/><br/><br/>
           </div>
+                <div className='container-fluid px-0 shadow-sm w-100'>
+                <div className='row flex-nowrap'>
+                <div className='d-flex px-0'>
+                    <div className="card card-body text-center text-light bg-dark p-4">
+                        <h6 className="card-title"><span>&#169;</span> All Rights Reserved</h6>
+                    </div>
+                </div>
+                </div>
+                </div>
       </div>
     }
     </div>
   )
 }
 
-export default Item
+export default ShowProducts
