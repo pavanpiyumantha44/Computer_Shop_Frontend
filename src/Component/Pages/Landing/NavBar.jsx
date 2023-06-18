@@ -6,7 +6,7 @@ const NavBar = () => {
       <div className="container-fluid">
         <img src="../images/logo.png" alt="logo" style={{ width: "50px" }} />
         <Link to="/" className="navbar-brand fw-bold">
-          PC solutions
+          <span className='text-primary fw-bold'>PC</span> <span className='text-danger fw-bold'>S</span>olutions
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon" />
         </button>

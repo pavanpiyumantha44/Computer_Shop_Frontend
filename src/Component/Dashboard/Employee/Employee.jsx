@@ -63,8 +63,8 @@ const Employee = () => {
         <h1 className='px-5 mt-4'>Employee</h1>
         <div className='px-5 mt-2'>
           <div className='d-flex justify-content-end'>
-          <CSVLink data={data} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
-            <Link to='/dashboard/employee/add' className='btn btn-primary mx-3'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
+          <CSVLink data={data} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i className="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
+            <Link to='/dashboard/employee/add' className='btn btn-primary mx-3'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
           </div>
         </div>
         <div className='mt-4 px-5 pt-3'>

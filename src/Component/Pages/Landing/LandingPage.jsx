@@ -20,9 +20,9 @@ const LandingPage = () => {
   return (
     <>
       <NavBar />
-        <section class="home">
+        <section className="home">
           <div className="home">
-            <div class="home-intro">
+            <div className="home-intro">
               <h2>
                 <div className="title">{state.title}</div>
                 <div className="titleTwo">{state.titleTwo}</div>
@@ -46,7 +46,7 @@ const LandingPage = () => {
                 <button className='button fw-bold' onClick={()=>handleNavigation()}>Get Started</button>
               </div>
             </div>
-            <div class="image">
+            <div className="image">
               <img src="./images/bg.jpeg" alt="bg"/>
             </div>
           </div>

@@ -58,12 +58,12 @@ const Login2 = () => {
                         </div>
                         <Form onSubmit={handleSubmit}>
                         <div className="form-group first mb-3">
-                            <Form.Label for="username">Username</Form.Label>
+                            <Form.Label htmlFor="username">Username</Form.Label>
                             <Form.Control type="text" id="username" onChange={e => setValues({...values,email:e.target.value})} required/>
 
                         </div>
                         <div className="form-group last mb-4">
-                            <Form.Label for="password">Password</Form.Label>
+                            <Form.Label htmlFor="password">Password</Form.Label>
                             <Form.Control type="password" className="form-control" id="password"  onChange={e => setValues({...values,password:e.target.value})} required/>
                             
                         </div>

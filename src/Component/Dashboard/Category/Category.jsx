@@ -90,8 +90,8 @@ const Category = () => {
     <div>
         <div className='px-5 mt-5'>
             <div className='d-flex justify-content-end'>
-            <Link to='/dashboard/category/' className='btn btn-success mx-5'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
-          <Link to='/dashboard/category/add' className='btn btn-primary'>Add New<i class="bi bi-plus-square mx-2"></i></Link>
+            <Link to='/dashboard/category/' className='btn btn-success mx-5'><i className="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</Link>
+          <Link to='/dashboard/category/add' className='btn btn-primary'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
             </div>
         </div>
         <div className='mt-4 px-5 pt-3'>

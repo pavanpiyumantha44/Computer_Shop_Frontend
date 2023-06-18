@@ -60,7 +60,7 @@ const Home = () => {
     <div>
         <div className='p-3 d-flex justify-content-around mt-3'>    
           <StatusCard count={cusCount} type={"Customers"} icon={<i className='bi bi-people fs-1 text-white'></i>} bgColor={"rgba(59, 187, 46, 0.8)"}/>
-          <StatusCard count={ordCount} type={"Orders"} icon={<i class="bi bi-card-checklist text-white fs-1"></i>} bgColor={"rgba(55, 90, 229, 0.8)"}/>
+          <StatusCard count={ordCount} type={"Orders"} icon={<i className="bi bi-card-checklist text-white fs-1"></i>} bgColor={"rgba(55, 90, 229, 0.8)"}/>
           <StatusCard count={repairCount} type={"Repairs"} icon={<i className='bi bi-tools fs-1 text-white'></i>} bgColor={"rgba(229, 69, 69, 0.8)"}/>
         </div>        
         <div className='row mt-2 px-5 pt-3'>

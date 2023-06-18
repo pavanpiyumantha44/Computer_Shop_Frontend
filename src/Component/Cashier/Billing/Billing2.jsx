@@ -37,7 +37,7 @@ class BillContent extends React.Component {
           <div className='mt-2'>
             <h1 className='text-center fw-bold'><u>WARRANTY-INVOICE</u></h1>
             <p className='text-center'><span className='mx-3'>Invoice No : {billData.invoiceID}</span><span>Date : {new Date().toLocaleDateString()}</span><span className='mx-3'>Print Time: {new Date().toLocaleTimeString()}</span></p>
-            <table class="table table-striped">
+            <table className="table table-striped">
       <thead>
         <tr>
           <th scope="col">Description</th>

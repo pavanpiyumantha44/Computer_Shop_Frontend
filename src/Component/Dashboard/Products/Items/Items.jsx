@@ -96,7 +96,7 @@ setCurrentPage(1); // Reset to first page when search term changes
       <div>
         <div className='px-5 mt-5'>
         <div className='d-flex justify-content-end'>
-        <CSVLink data={items} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i class="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
+        <CSVLink data={items} filename={filename} onClick={()=>{toast.success("Downloaded Successfully!!")}} className='btn btn-success mx-3'><i className="bi bi-file-earmark-spreadsheet mx-2"></i>Export to Excel</CSVLink>
           <Link to='/dashboard/items/create/' className='btn btn-primary'>Add New<i className="bi bi-plus-square mx-2"></i></Link>
         </div>
         </div>

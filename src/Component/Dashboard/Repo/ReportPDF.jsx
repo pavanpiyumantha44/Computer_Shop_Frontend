@@ -32,7 +32,7 @@ class BillContent extends React.Component {
             <h3 className='text-center fw-bold'><u>SALES-REPORT</u></h3>
             <p className='text-center fw-bold'><span className='mx-3'>From : {startDate}</span><span>To : {endDate}</span></p>
             <p className='text-center fw-bold '><span className='mx-3'>No of Sales : {billData.length}</span><span>Total Earning : {earning}</span></p>
-        <table class="table table-striped">
+        <table className="table table-striped">
          <thead>
          <tr>
            <th>Id</th>

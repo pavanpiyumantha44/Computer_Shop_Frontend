@@ -30,22 +30,22 @@ const ContactUs = () => {
                         </div>
                         <Form onSubmit={handleSubmit}>
                         <div className="form-group first mb-3">
-                            <Form.Label for="name">Name</Form.Label>
+                            <Form.Label htmlFor="name">Name</Form.Label>
                             <Form.Control type="text" id="name" onChange={e => setValues({...values,email:e.target.value})} required/>
 
                         </div>
                         <div className="form-group last mb-4">
-                            <Form.Label for="password">Email</Form.Label>
+                            <Form.Label htmlFor="password">Email</Form.Label>
                             <Form.Control type="email" className="form-control" id="password"  onChange={e => setValues({...values,password:e.target.value})} required/>
                             
                         </div>
                         <div className="form-group last mb-4">
-                            <Form.Label for="password">Subject</Form.Label>
+                            <Form.Label htmlFor="password">Subject</Form.Label>
                             <Form.Control type="email" className="form-control" id="password"  onChange={e => setValues({...values,password:e.target.value})} required/>
                             
                         </div>
                         <div className="form-group last mb-4">
-                            <Form.Label for="password">Message</Form.Label>
+                            <Form.Label htmlFor="password">Message</Form.Label>
                             <Form.Control as="textarea" rows={3} className="form-control" id="password"  onChange={e => setValues({...values,password:e.target.value})} required/>
                             
                         </div>
