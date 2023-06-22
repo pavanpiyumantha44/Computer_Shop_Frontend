@@ -45,6 +45,7 @@ import BillPDF from './Component/Cashier/Billing/BillPDF';
 import NotFound from './Component/Pages/NotFound/NotFound';
 import Billing2 from './Component/Cashier/Billing/Billing2';
 import ShowProducts from './Component/Technician_Dashboard/ShowProducts';
+import RepairBilling from './Component/Cashier/Repair_Billing/RepairBilling';
 const App = ()=>{
   return (  
     
@@ -84,6 +85,7 @@ const App = ()=>{
           <Route path='/cashierDashboard/billing' element={<Billing2/>}></Route>
           <Route path='/cashierDashboard/orders' element={<OrderBililng/>}></Route>
           <Route path='/cashierDashboard/products' element={<Products/>}></Route>
+          <Route path='/cashierDashboard/repairs' element={<RepairBilling/>}></Route>
         </Route>
         <Route path='/techdashboard/' element={<TechnicianDashboard/>}>
           <Route path='/techdashboard/showrepairs' element={<ShowRepairs/>}></Route>

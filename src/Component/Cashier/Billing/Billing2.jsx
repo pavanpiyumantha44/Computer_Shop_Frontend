@@ -12,6 +12,8 @@ class BillContent extends React.Component {
   render() {
 
     const {billData,handleInvovice} = this.props;
+    var tot=0;
+    {billData.map((value)=>{tot+=value.itemPrice})};
     return (
       
       <>
@@ -20,7 +22,7 @@ class BillContent extends React.Component {
         <div className='col-5'></div>
         <div className='col-2'>
             <ReactToPrint
-            trigger={() => {return <button className='btn btn-primary mt-5' onClick={handleInvovice}>Print Bill</button>}}
+            trigger={() => {return <button className='btn btn-primary mt-5' onClick={()=>handleInvovice()}>Print Bill</button>}}
             content={() => this.componentRef}
             pageStyle= "print"/>
         </div>
@@ -41,7 +43,6 @@ class BillContent extends React.Component {
       <thead>
         <tr>
           <th scope="col">Description</th>
-          <th scope="col">Brand</th>
           <th scope="col">Qty</th>
           <th scope="col">Unit Price</th>
           <th scope="col">Amount</th>
@@ -53,10 +54,9 @@ class BillContent extends React.Component {
             return(
                 <tr key={key}>
                     <td>{value.desc}</td>
-                    <td>{value.brand}</td>
                     <td>{value.qty}</td>
                     <td>{value.price}</td>
-                    <td>{value.tot}</td>
+                    <td>{value.itemPrice}</td>
                 </tr>
             );
             })
@@ -65,14 +65,14 @@ class BillContent extends React.Component {
       </tbody>
             </table>
             <div className='row fw-bold'>
-              <div className='col-4'>No of Items : {billData.length}</div>
-              <div className='col-4 text-right'>Discount</div>
-              <div className='col-4'>0</div>
+              <div className='col-6'>No of Items : {billData.length}</div>
+              <div className='col-3 text-right'>Discount</div>
+              <div className='col-3'>0</div>
             </div>
             <div className='row fw-bold'>
-              <div className='col-4'></div>
-              <div className='col-4 text-right'>Net Amount</div>
-              <div className='col-4'>2000</div>
+              <div className='col-6'></div>
+              <div className='col-3 text-right'>Net Amount</div>
+              <div className='col-3'>{tot}/=</div>
             </div>
             <p className='text-center fs-3 mt-5'>~ Thank You Come Again ~</p>
           </div>
@@ -174,6 +174,7 @@ const handleCart = (id,name,desc,price)=>{
     }
     else{
     const tot = parseInt(total)+(parseInt(selectedItemPrice)*parseInt(qty));
+    var itemPrice = (parseInt(selectedItemPrice)*parseInt(qty));
     var isFound = false
     var existKey = null;
     const date = new Date();
@@ -184,7 +185,7 @@ const handleCart = (id,name,desc,price)=>{
         }
     })
     if(!isFound){
-        data.push({invoiceID,id,name,desc,qty,price,tot,date});
+        data.push({invoiceID,id,name,desc,qty,price,itemPrice,date});
         // updateQtyFunc(id,qty);
         updateStockQty(id);
     }
@@ -249,7 +250,17 @@ const handleCart = (id,name,desc,price)=>{
     setPrintState(false);
     alert("Data cleared!!");
   }
+  const openBill = ()=>{
+    if(data.length!==0){
+    setLgShow(true);
+    }
+    else{
+      toast.error("Cart is empty !!");
+    }
+  }
   const handleInvovice = ()=>{
+    setLgShow(false);
+    console.log(data);
     if(data.length!==0){
       // setLgShow(true)
       axios.post('http://localhost:5000/billing/add',data)
@@ -263,7 +274,7 @@ const handleCart = (id,name,desc,price)=>{
           }
           setTotal(0);
           setSubtotal(0);
-          // toast.success("Invoice Generated !!")
+          toast.success("Data Added Successfully !!")
           if(!display){
             setPrintData([]);
             setDisplay(true);
@@ -284,10 +295,11 @@ const handleCart = (id,name,desc,price)=>{
         .catch(err=>{
           console.log(err);
       })
-      }
-      else{
+    }
+    else
+    {
       toast.error("Cart is Empty!!");
-      }
+    }
   }
   return (
     <>
@@ -434,11 +446,12 @@ const handleCart = (id,name,desc,price)=>{
           <Card.Header>
             <h5 className='text-dark fw-bold'>Invoice ID: {invoiceID}</h5>
           </Card.Header>
-          <Card.Body style={{ maxHeight: '450px', overflowY: 'scroll' }} className='border p-5 shadow-sm'>    
+          <Card.Body style={{ maxHeight: '350px', overflowY: 'scroll' }} className='border p-5 shadow-sm'>    
           <div className="d-flex justify-content-center ">
             <Table responsive>
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Item</th>
                   <th>Desc</th>
                   <th>Qty</th>
@@ -450,6 +463,7 @@ const handleCart = (id,name,desc,price)=>{
                 {data.map((value, index) => {
                   return (
                     <tr key={index}>
+                      <td>{index+1}</td>
                       <td>{value.name}</td>
                       <td>{value.desc}</td>
                       <td>{value.qty}</td>
@@ -472,13 +486,21 @@ const handleCart = (id,name,desc,price)=>{
             </Table>
           </div>
           </Card.Body>
-          </Card>
-          <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
+          <Card.Footer>
+          <div className="my-1 shadow p-2 d-flex justify-content-center">
             <h5 className="text-end mx-5">Total : {total}</h5>
             <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
-            <button className="btn btn-success mx-5" onClick={handleLgShow}>Generate Invoice</button>
+            <button className="btn btn-success mx-5" onClick={openBill}>Generate Invoice</button>
            
           </div>
+          </Card.Footer>
+          </Card>
+          {/* <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
+            <h5 className="text-end mx-5">Total : {total}</h5>
+            <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
+            <button className="btn btn-success mx-5" onClick={openBill}>Generate Invoice</button>
+           
+          </div> */}
         </div>
       </div>
     </div>

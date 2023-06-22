@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import './style.css';
-import Clock from './Clock/Clock';
+// import Clock from './Clock/Clock';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import DashboardFooter from './Footer/DashboardFooter';
@@ -109,7 +109,7 @@ const Dashboard = () => {
                     <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi-card-checklist" /> <span className="ms-1 d-none d-sm-inline">Generate Quotations</span></Link>
                     <ul className="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
@@ -120,7 +120,7 @@ const Dashboard = () => {
                         <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item</span> 2</Link>
                     </li>
                     </ul>
-                </li>
+                </li> */}
                 {/* <li>
                     <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>

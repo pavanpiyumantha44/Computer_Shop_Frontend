@@ -8,6 +8,7 @@ import {Form, Card, Table, Badge,Button,Modal, Pagination } from 'react-bootstra
 import {AiFillEye} from "react-icons/ai"
 import {BsFillTrashFill} from "react-icons/bs";
 import {AiOutlineSend} from "react-icons/ai";
+import {GiConfirmed} from 'react-icons/gi';
 import Swal from 'sweetalert2';
 
 const Order = () => {
@@ -156,32 +157,49 @@ const Order = () => {
       }
     })
   }
-  const handleEmail = ()=>{
+  const handleConfirmOrder = ()=>{
     handleClose();
-    handleLoadingAnimation();
-    axios.post('http://localhost:5000/mail/orderConfirmation/',mail)
+    axios.put('http://localhost:5000/dashboard/orders/confirmOrder/'+currOrder.ordID)
     .then(res=>{
       console.log(res);
-      if(res.data.Status==="Success"){
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Email sent successfully !!',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      }
-      else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-        })
-      }
     })
     .catch(err=>{
       console.log(err);
     })
+    display!==true?setDisplay(true):setDisplay(false);
+  }
+  const handleEmail = ()=>{
+    handleClose();
+    if(mail.email!==''){
+      handleLoadingAnimation();
+      axios.post('http://localhost:5000/mail/orderConfirmation/',mail)
+      .then(res=>{
+        console.log(res);
+        if(res.data.Status==="Success"){
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Email sent successfully !!',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Check your internet connection !!',
+          })
+        }
+        display!==true?setDisplay(true):setDisplay(false);
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+  }
+  else{
+    toast.error("Email doesn't exist !!");
+  }
     //console.log(mail);
   }
   return (
@@ -234,7 +252,7 @@ const Order = () => {
                           {currOrder.status == 1 ? (
                             <Badge bg="warning">Pending</Badge>
                           ) : (
-                            <Badge bg="success">Approved</Badge>
+                            <Badge bg="success">Received</Badge>
                           )}
                         </h5>
                       </div>
@@ -251,7 +269,14 @@ const Order = () => {
                       className="mx-3"
                       onClick={handleEmail}
                     >
-                    Send Confirmation Email <AiOutlineSend/>
+                    Send Confirmation Email <AiOutlineSend className='mb-1'/>
+                    </Button>
+                    <Button
+                      variant="success"
+                      className="mx-3"
+                      onClick={handleConfirmOrder}
+                    >
+                    Confirm Order <GiConfirmed className='mb-1'/>
                     </Button>
                   </div>
                 </div>
@@ -320,7 +345,7 @@ const Order = () => {
                               {values.status === 1 ? (
                                 <Badge bg="warning">Pending</Badge>
                               ) : (
-                                <Badge bg="success">Approved</Badge>
+                                <Badge bg="success">Received</Badge>
                               )}
                             </td>
                             <td className='px-0'>

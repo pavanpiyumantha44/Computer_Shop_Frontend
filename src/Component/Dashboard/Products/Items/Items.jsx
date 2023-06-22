@@ -126,6 +126,8 @@ setCurrentPage(1); // Reset to first page when search term changes
                           <th>Id</th>
                           <th>Image</th>
                           <th>Name</th>
+                          <th>Category</th>
+                          <th>Brand</th>
                           <th>Description</th>
                           <th>Quantitiy</th>
                           <th>Unit Price</th>
@@ -140,6 +142,8 @@ setCurrentPage(1); // Reset to first page when search term changes
                           <td>{index+1}</td>
                           <td>{<img src={`http://localhost:5000/images/${values.image}`} style={{width:"50px"}}/>}</td>
                           <td>{values.name}</td>
+                          <td>{values.categoryName}</td>
+                          <td>{values.brandName}</td>
                           <td>{values.description}</td>
                           <td>{values.qty}</td>
                           <td>{values.unitPrice}</td>

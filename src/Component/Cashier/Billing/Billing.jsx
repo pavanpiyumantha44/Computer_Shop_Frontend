@@ -168,41 +168,60 @@ const handleCart = (id,name,desc,price)=>{
     setPrintState(false);
     alert("Data cleared!!");
   }
+
+  const showBill = ()=>{
+    return (`<Modal
+    size="lg"
+    show={lgShow}
+    onHide={() => setLgShow(false)}
+    aria-labelledby="example-modal-sizes-title-lg"
+  >
+    <Modal.Header closeButton>
+      <Modal.Title id="example-modal-sizes-title-lg">
+      </Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <button className='btn btn-success mt-4' onClick={handleInvovice}>Save</button>
+      ${<BillPDF billData={printData}/>}
+    </Modal.Body>
+  </Modal>`);
+  }
   const handleInvovice = ()=>{
+ 
     if(data.length!==0){
       // setLgShow(true)
-      axios.post('http://localhost:5000/billing/add',data)
-      .then(res=>{
-        console.log(res);
-        // handlePrintBill(data);
-        if(res.data.Status === "Success"){
-          while(data.length>0){
-            data.pop();
-            updateQty.pop();
-          }
-          setTotal(0);
-          setSubtotal(0);
-          // toast.success("Invoice Generated !!")
-          if(!display){
-            setPrintData([]);
-            setDisplay(true);
-          }
-          else{
-            setPrintData([]);
-              setDisplay(false);
-          }
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-      })
-      axios.put('http://localhost:5000/billing/updateQty/',updateQty)
-        .then(res=>{
+      // axios.post('http://localhost:5000/billing/add',data)
+      // .then(res=>{
+      //   console.log(res);
+      //   // handlePrintBill(data);
+      //   if(res.data.Status === "Success"){
+      //     while(data.length>0){
+      //       data.pop();
+      //       updateQty.pop();
+      //     }
+      //     setTotal(0);
+      //     setSubtotal(0);
+      //     // toast.success("Invoice Generated !!")
+      //     if(!display){
+      //       setPrintData([]);
+      //       setDisplay(true);
+      //     }
+      //     else{
+      //       setPrintData([]);
+      //         setDisplay(false);
+      //     }
+      //   }
+      // })
+      // .catch(err=>{
+      //   console.log(err);
+      // })
+      // axios.put('http://localhost:5000/billing/updateQty/',updateQty)
+      //   .then(res=>{
             
-        })        
-        .catch(err=>{
-          console.log(err);
-      })
+      //   })        
+      //   .catch(err=>{
+      //     console.log(err);
+      // })
       }
       else{
       toast.error("Cart is Empty!!");
@@ -394,7 +413,7 @@ const handleCart = (id,name,desc,price)=>{
           <div className="mt-5 mb-5 shadow p-3 d-flex justify-content-center">
             <h5 className="text-end mx-5">Total : {total}</h5>
             <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
-            <button className="btn btn-success mx-5" onClick={handleLgShow}>Generate Invoice</button>
+            <button className="btn btn-success mx-5" onClick={handleInvovice}>Generate Invoice</button>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ const EditOrder = () => {
         advance:'',
         unitPrice:'',
         description:'',
-        status:'Pending',
+        status:'',
     })
     const {id} = useParams();
     useEffect(()=>{
@@ -34,7 +34,8 @@ const EditOrder = () => {
                 quantity:res.data.Result[0].ordQty,
                 advance:res.data.Result[0].advance,
                 unitPrice:res.data.Result[0].unitPrice,
-                description:res.data.Result[0].description
+                description:res.data.Result[0].description,
+                status:res.data.Result[0].status
             })
             setSelectedBrand(res.data.Result[0].brandName);
             setSelectedCategory(res.data.Result[0].categoryName);
@@ -168,6 +169,16 @@ const EditOrder = () => {
                         type='number' className='form-control' id='orderQuantity' value={order.unitPrice} onChange={(e)=> setOrder({...order,unitPrice:e.target.value})} placeholder='Enter Unit Price'
                         >
                         </Form.Control>
+                    </Form.Group>
+                </div>
+                <div className='col-6'>
+                    <Form.Group className='mb-3'>
+                        <Form.Label htmlFor='status' className='form-label'>Status</Form.Label>
+                        <Form.Select onChange={(e)=> setOrder({...order,status:e.target.value})}>
+                            <option selected disabled>{order.status!==0?"Pending":"Received"}</option>
+                            <option value={1}>Pending</option>
+                            <option value={0}>Received</option>
+                        </Form.Select>
                     </Form.Group>
                 </div>
                 {/* <div className='col-6'>

@@ -65,7 +65,7 @@ class BillContent extends React.Component {
             <div className='row fw-bold'>
               <div className='col-4'></div>
               <div className='col-4 text-right'>Net Amount</div>
-              <div className='col-4'>2000</div>
+              <div className='col-4'>0</div>
             </div>
             <p className='text-center fs-3 mt-5'>~ Thank You Come Again ~</p>
           </div>

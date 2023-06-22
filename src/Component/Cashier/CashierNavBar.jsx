@@ -2,7 +2,9 @@ import axios from 'axios';
 import React from 'react'
 import { Navbar,Form,Nav,NavDropdown,Button,Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import {FaFileInvoice} from 'react-icons/fa';
+import {BsCartCheckFill} from 'react-icons/bs';
+import {FaTools} from 'react-icons/fa';
 const CashierNavBar = ({name}) => {
     const handleLogout = ()=>
     {
@@ -32,10 +34,9 @@ const CashierNavBar = ({name}) => {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Link to='/cashierDashboard/billing' className='text-decoration-none text-dark mt-2 mx-2'>Billing</Link>
-              <Link to='/cashierDashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Products</Link>
-              <Link to='/cashierDashboard/orders' className='text-decoration-none text-dark mt-2 mx-2'>Orders</Link>
-              <Link to='/cashierDashboard/products' className='text-decoration-none text-dark mt-2 mx-2'>Repairs</Link>
+              <Link to='/cashierDashboard/billing' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><FaFileInvoice/> Sales</Link>
+              <Link to='/cashierDashboard/orders' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><BsCartCheckFill/> Orders</Link>
+              <Link to='/cashierDashboard/repairs' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><FaTools/> Repairs</Link>
               {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">
