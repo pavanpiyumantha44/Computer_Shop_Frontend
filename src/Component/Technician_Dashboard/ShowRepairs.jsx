@@ -141,10 +141,10 @@ const ShowRepairs = () => {
       toast.error("Invalid Service Charge!!");
     }
     else{
-      axios.put('http://localhost:5000/dashboard/repairs/update/'+repID,repDetails)
+      axios.put('http://localhost:5000/dashboard/repairs/updateRepaired/'+repID,repDetails)
       .then(res=>{
         console.log(res);
-        handleDisplay();
+        handleDisplay(); 
         if(res.data.Status === "Success"){
           toast.success("Repair Completed!!");
           setLgShow(false);

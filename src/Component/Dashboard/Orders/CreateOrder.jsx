@@ -81,7 +81,8 @@ const CreateOrder = () => {
         .catch(err=>{
             console.log(err);
         })
-    }
+        }
+        // console.log(order);
     }
   return (
     <div>

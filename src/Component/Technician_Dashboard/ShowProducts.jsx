@@ -99,7 +99,7 @@ setCurrentPage(1); // Reset to first page when search term changes
         <h3>Available Products</h3>
         </div>
         </div>
-          <div className='mt-4 px-5 pt-1'>
+          <div className='mt-4 px-5 pt-1 mb-5' style={{height:'75vh'}}>
                 <Card className='shadow-sm'>
                   <Card.Header>
                     <div className='row'>

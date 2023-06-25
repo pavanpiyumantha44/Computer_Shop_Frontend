@@ -200,7 +200,7 @@ const Order = () => {
   else{
     toast.error("Email doesn't exist !!");
   }
-    //console.log(mail);
+    // console.log(mail);
   }
   return (
     <div>

@@ -303,7 +303,7 @@ const handleCart = (id,name,desc,price)=>{
   }
   return (
     <>
-    <div className="container">
+    <div className="container mb-5" style={{height:'90vh'}}>
       <Modal
         show={showModal}
         onHide={handleClose}
