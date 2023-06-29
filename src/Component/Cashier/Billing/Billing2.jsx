@@ -11,7 +11,7 @@ import ReactToPrint from 'react-to-print';
 class BillContent extends React.Component {
   render() {
 
-    const {billData,handleInvovice} = this.props;
+    const {billData,handleInvovice,paidAmount,balance,invoiceID} = this.props;
     var tot=0;
     {billData.map((value)=>{tot+=value.itemPrice})};
     return (
@@ -31,14 +31,14 @@ class BillContent extends React.Component {
         <div className='col-2'></div>
         <div className='col-8'>
           <div className='p-2' ref={el=>(this.componentRef=el)}>
-            <h1 className='text-center fw-bold'><span className='text-primary'>PC</span> <span className='text-danger'>S</span>olution</h1>
+            <h1 className='text-center fw-bold'><span className='text-primary'>PC</span> <span className='text-danger'>S</span>olutions</h1>
             <p className='text-center'>Computer Store</p>
             <p className='text-center'>No 44,Matale Road, Wattegama.</p>
             <p className='text-center'><span className='mx-3'>Pcsolutions@gmail.com</span><span>+94 7133 34 44</span><span className='mx-3'>081 533 444</span></p>
             <hr className='text-dark'/>
           <div className='mt-2'>
             <h1 className='text-center fw-bold'><u>WARRANTY-INVOICE</u></h1>
-            <p className='text-center'><span className='mx-3'>Invoice No : {billData.invoiceID}</span><span>Date : {new Date().toLocaleDateString()}</span><span className='mx-3'>Print Time: {new Date().toLocaleTimeString()}</span></p>
+            <p className='text-center'><span className='mx-3'>Invoice No : {invoiceID}</span><span>Date : {new Date().toLocaleDateString()}</span><span className='mx-3'>Print Time: {new Date().toLocaleTimeString()}</span></p>
             <table className="table table-striped">
       <thead>
         <tr>
@@ -66,13 +66,21 @@ class BillContent extends React.Component {
             </table>
             <div className='row fw-bold'>
               <div className='col-6'>No of Items : {billData.length}</div>
-              <div className='col-3 text-right'>Discount</div>
-              <div className='col-3'>0</div>
             </div>
             <div className='row fw-bold'>
               <div className='col-6'></div>
               <div className='col-3 text-right'>Net Amount</div>
               <div className='col-3'>{tot}/=</div>
+            </div>
+            <div className='row fw-bold'>
+              <div className='col-6'></div>
+              <div className='col-3 text-right'>Paid Amount</div>
+              <div className='col-3'>{paidAmount}/=</div>
+            </div>
+            <div className='row fw-bold'>
+              <div className='col-6'></div>
+              <div className='col-3 text-right'>Balance</div>
+              <div className='col-3'>{balance}/=</div>
             </div>
             <p className='text-center fs-3 mt-5'>~ Thank You Come Again ~</p>
           </div>
@@ -125,6 +133,11 @@ const Billing2 = ()=> {
   const [printData,setPrintData] = useState([]);
   const [printState,setPrintState] = useState(false);
 
+  //Handle User paid Amount
+  const [userPaid,setUserPaid] = useState(0);
+  const [alreadyPaidAmount,setAlreadyPaidAmount] = useState(0);
+  const [balance,setBalance] = useState(0);
+
   useEffect(()=>{
     axios.get('http://localhost:5000/dashboard/items')
       .then(res=>{
@@ -143,21 +156,7 @@ const Billing2 = ()=> {
     })
     .catch(err=>{
       console.log(err);
-    })
-    // if(setLgShow===false){
-    //   if(display){
-    //     while(printData.length>0){
-    //       printData.pop();
-    //     }
-    //     setDisplay(false);
-    //   }
-    //   else{
-    //     while(printData.length>0){
-    //       printData.pop();
-    //     }
-    //     setDisplay(true);
-    //   }
-    // }
+    })  
   },[display])
 
 const handleCart = (id,name,desc,price)=>{
@@ -251,12 +250,25 @@ const handleCart = (id,name,desc,price)=>{
     alert("Data cleared!!");
   }
   const openBill = ()=>{
-    if(data.length!==0){
-    setLgShow(true);
+   
+    if(data.length===0){
+       toast.error("Cart is Empty!!");
+    }
+    else if(userPaid<=0 || isNaN(userPaid)){
+      toast.error("Invalid Amount !!");
     }
     else{
-      toast.error("Cart is empty !!");
-    }
+          if(userPaid>=total){
+            var remain = userPaid-total;
+            setBalance(remain);
+            setLgShow(true);
+          }
+          else{
+            var remainPayment = total-userPaid;
+           toast.error("Need more "+remainPayment+" /=");
+          }
+      }
+        // toast.error("Cart is empty !!");
   }
   const handleInvovice = ()=>{
     setLgShow(false);
@@ -274,6 +286,7 @@ const handleCart = (id,name,desc,price)=>{
           }
           setTotal(0);
           setSubtotal(0);
+          setUserPaid(0);
           toast.success("Data Added Successfully !!")
           if(!display){
             setPrintData([]);
@@ -294,6 +307,13 @@ const handleCart = (id,name,desc,price)=>{
         })        
         .catch(err=>{
           console.log(err);
+      })
+      axios.post('http://localhost:5000/billing/addInvoice',{invoiceID,total,userPaid})
+      .then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err);
       })
     }
     else
@@ -356,7 +376,7 @@ const handleCart = (id,name,desc,price)=>{
         <Modal.Body>
           <button className='btn btn-success d-flex ms-auto mx-4' onClick={handleInvovice}>Save Data</button>
           {/* <BillPDF billData={printData}/> */}
-          {data.length!==0?<BillContent billData={data} handleInvovice={handleInvovice}/>:""}
+          {data.length!==0?<BillContent paidAmount={userPaid} balance={balance} billData={data} invoiceID={invoiceID} handleInvovice={handleInvovice}/>:""}
         </Modal.Body>
       </Modal>
       <ToastContainer
@@ -487,10 +507,12 @@ const handleCart = (id,name,desc,price)=>{
           </div>
           </Card.Body>
           <Card.Footer>
-          <div className="my-1 shadow p-2 d-flex justify-content-center">
-            <h5 className="text-end mx-5">Total : {total}</h5>
-            <h5 className="text-end mx-5">Grand total : {subtotal}</h5>
-            <button className="btn btn-success mx-5" onClick={openBill}>Generate Invoice</button>
+          <div className="my-1 shadow py-4 d-flex justify-content-center">
+            <h5 className="text-end mx-5">Total : <span className='fw-bold text-primary'>{total}</span></h5>
+            <Form>
+            <Form.Control type="number" placeholder='Amount' value={userPaid} onChange={(e)=>setUserPaid(e.target.value)}></Form.Control>
+            </Form>
+            <button className="btn btn-success mx-3" onClick={openBill}>Generate Invoice</button>
            
           </div>
           </Card.Footer>

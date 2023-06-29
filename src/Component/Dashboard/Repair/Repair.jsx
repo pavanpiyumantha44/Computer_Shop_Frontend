@@ -52,7 +52,7 @@ const [totalAmount,setTotalAmount] = useState(0);
 
 const handleCompletedRepairs = (id)=>{
   axios.get('http://localhost:5000/dashboard/repairs/completedRepairs/'+id)
-  .then(res=>{
+  .then(res=>{ 
     console.log(res);
     if(res.data.Result.length!==0){
       setLgShow(true);

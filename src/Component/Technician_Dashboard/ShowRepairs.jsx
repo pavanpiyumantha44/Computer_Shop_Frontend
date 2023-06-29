@@ -372,7 +372,8 @@ const ShowRepairs = () => {
               </Card>
             </div>
           </div>
-        </div><br/><br/><br/>
+        </div>
+        <br/><br/><br/>
         <div className='container-fluid px-0 shadow-sm w-100'>
         <div className='row flex-nowrap'>
           <div className='d-flex px-0'>
