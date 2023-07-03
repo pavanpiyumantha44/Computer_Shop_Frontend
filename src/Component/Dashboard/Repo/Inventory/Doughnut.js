@@ -31,11 +31,11 @@ export const data = {
     },
   ],
 };
-const DoughnutChart = ()=>{
+const Doughnut2 = ()=>{
   //Handle Doughnut Chart
-const [mostRepairedItem,setMostRepairedItem] = useState([]);
-const [repairItemsForDoughnut,setRepairItemsForDoughnut] = useState([]);
-const [repairItemsCountForDoughnut,setRepairItemsCountForDoughnut] = useState([]);
+const [mostSoldItem,setMostSoldItem] = useState([]);
+const [soldItemsForDoughnut,setSoldItemsForDoughnut] = useState([]);
+const [soldItemsCountForDoughnut,setSoldItemsCountForDoughnut] = useState([]);
 const [bgColorForDoughnut,setBgColorForDoughnut] = useState([]);
 const [borderColorForDoughnut,setBorderColorForDoughnut] = useState([]);
 
@@ -58,11 +58,11 @@ const borderColor = [
 ]
 
 const  dataForDoughnut = {
-  labels: repairItemsForDoughnut,
+  labels: soldItemsForDoughnut,
   datasets: [
     {
       label: 'Count',
-      data: repairItemsCountForDoughnut,
+      data: soldItemsCountForDoughnut,
       backgroundColor: bgColorForDoughnut,
       borderColor: borderColorForDoughnut,
       borderWidth: 1,
@@ -70,20 +70,21 @@ const  dataForDoughnut = {
   ],
 };
 const setDoughnut = ()=>{
-  for(let i=0; i<mostRepairedItem.length; i++){
-    repairItemsForDoughnut.push(mostRepairedItem[i].Item);
-    repairItemsCountForDoughnut.push(mostRepairedItem[i].item_count);
+  for(let i=0; i<mostSoldItem.length; i++){
+    let item = mostSoldItem[i].brandName+ " - "+mostSoldItem[i].ItemName;
+    soldItemsForDoughnut.push(item);
+    soldItemsCountForDoughnut.push(mostSoldItem[i].item_count);
     bgColorForDoughnut.push(bgColor[i]);
     borderColorForDoughnut.push(borderColor[i]);
   }
 }
 const [display,setDisplay] = useState(false);
 useEffect(()=>{
-  axios.get('http://localhost:5000/dashboard/repairs/mostRepairedItem')
+  axios.get('http://localhost:5000/dashboard/getReport/mostSold')
     .then(res=>{
       console.log(res);
       if(res.data.Result.length!==0){
-        setMostRepairedItem(res.data.Result);
+        setMostSoldItem(res.data.Result);
         if(!display){
           setDisplay(true);
           setDoughnut();
@@ -99,10 +100,10 @@ useEffect(()=>{
     })
 },[display])
 return( 
-<div className='bg-white shadow pb-2 ps-2'>
-  <h6 className='text-center p-2'>Most received items to repair</h6>
-  {mostRepairedItem.length!==0?<Doughnut data={dataForDoughnut}/>:<Doughnut data={data}/>}
+<div className='bg-white shadow-sm pb-2 mb-5 ms-5'>
+  <h6 className='text-center p-2'>Most Sold items</h6>
+  {mostSoldItem.length!==0?<Doughnut data={dataForDoughnut}/>:<Doughnut data={data}/>}
 </div>
 );
 }
-export default DoughnutChart;
+export default Doughnut2;

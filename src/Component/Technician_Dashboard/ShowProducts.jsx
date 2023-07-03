@@ -23,7 +23,7 @@ const [searchTerm, setSearchTerm] = useState('');
 const itemsPerPage = 5; // Number of items to display per page
 
 const filteredData = items.filter((value) =>
-value.name.toLowerCase().includes(searchTerm.toLowerCase())
+value.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
 );
 const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 const pageNumbers = [];

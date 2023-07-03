@@ -105,22 +105,25 @@ const Dashboard = () => {
                     <Link to='/dashboard/repairs' className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi bi-tools"></i><span className="ms-1 d-none d-sm-inline">Repair</span> </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link to='/dashboard/report' className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span> </Link>
-                </li>
-                {/* <li>
+                </li> */}
+                <li>
                     <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-light">
-                    <i className="fs-4 bi-card-checklist" /> <span className="ms-1 d-none d-sm-inline">Generate Quotations</span></Link>
+                   <i className="fs-4 bi bi-file-earmark-bar-graph-fill"></i><span className="ms-1 d-none d-sm-inline">Reports</span></Link>
                     <ul className="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                     <li className="w-100">
-                        <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item</span> 1</Link>
+                        <Link to="/dashboard/report/inventory" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Inventory</span></Link>
+                    </li>
+                    <li className="w-100">
+                        <Link to="/dashboard/report/repair" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Repair</span></Link>
                     </li>
                     <li>
-                        <Link href="#" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Item</span> 2</Link>
+                        <Link to="/dashboard/report/sales" className="nav-link px-0 text-light"> <span className="d-none d-sm-inline">Sales Report</span></Link>
                     </li>
                     </ul>
-                </li> */}
+                </li>
                 {/* <li>
                     <Link to='/dashboard/billing' className="nav-link px-0 align-middle text-light">
                     <i className="fs-4 bi bi-receipt-cutoff"></i><span className="ms-1 d-none d-sm-inline">Billing</span> </Link>

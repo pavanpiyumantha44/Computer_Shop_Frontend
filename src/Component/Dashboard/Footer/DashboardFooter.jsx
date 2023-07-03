@@ -7,7 +7,7 @@ const DashboardFooter = () => {
         <div className='col-auto col-md-2 col-xl-2 px-sm-2 px-0 bg-primary'></div>
         <div className='d-flex px-0 footer'>
             <div className="card card-body text-center text-dark">
-              <h6 className="card-title"><span>&#169;</span> All Rights Reserved</h6>
+              <h6 className="card-title">PC Solutions -2023 <span>&#169;</span> All Rights Reserved</h6>
             </div>
         </div>
       </div>

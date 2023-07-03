@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PulseLoader from "react-spinners/PulseLoader";
-import {Button,Form,Card,Table, Badge, Modal} from 'react-bootstrap';
+import {Button,Form,Card,Table, Badge, Modal, Pagination} from 'react-bootstrap';
 import { AiFillEye } from 'react-icons/ai';
 import {BsFillTrash3Fill} from 'react-icons/bs';
-import PieChart from '../Dashboard/Charts/PieChart';
 import DoughnutChart from '../Dashboard/Charts/DoughnutChart'
+
 
 const ShowRepairs = () => {
   const[data,setData] = useState([]);
@@ -34,7 +34,7 @@ const ShowRepairs = () => {
   });
 
   const [itemList,setItemList] = useState([]);
-
+  const [earn,setEarn] = useState(0);
   //Handle Items List Functions
 
   const handleItemList = () => {
@@ -121,6 +121,14 @@ const ShowRepairs = () => {
     .catch(err=>{
       console.log(err);
     })
+    axios.get('http://localhost:5000/dashboard/getReport/totalTechnicianEarning')
+    .then(res=>{
+      console.log(res);
+      setEarn(res.data.Result[0].total);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
   },[display])
   
   const handleDisplay = ()=>{
@@ -167,6 +175,37 @@ const ShowRepairs = () => {
       console.log(itemList);
     }
   }
+
+  //Manage Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const itemsPerPage = 5; // Number of items to display per page
+
+  const filteredData = data.filter((value) =>
+  value.cusName.toLowerCase().includes(searchTerm.toLowerCase())||value.nic.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+const pageNumbers = [];
+
+for (let i = 1; i <= totalPages; i++) {
+  pageNumbers.push(i);
+}
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentRepair = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+// Change page
+const handlePageChange = (pageNumber) => {
+  setCurrentPage(pageNumber);
+};
+
+// Handle search input change
+const handleSearchChange = (e) => {
+  setSearchTerm(e.target.value);
+  setCurrentPage(1); // Reset to first page when search term changes
+};
+
   return (
     <div>
       <ToastContainer
@@ -318,7 +357,7 @@ const ShowRepairs = () => {
               <div className='px-4 py-3 rounded w-75 shadow'  style={{background:"rgba(55, 90, 229, 0.8)"}}>
                 <div>
                   <p className='fs-5 fw-bold text-light text-center'>Total Earnings</p>
-                  <h1 className='text-center text-light'>{0}</h1>
+                  <h1 className='text-center text-light'>{earn}$</h1>
                 </div>
               </div>
             </div>
@@ -350,7 +389,7 @@ const ShowRepairs = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length>=0?data.map((value,index)=>{
+                  {currentRepair.length>=0?currentRepair.map((value,index)=>{
                     return(
                     <tr key={index}>
                       <td>{index+1}</td>
@@ -368,6 +407,27 @@ const ShowRepairs = () => {
                   }):"Not Available Repairs"}   
                   </tbody>
                 </Table>
+                <Pagination>
+                <Pagination.First onClick={() => handlePageChange(1)} />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+                {pageNumbers.map((pageNumber) => (
+                  <Pagination.Item
+                    key={pageNumber}
+                    active={pageNumber === currentPage}
+                    onClick={() => handlePageChange(pageNumber)}
+                  >
+                    {pageNumber}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+                <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+                </Pagination>
               </Card.Body>
               </Card>
             </div>

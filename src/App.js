@@ -25,6 +25,8 @@ import CreateItem from './Component/Dashboard/Products/Items/CreateItem';
 import EditItem from './Component/Dashboard/Products/Items/EditItem';
 import CreateEmployee from './Component/Dashboard/Employee/CreateEmployee';
 import Report from './Component/Dashboard/Repo/Report';
+import InventoryReport from './Component/Dashboard/Repo/Inventory/InventoryReport';
+import RepairReoprt from './Component/Dashboard/Repo/Repair/RepairReoprt';
 import EditEmployee from './Component/Dashboard/Employee/EditEmployee';
 //import Login from './Component/Login/Login';
 import Login2 from './Component/Login/Login2';
@@ -77,7 +79,9 @@ const App = ()=>{
           <Route path='/dashboard/repairs' element={<Repair/>}></Route>
           <Route path='/dashboard/repairs/add' element={<CreateRepair/>}></Route>
           <Route path='/dashboard/repairs/read/:id' element={<EditRepair/>}></Route>
-          <Route path='/dashboard/report' element={<Report/>}></Route>
+          <Route path='/dashboard/report/sales' element={<Report/>}></Route>
+          <Route path='/dashboard/report/inventory' element={<InventoryReport/>}></Route>
+          <Route path='/dashboard/report/repair' element={<RepairReoprt/>}></Route>
           {/* <Route path='/dashboard/billing' element={<Billing/>}></Route> */}
           <Route path='/dashboard/adminprofile' element={<AdminProfile/>}></Route>
         </Route>
