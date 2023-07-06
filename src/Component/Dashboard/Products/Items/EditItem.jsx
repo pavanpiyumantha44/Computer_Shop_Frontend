@@ -14,6 +14,8 @@ const EditItem = () => {
     const [selectedBrand,setSelectedBrand] = useState({
         name:''
     });
+    const [brandName,setBrandName] = useState('');
+    const [categoryName,setCategoryName] = useState('');
     const [item,setItem] = useState({
         name:'',
         description:'',
@@ -21,11 +23,11 @@ const EditItem = () => {
         bID:'',
         quantity:'',
         unitPrice:'',
-        image:'',
         status:'',
     });
     const [items,setItems] = useState([]);
     const [category,setCategory] = useState([]);
+    const [itemList,setItemList] = useState([]);
     
     const {id} = useParams();
     useEffect(()=>{
@@ -40,21 +42,12 @@ const EditItem = () => {
                 bID:res.data.Result[0].bID,
                 quantity:res.data.Result[0].qty,
                 unitPrice:res.data.Result[0].unitPrice,
-                image:res.data.Result[0].image,
+                status:res.data.Result[0].status,
             });
-            setBID(res.data.Result[0].bID);
-            setCatID(res.data.Result[0].catID);
-        })
-        .catch(err=>{
-            console.log(err);
-        })
-        axios.get('http://localhost:5000/dashboard/brands/read/'+bID)
-        .then(res=>{
-            console.log(res);
-            setSelectedBrand({
-                ...brand,
-                name:res.data.Result[0].name
-            });
+            // setBID(res.data.Result[0].bID);
+            // setCatID(res.data.Result[0].catID);
+            setCategoryName(res.data.Result[0].categoryName);
+            setBrandName(res.data.Result[0].brandName);
         })
         .catch(err=>{
             console.log(err);
@@ -75,35 +68,61 @@ const EditItem = () => {
         .catch(err=>{
             console.log(err);
         })
+        axios.get('http://localhost:5000/dashboard/items')
+        .then(res=>{
+            console.log(res);
+            setItemList(res.data.Result);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     },[])
+
+    function validateSerialNumber(serialNumber) {
+        const regex = /^[A-Z0-9]{10}$/;
+        return regex.test(serialNumber);
+    }
+    // const checkExisSerialNumber = (serialNumber)=>{
+    //     let flag = false;
+    //     itemList.map((value)=>{
+    //         if(value.name===serialNumber){
+    //             flag = true;
+    //         }
+    //     })
+    //     return flag;
+    // }
     const handleSubmit = (e)=>{
         e.preventDefault();
-        //console.log(item);
-        //console.log(item);
-        if(item.name=== ""||item.status=== "")
+       
+        if(item.name=== ""||item.status=== ""||item.brand===""||item.catID===""||item.quantity==""||item.unitPrice==""||item.image==""||item.description==="")
         {
             toast.error("Please Fill All Fields!!");
         }
+        else if(Number(item.quantity)<=0){
+            toast.error("Invalid Quantity!!");
+        }
+        else if(Number(item.quantity)>500){
+            toast.error("Mximum Qty limit 500!!");
+        }
+        else if(Number(item.unitPrice)<=0){
+            toast.error("Invalid Unit Price!!");
+        }
+        else if(!validateSerialNumber(item.name)){
+            toast.error("Invalid Serial Number!!");
+        }
         else{
-        const formData = new FormData();
-        formData.append("name",item.name);
-        formData.append("catID",item.catID);
-        formData.append("bID",item.bID);
-        formData.append("quantity",item.quantity);
-        formData.append("unitPrice",item.unitPrice);
-        formData.append("image",item.image);
-        formData.append("description",item.description);
-        formData.append("status",item.status);
-        axios.post('http://localhost:5000/dashboard/items/update/'+id)
+        axios.put('http://localhost:5000/dashboard/items/update/'+id,item)
         .then(res=>{
             console.log(res);
-        //    if(res.data.Status==="Success"){
-        //     navigate('/dashboard/items');
-        //    }
-        //    else{
-        //         toast.error("Something went wrong!!");
-        //    }
-           
+            if(res.data.Status==="Success"){
+                toast.success("Item Updated!!");
+                setTimeout(()=>{
+                    navigate('/dashboard/items');
+                },1500);
+               }
+           else{
+                toast.error("Something went wrong!!");
+           }
         })
         .catch(err=>{
             console.log(err);
@@ -127,7 +146,7 @@ const EditItem = () => {
             <div className='row'>
                 <div className='col-6'>
                     <Form.Group className="mb-3">
-                    <Form.Label htmlFor="itemName" className="form-label">Item Name</Form.Label>
+                    <Form.Label htmlFor="itemName" className="form-label">Serial Number</Form.Label>
                     <Form.Control
                         type="text"
                         className="form-control"
@@ -138,14 +157,14 @@ const EditItem = () => {
                     />
                     </Form.Group>
                 </div>
-                {/* <div className='col-6'>
+                <div className='col-6'>
                     <Form.Group className="mb-3">
                     <Form.Label htmlFor="itemName" className="form-label">
                         Brands
                     </Form.Label>
                     <Form.Select className="form-select" onChange={(e) => setItem({ ...item, bID: e.target.value })}>
-                        <option value={selectedBrand.name} selected>
-                        {selectedBrand.name}
+                        <option value={item.bID} selected disabled>
+                        {brandName}
                         </option>
                         {
                             brand.map((values)=>{
@@ -156,15 +175,15 @@ const EditItem = () => {
                         }
                     </Form.Select>
                     </Form.Group>
-                </div> */}
-                {/* <div className='col-6'>
+                </div>
+                <div className='col-6'>
                     <Form.Group className="mb-3">
                     <Form.Label htmlFor="itemName" className="form-label">
                         Category
                     </Form.Label>
                     <Form.Select className="form-select" onChange={(e) => setItem({ ...item, catID: e.target.value })}>
-                        <option value="" selected disabled>
-                        _Select_
+                        <option value={item.catID} selected disabled>
+                       {categoryName}
                         </option>
                         {
                             category.map((values)=>{
@@ -175,7 +194,7 @@ const EditItem = () => {
                         }
                     </Form.Select>
                     </Form.Group>
-                </div> */}
+                </div>
                 <div className='col-6'>
                     <Form.Group className='mb-3'>
                         <Form.Label htmlFor='itemQuantity' className='form-label'>Quantity</Form.Label>
@@ -197,7 +216,7 @@ const EditItem = () => {
                 {/* <div className='col-6'>
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>Choose an Image</Form.Label>
-                        <Form.Control type="file" onChange={e=>setItem({...item,image:e.target.files[0]})}/>
+                        <Form.Control type="file" value={item.image} onChange={e=>setItem({...item,image:e.target.files[0]})}/>
                     </Form.Group>
                 </div> */}
             </div>
@@ -205,7 +224,7 @@ const EditItem = () => {
            
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Description</Form.Label>
-                <Form.Control as="textarea" rows={3} onChange={(e)=> setItem({...item,description:e.target.value})} placeholder='Enter specifications...' />
+                <Form.Control as="textarea" rows={3} value={item.description} onChange={(e)=> setItem({...item,description:e.target.value})} placeholder='Enter specifications...' />
             </Form.Group>
                 
             <Form.Group className="mb-3">
@@ -213,14 +232,14 @@ const EditItem = () => {
                 Status
               </Form.Label>
               <Form.Select className="form-select" onChange={(e) => setItem({ ...item,status:e.target.value})}>
-                <option selected disabled>
-                  _Select_
+                <option selected disabled value={item.status}>
+                 {item.status}
                 </option>
                 <option value={"Available"}>Available</option>
                 <option value={"Not Available"}>Not Available</option>
               </Form.Select>
             </Form.Group>
-            <Button type='submit' className="mt-3" variant='primary'>Add item</Button>
+            <Button type='submit' className="mt-3" variant='primary'>Update item</Button>
           </Form>
           </div>
         </div>

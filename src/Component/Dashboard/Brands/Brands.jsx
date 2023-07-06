@@ -136,7 +136,7 @@ const handleSearchChange = (e) => {
                           <td>{value.created_date.replace('T',' - ').substr(0,21)}</td>
                           <td>
                             <Link to={"/dashboard/brands/read/"+value.bID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
-                            <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(value.bID)}><i className='bi bi-trash'></i></button>
+                            {/* <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(value.bID)}><i className='bi bi-trash'></i></button> */}
                           </td>
                         </tr>
                         )

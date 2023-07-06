@@ -15,7 +15,8 @@ const OrderBililng = () => {
 
   return (
     <div className='p-3 mx-2'>
-      <div className='row'>
+      <h1 className="text-center m-3">Billing Repairs</h1>
+      {/* <div className='row'>
         <div className='col-4'></div>
         <div className='col-4'>
         <Form>
@@ -29,8 +30,11 @@ const OrderBililng = () => {
       </Form>
         </div>
         <div className='col-4'></div>
+      </div> */}
+      <hr className="my-5"/>
+      <div>
+        <FullPayment/>
       </div>
-      <hr/>
     </div>
   )
 }

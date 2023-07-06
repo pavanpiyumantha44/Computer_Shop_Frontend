@@ -152,6 +152,7 @@ const Dashboard = () => {
                                 </button>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to='/dashboard/adminprofile'>Settings</Link></li>
+                                    <li><Link className="dropdown-item" to='/cashierDashboard/billing'>Switch to Cashier</Link></li>
                                     <li onClick={handleLogout}><Link className="dropdown-item" to="/#">Logout</Link></li>
                                 </ul>
                             </div>

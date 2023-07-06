@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Table, Pagination, Form } from 'react-bootstrap'
+import { Button, Card, Table, Pagination, Form} from 'react-bootstrap'
 
 
 const FullPayment = () => {
@@ -16,7 +16,7 @@ const FullPayment = () => {
     const itemsPerPage = 5; // Number of items to display per page
   
     const filteredData = order.filter((value) =>
-    value.cusName.toLowerCase().includes(searchTerm.toLowerCase())||value.nic.toLowerCase().includes(searchTerm.toLowerCase())
+    value.cusName.toLowerCase().includes(searchTerm.toLowerCase())||value.cusNIC.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const pageNumbers = [];
@@ -99,7 +99,6 @@ const FullPayment = () => {
                         <td>{value.unitPrice}</td>
                         <td>{value.totalPrice}</td>
                         <td>
-                          <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>
                         </td>
                       </tr>)
                     })}   

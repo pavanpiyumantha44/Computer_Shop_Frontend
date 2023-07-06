@@ -35,7 +35,7 @@ const CashierNavBar = ({name}) => {
               navbarScroll
             >
               <Link to='/cashierDashboard/billing' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><FaFileInvoice/> Sales</Link>
-              <Link to='/cashierDashboard/orders' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><BsCartCheckFill/> Orders</Link>
+              {/* <Link to='/cashierDashboard/orders' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><BsCartCheckFill/> Orders</Link> */}
               <Link to='/cashierDashboard/repairs' className='text-decoration-none  mt-2 mx-2 fw-bold fs-5  py-1 px-4 rounded text-dark shadow mb-1'><FaTools/> Repairs</Link>
               {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>

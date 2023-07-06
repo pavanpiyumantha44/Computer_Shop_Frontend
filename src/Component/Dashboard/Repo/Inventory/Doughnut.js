@@ -71,7 +71,7 @@ const  dataForDoughnut = {
 };
 const setDoughnut = ()=>{
   for(let i=0; i<mostSoldItem.length; i++){
-    let item = mostSoldItem[i].brandName+ " - "+mostSoldItem[i].ItemName;
+    let item = mostSoldItem[i].brandName+ " - "+mostSoldItem[i].catName;
     soldItemsForDoughnut.push(item);
     soldItemsCountForDoughnut.push(mostSoldItem[i].item_count);
     bgColorForDoughnut.push(bgColor[i]);

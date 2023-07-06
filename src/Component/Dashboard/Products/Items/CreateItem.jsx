@@ -20,6 +20,7 @@ const CreateItem = () => {
     })
     const [brand,setBrand] = useState([]);
     const [category,setCategory] = useState([]);
+    const [itemList,setItemList] = useState([]);
     useEffect(()=>{
         axios.get('http://localhost:5000/dashboard/items/create/getBrands')
         .then(res=>{
@@ -37,7 +38,28 @@ const CreateItem = () => {
         .catch(err=>{
             console.log(err);
         })
+        axios.get('http://localhost:5000/dashboard/items')
+        .then(res=>{
+            console.log(res);
+            setItemList(res.data.Result);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     },[])
+    function validateSerialNumber(serialNumber) {
+        const regex = /^[A-Z0-9]{10}$/;
+        return regex.test(serialNumber);
+    }
+    const checkExisSerialNumber = (serialNumber)=>{
+        let flag = false;
+        itemList.map((value)=>{
+            if(value.name===serialNumber){
+                flag = true;
+            }
+        })
+        return flag;
+    }
     const handleSubmit = (e)=>{
         e.preventDefault();
         //console.log(item);
@@ -54,6 +76,12 @@ const CreateItem = () => {
         }
         else if(Number(item.unitPrice)<=0){
             toast.error("Invalid Unit Price!!");
+        }
+        else if(!validateSerialNumber(item.name)){
+            toast.error("Invalid Serial Number!!");
+        }
+        else if(checkExisSerialNumber(item.name)){
+            toast.error("Serial Number already exist!!");
         }
         else{
         const formData = new FormData();
@@ -82,6 +110,7 @@ const CreateItem = () => {
         .catch(err=>{
             console.log(err);
         })
+        console.log(formData);
     }
     }
   return (
@@ -101,13 +130,13 @@ const CreateItem = () => {
             <div className='row'>
                 <div className='col-6'>
                     <Form.Group className="mb-3">
-                    <Form.Label htmlFor="itemName" className="form-label">Item Name</Form.Label>
+                    <Form.Label htmlFor="itemName" className="form-label">Serial Number</Form.Label>
                     <Form.Control
                         type="text"
                         className="form-control"
                         id="itemName"
                         onChange={(e) => setItem({ ...item, name: e.target.value })}
-                        placeholder="Enter item name"
+                        placeholder="Enter Serial Number"
                     />
                     </Form.Group>
                 </div>

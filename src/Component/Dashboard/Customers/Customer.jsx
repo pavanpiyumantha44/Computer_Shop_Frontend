@@ -145,7 +145,7 @@ const Customer = () => {
                       <td>{value.created_date.replace('T',' - ').substr(0,21)}</td>
                       <td>
                         <Link to={`/dashboard/customer/read/${value.cusID}`} className='btn btn-primary mx-2'><i className='bi bi-pencil'></i></Link>
-                        <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button>
+                        {/* <Button variant='danger' onClick={()=>{handleDelete(value.cusID)}}><i className='bi bi-trash'></i></Button> */}
                       </td>
                     </tr>)
                   })}   

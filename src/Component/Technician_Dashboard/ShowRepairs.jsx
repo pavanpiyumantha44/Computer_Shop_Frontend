@@ -272,7 +272,7 @@ const handleSearchChange = (e) => {
                           {
                             items.map((value,index)=>{
                               return(
-                                <option value={value.itemID} key={index}>{value.name}</option>
+                                <option value={value.itemID} key={index}>{value.description}</option>
                               )
                             })
                           }
@@ -314,7 +314,7 @@ const handleSearchChange = (e) => {
                         itemList.map((value,index)=>{
                           return(
                             <tr key={index}>
-                              <td>{value.itemID}</td>
+                              <td>Item-{value.itemID}</td>
                               <td>{value.qty}</td>
                               <td><Button variant='danger' onClick={()=>{removeItems(index)}}><BsFillTrash3Fill/></Button></td>
                             </tr>

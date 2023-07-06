@@ -23,7 +23,7 @@ const [searchTerm, setSearchTerm] = useState('');
 const itemsPerPage = 5; // Number of items to display per page
 
 const filteredData = items.filter((value) =>
-value.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+value.categoryName.toLowerCase().includes(searchTerm.toLowerCase())||value.name.toLowerCase().includes(searchTerm.toLowerCase())
 );
 const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 const pageNumbers = [];
@@ -101,7 +101,7 @@ setCurrentPage(1); // Reset to first page when search term changes
         </div>
         </div>
           <div className='mt-4 px-5 pt-3'>
-                <Card className='shadow-sm'>
+                <Card className='shadow-sm mb-5'>
                   <Card.Header>
                     <div className='row'>
                       <div className='col-md-8'>
@@ -125,7 +125,7 @@ setCurrentPage(1); // Reset to first page when search term changes
                         <tr>
                           <th>Id</th>
                           <th>Image</th>
-                          <th>Name</th>
+                          <th>Serial Number</th>
                           <th>Category</th>
                           <th>Brand</th>
                           <th>Description</th>
@@ -151,9 +151,9 @@ setCurrentPage(1); // Reset to first page when search term changes
                           <td>
                             <Link to={"/dashboard/items/read/"+values.itemID} className='btn btn-primary mx-2' title='edit'><i className='bi bi-pencil'></i></Link>
                           </td>
-                          <td>
+                          {/* <td>
                           <button className='btn btn-danger' title='delete' onClick={()=>hanldeDelete(values.itemID)}><i className='bi bi-trash'></i></button>
-                          </td>
+                          </td> */}
                         </tr>
                         )
                         })}

@@ -42,6 +42,7 @@ class BillContent extends React.Component {
             <table className="table table-striped">
       <thead>
         <tr>
+          <th scope="col">Serial No</th>
           <th scope="col">Description</th>
           <th scope="col">Qty</th>
           <th scope="col">Unit Price</th>
@@ -53,6 +54,7 @@ class BillContent extends React.Component {
          billData.map((value,key)=>{
             return(
                 <tr key={key}>
+                    <td>{value.name}</td>
                     <td>{value.desc}</td>
                     <td>{value.qty}</td>
                     <td>{value.price}</td>
@@ -315,6 +317,13 @@ const handleCart = (id,name,desc,price)=>{
       .catch(err=>{
         console.log(err);
       })
+      axios.post('http://localhost:5000/payments/sales',{invoiceID,total,userPaid})
+      .then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err);
+      })
     }
     else
     {
@@ -414,7 +423,8 @@ const handleCart = (id,name,desc,price)=>{
                   <tr>
                     <th>Id</th>
                     <th>Image</th>
-                    <th>Name</th>
+                    {/* <th>Brand</th> */}
+                    <th>Category</th>
                     <th>Description</th>
                     <th>Available Stock</th>
                     <th>Unit Price</th>
@@ -425,7 +435,7 @@ const handleCart = (id,name,desc,price)=>{
                     .filter((values) => {
                       return search.toLowerCase() === ""
                         ? values
-                        : values.name.toLowerCase().includes(search);
+                        : values.categoryName.toLowerCase().includes(search);
                     })
                     .map((values, index) => {
                       return (
@@ -439,7 +449,8 @@ const handleCart = (id,name,desc,price)=>{
                               />
                             }
                           </td>
-                          <td>{values.name}</td>
+                          {/* <td>{values.brandName}</td> */}
+                          <td>{values.categoryName}</td>
                           <td>{values.description}</td>
                           <td>{values.qty}</td>
                           <td>{values.unitPrice}</td>
@@ -472,7 +483,7 @@ const handleCart = (id,name,desc,price)=>{
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Item</th>
+                  <th>Serial Number</th>
                   <th>Desc</th>
                   <th>Qty</th>
                   <th>Unit Price</th>
