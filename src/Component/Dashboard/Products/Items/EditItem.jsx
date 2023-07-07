@@ -141,7 +141,7 @@ const EditItem = () => {
         
         <div className="p-3 mt-5 w-100 d-flex justify-content-center">
         <div className='w-75 bg-white rounded p-3 border'>
-            <h3>Add New Item</h3>
+            <h3>Update Item</h3>
           <Form onSubmit={handleSubmit}>
             <div className='row'>
                 <div className='col-6'>
